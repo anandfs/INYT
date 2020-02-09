@@ -5,14 +5,26 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using INYTWebsite.Models;
+using INYTWebsite.Model;
 
 namespace INYTWebsite.Controllers
 {
     public class HomeController : Controller
     {
+
+        INYTContext db = new INYTContext();
+
         public IActionResult Index()
         {
+            
             return View();
+        }
+
+
+        [HttpPost]
+        public ActionResult Search()
+        {
+            return View("SearchResults", db.Tradesperson.ToList());
         }
 
         public IActionResult About()
