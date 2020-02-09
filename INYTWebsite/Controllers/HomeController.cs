@@ -25,6 +25,7 @@ namespace INYTWebsite.Controllers
         public ActionResult Search()
         {
             return View("SearchResults", db.Tradesperson.ToList());
+
         }
 
         public IActionResult About()
