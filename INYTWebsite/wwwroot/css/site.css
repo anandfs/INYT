@@ -23,6 +23,11 @@
     height: 575px;
 }
 
+.helpr-text-2 {
+    height: 175px;
+}
+
+
 .webHomeTitle {
     display: block;
 }
@@ -93,6 +98,20 @@
     position: relative;
 }
 
+.helpr-title2 {
+    padding: 50px 10px 190px 120px;
+    font-size: 70px;
+    line-height: 80px;
+    -webkit-text-shadow: 0 4px 6px rgba(0,0,0,.20);
+    -moz-text-shadow: 0 4px 6px rgba(0,0,0,.20);
+    text-shadow: 0 4px 6px rgba(0,0,0,.20);
+    font-family: 'LatoWebBlack', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    text-align: center;
+    color: #ffffff;
+    margin: 0;
+    position: relative;
+}
+
 .helpr-content {
     position: relative;
     display: table;
@@ -149,7 +168,7 @@
 .wrapper-dropdown-2 {
     /* Size and position */
     position: absolute; /* Enable absolute positionning for children and pseudo elements */
-    width: 370px;
+    width: 570px;
     margin: 0 auto;
     padding: 7px 20px;
     border: 1px solid #fff;
@@ -401,5 +420,30 @@
 .icon-24 {
     background-image: url(https://www.helpr.in/images/computer_repair.png);
 }
+
 /* No CSS3 support: none */
+
+/* ==== FONTS ==== */
+@import url(https://fonts.googleapis.com/css?family=Montserrat:400, 700);
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:300);
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: "Montserrat", sans-serif;
+    text-transform: uppercase;
+    font-weight: 700;
+}
+
+html,
+body {
+    font-family: "Open Sans", sans-serif;
+    -webkit-font-smoothing: antialiased !important;
+}
+
+.active a {
+    color: #c7ddef;
+}
 

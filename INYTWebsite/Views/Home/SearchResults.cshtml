@@ -1,162 +1,41 @@
-﻿@model List<INYTWebsite.Model.Tradesperson>
+﻿@model List<INYTWebsite.Model.Serviceprovider>
 
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    int i = 1;
 }
 
-<div class="row">
 
-    <div class="col">
 
-        <div class="ibox">
-
-            <div class="ibox-title">
-
-                <h2>You need a ___________ at ________________________ </h2>
-
-            </div>
-
-            <div class="ibox-content">
-
-                <div class="row">
-
-                    <div class="col">
-
-                        <div class="table-responsive">
-
-                            <table id="example" class="table table-striped table-bordered" style="width:100%">
-                                
-
-                                <thead>
-                                    <tr>
-                                        <th>Name</th>
-                                        <th>Distance from postcode</th>
-                                        <th>Rating</th>
-                                    </tr>
-                                </thead>
-
-                                <tbody>
-
-                                    @if (Model.Any())
-                                    {
-                                        @foreach (var tradesperson in Model)
-                                        {
-                                            <tr>
-                                                <td><font size="2"><strong>@tradesperson.FirstName</strong></font></td>
-                                                <td><font size="2"><strong>1 mile</strong></font></td>
-                                                <td><font size="2"><strong>*****</strong></font></td>
-                                            </tr>
-                                        }
-
-                                    }
-
-                                </tbody>
-
-                            </table>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
-
-        <div class="modal inmodal fade" id="job-details-modal" tabindex="-1" role="dialog" aria-hidden="true">
-
-            <div class="modal-dialog modal-lg">
-
-                <div class="modal-content">
-
-                    <div class="sk-spinner sk-spinner-double-bounce">
-                        <div class="sk-double-bounce1"></div>
-                        <div class="sk-double-bounce2"></div>
-                    </div>
-
-                    <div class="modal-content-replace">
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
-
-        <div class="modal inmodal fade" id="employer-details-modal" tabindex="-1" role="dialog" aria-hidden="true">
-
-            <div class="modal-dialog modal-lg">
-
-                <div class="modal-content">
-
-                    <div class="sk-spinner sk-spinner-double-bounce">
-                        <div class="sk-double-bounce1"></div>
-                        <div class="sk-double-bounce2"></div>
-                    </div>
-
-                    <div class="modal-content-replace">
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
+<section id="simple-user-cards" class="row">
+    <div class="col-12">
+        <h4 class="text-uppercase">You searched for a <strong>dog walker</strong> in <strong>W5</strong></h4>
     </div>
+    @foreach (var sp in Model)
+    {
+       
+        <div class="col-xl-3 col-md-6 col-12">
+            <div class="card">
+                <div class="text-center">
+                    <div class="card-body">
+                        <img src=@String.Format("../../../app-assets/images/portrait/medium/avatar-m-{0}.png", i) class="rounded-circle  height-150" alt="Card image">
+                    </div>
+                    <div class="card-body">
+                        <h4 class="card-title">@sp.serviceprovidername</h4>
+                        <h6 class="card-subtitle text-muted">@sp.miles away</h6>
+                    </div>   
+                    <div class="card-body">
+                        <button type="button" class="btn btn-info mr-1"><i class="fa fa-plus"></i> Book now</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        i++;
+    }
+</section>
 
-</div>
 
-@section Scripts {
-    <environment names="Development,Staging,Production,Testing">
-    </environment>
 
-    <script>
-        $('#recent-jobs-table').DataTable({
-            pageLength: 25,
-            dom: '<"html5buttons"B>lTfgitp',
-            buttons: [
-                { extend: 'copy' },
-                { extend: 'csv' },
-                { extend: 'excel', title: 'ExampleFile' },
-                { extend: 'pdf', title: 'ExampleFile' },
 
-                {
-                    extend: 'print',
-                    customize: function (win) {
-                        $(win.document.body).addClass('white-bg');
-                        $(win.document.body).css('font-size', '10px');
 
-                        $(win.document.body).find('table')
-                            .addClass('compact')
-                            .css('font-size', 'inherit');
-                    }
-                }
-            ]
-
-        });
-
-        $("#job-details-modal, #employer-details-modal").on('show.bs.modal', function (event) {
-            var element = $(event.relatedTarget);
-            var modal = $(this);
-
-            modal.find('.modal-content-replace').html("");
-            modal.find('.sk-spinner').show();
-
-            $.ajax({
-                type: "GET",
-                url: element.data("url"),
-                success: function (data) {
-                    modal.find('.sk-spinner').hide();
-
-                    data = data.replace(/&#xD;&#xA;&#x2022;/g, "<br>&#x2022;");
-
-                    modal.find('.modal-content-replace').html(data);
-                }
-            });
-        });
-    </script>
-}

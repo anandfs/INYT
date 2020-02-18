@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using INYTWebsite.Models;
 using INYTWebsite.Model;
+using INYTWebsite.Code;
 
 namespace INYTWebsite.Controllers
 {
@@ -15,8 +16,7 @@ namespace INYTWebsite.Controllers
         INYTContext db = new INYTContext();
 
         public IActionResult Index()
-        {
-            
+        {   
             return View();
         }
 
@@ -24,8 +24,31 @@ namespace INYTWebsite.Controllers
         [HttpPost]
         public ActionResult Search()
         {
-            return View("SearchResults", db.Tradesperson.ToList());
+            string postcode = string.Empty;
+            postcode = "W13 9XW";
+            List<Serviceprovider> serviceproviders = new List<Serviceprovider>();
 
+            foreach(var tradesperson in db.Tradesperson.ToList())
+            {
+                Serviceprovider sp = new Serviceprovider();
+                sp.serviceprovidername = String.Format("{0} {1}", tradesperson.FirstName, tradesperson.LastName);
+                //sp.miles = Distance.BetweenTwoUKPostCodes(postcode, tradesperson.Postcode);
+                sp.miles = "1 mile";
+                sp.rating = 4;
+                serviceproviders.Add(sp);
+            }
+
+            return View("SearchResults", serviceproviders);
+
+        }
+
+
+        public ActionResult ServiceProviderCalendarDetails(string spid)
+        {
+            int sp_id = Convert.ToInt32(EncryptionUtility.Decrypt(spid.ToString(), true));
+            Serviceprovider model = new Serviceprovider();
+
+            return PartialView("_SPCalendarModal", model);
         }
 
         public IActionResult About()

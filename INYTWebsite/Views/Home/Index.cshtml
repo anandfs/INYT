@@ -1,49 +1,47 @@
-﻿<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
-<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
-
-<!------ Include the above in your HEAD tag ---------->
-<section id="home" class="helpr-section helpr-layout-1 section section-inverse-color">
-    <div class="container">
-        <div class="helpr-content" data-stellar-offset-parent="true">
+﻿<!------ Include the above in your HEAD tag ---------->
+<section id="dropdown-buttons-with-arrow">
+    <div class="row">
+        <div class="col-12">
             <form asp-action="Search" asp-controller="Home" enctype="multipart/form-data" method="post" id="searchServiceProviders">
-                <div class="helpr-text" data-wow-duration="1s" data-wow-delay="0.5s">
+                <div class="card">
                     <!-- TAGLINE -->
-                    <div class="webHomeTitle">
-                        <h1 class="helpr-title"></h1>
+                    <div class="card-header">
+                        <h1 class="card-title">whose time do you need today?</h1>
                     </div>
-                    <div class="home-service clearfix">
-                        <div class="wrapper-demo1">
-                            <div id="dd" class="wrapper-dropdown-2" tabindex="1">
-                                <span>Whose time do you need today?</span>
-                                <ul class="dropdown">
-                                    <li><a href="javascript:;" class="icon-2 icon-menu" data-id="2" data-value="Pest Control">Pest Control</a></li>
-
-                                    <li><a href="javascript:;" class="icon-1 icon-menu" data-id="1" data-value="Cleaning">Cleaning</a></li>
-
-                                    <li><a href="javascript:;" class="icon-4 icon-menu" data-id="4" data-value="Plumbing">Plumbing</a></li>
-
-                                    <li><a href="javascript:;" class="icon-5 icon-menu" data-id="5" data-value="Appliances">Appliances</a></li>
-
-                                    <li><a href="javascript:;" class="icon-20 icon-menu" data-id="20" data-value="Painting">Painting</a></li>
-
-                                    <li><a href="javascript:;" class="icon-6 icon-menu" data-id="6" data-value="Carpentry">Carpentry</a></li>
-
-                                    <li><a href="javascript:;" class="icon-3 icon-menu" data-id="3" data-value="Electrical">Electrical</a></li>
-
-                                </ul>
+                    <div class="card-body">
+                        <div class="card-content">
+                            <div class="row" tabindex="1">
+                                <div class="col-sm-3 col-6">
+                                    <div class="btn-group mr-1 mb-1">
+                                        <button type="button" class="btn btn-success dropdown-toggle mb-1 btn-primary btn-lg btn-block"
+                                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            I need a ...
+                                        </button>
+                                        <div class="dropdown-menu arrow">
+                                            <button class="dropdown-item" type="button">Plumber</button>
+                                            <button class="dropdown-item" type="button">Electrician</button>
+                                            <button class="dropdown-item" type="button">Carpenter</button>
+                                            <div class="dropdown-divider"></div>
+                                            <button class="dropdown-item" type="button">Dog walker</button>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="home-service2 clearfix">
-                        <div class="form-group input-append">
-                            <input class="form-control input-lg" type="text" placeholder="Search" aria-label="Search">
-                            <button type="submit" class="btn btn-danger wrn-btn">Go</button>
+                        <fieldset class="form-group position-relative has-icon-left">
+                            <input type="text" class="form-control round mb-1" id="iconLeft10"
+                                   placeholder="Where do you need? (Enter postcode)">
+                            <div class="form-control-position">
+                                <i class="feather icon-map-pin warning"></i>
+                            </div>
+                        </fieldset>
+                        <div class="form-group">
+                            <input class="btn btn-primary btn-min-width mr-1 mb-1" type="submit" value="Submit">
                         </div>
                     </div>
                 </div>
             </form>
-            <!-- helpr TEXT -->            
+            <!-- helpr TEXT -->
         </div>
     </div>
 </section>
