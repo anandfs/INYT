@@ -26,8 +26,8 @@ namespace INYTWebsite.Controllers
         {
             string postcode = string.Empty;
             postcode = "W13 9XW";
-            List<Serviceprovider> serviceproviders = new List<Serviceprovider>();
 
+            List<Serviceprovider> spList = new List<Serviceprovider>();
             foreach(var tradesperson in db.Tradesperson.ToList())
             {
                 Serviceprovider sp = new Serviceprovider();
@@ -35,8 +35,13 @@ namespace INYTWebsite.Controllers
                 //sp.miles = Distance.BetweenTwoUKPostCodes(postcode, tradesperson.Postcode);
                 sp.miles = "1 mile";
                 sp.rating = 4;
-                serviceproviders.Add(sp);
+                spList.Add(sp);
             }
+
+
+            ServiceProviders serviceproviders = new ServiceProviders();
+            serviceproviders.serviceProvidersList = spList;
+
 
             return View("SearchResults", serviceproviders);
 

@@ -12,4 +12,9 @@ namespace INYTWebsite.Model
         public string miles { get; set; }
         public int rating { get; set; }
     }
+
+    public class ServiceProviders
+    {
+        public List<Serviceprovider> serviceProvidersList { get; set; }
+    }
 }

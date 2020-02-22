@@ -1,41 +1,259 @@
-﻿@model List<INYTWebsite.Model.Serviceprovider>
+﻿@model INYTWebsite.Model.ServiceProviders
 
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    int i = 1;
 }
 
+<script src="jquery.raty.js"></script>
 
-
-<section id="simple-user-cards" class="row">
-    <div class="col-12">
-        <h4 class="text-uppercase">You searched for a <strong>dog walker</strong> in <strong>W5</strong></h4>
+<section class="users-list-wrapper">
+    <div class="users-list-filter px-1">
+        <form>
+            <div class="row border border-light rounded py-2 mb-2">
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <label for="users-list-verified">Location</label>
+                    <fieldset class="form-group">
+                        <input type="text" class="form-control form-control-xl input-xl" />
+                    </fieldset>
+                </div>
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <label for="users-list-role">Distance from your postcode</label>
+                    <fieldset class="form-group">
+                        <select class="form-control" id="users-list-role">
+                            <option value="">Any</option>
+                            <option value="User">Less than 1 mile</option>
+                            <option value="Staff">1 - 5 miles</option>
+                            <option value="Staff">less than 10 miles</option>
+                        </select>
+                    </fieldset>
+                </div>
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <label for="users-list-status">Rating</label>
+                    <fieldset class="form-group">
+                        <select class="form-control" id="users-list-status">
+                            <option value="">Any</option>
+                            <option value="5">5 stars</option>
+                            <option value="4">4 stars</option>
+                            <option value="3">3 stars</option>
+                        </select>
+                    </fieldset>
+                </div>
+                <div class="col-12 col-sm-6 col-lg-3 d-flex align-items-center">
+                    <button class="btn btn-block btn-primary glow">Filter</button>
+                </div>
+            </div>
+        </form>
     </div>
-    @foreach (var sp in Model)
-    {
-       
-        <div class="col-xl-3 col-md-6 col-12">
-            <div class="card">
-                <div class="text-center">
-                    <div class="card-body">
-                        <img src=@String.Format("../../../app-assets/images/portrait/medium/avatar-m-{0}.png", i) class="rounded-circle  height-150" alt="Card image">
-                    </div>
-                    <div class="card-body">
-                        <h4 class="card-title">@sp.serviceprovidername</h4>
-                        <h6 class="card-subtitle text-muted">@sp.miles away</h6>
-                    </div>   
-                    <div class="card-body">
-                        <button type="button" class="btn btn-info mr-1"><i class="fa fa-plus"></i> Book now</button>
+</section>
+    <section id="card-headings">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header" id="heading-links">
+                        <h4 class="card-title">Service Providers closest to you</h4>
+                        <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
                     </div>
                 </div>
             </div>
         </div>
-        i++;
+        <div class="row col-12">
+            @foreach (var sp in Model.serviceProvidersList)
+            {
+                <div class="card col-6">
+                    <div class="card-body">
+                        <img src="~/images/testicon.svg" class="rounded-circle  height-15-per" alt="Card image">
+                        <h4 class="card-title">@sp.serviceprovidername</h4>
+                        <p class="card-text">
+                            Service provider lives @sp.miles away from you
+                        </p>
+                        <div id="read-only-stars"></div>
+                        <button type="button" class="btn btn-sm btn-grey-blue"><i class="fa fa-id-card"></i> &nbsp; View Profile</button>
+                        <button type="button" class="btn btn-sm btn-grey-blue" data-toggle="modal" data-target="#xlarge"><i class="fa fa-calendar"></i> &nbsp; Book service provider</button>
+                    </div>
+                </div>
+                <div class="modal fade text-left" id="xlarge" tabindex="-1" role="dialog" aria-labelledby="myModalLabel16" aria-hidden="true">
+                    <div class="modal-dialog modal-xl" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h2>Taking bookings for @sp.serviceprovidername</h2>
+                            </div>
+                            <div class="modal-header">
+                                <h1 class="page-header">
+                                    <i class="fa fa-calendar"></i> February
+                                </h1>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">
+                                                <i class="fa fa-arrow"></i>
+                                            </th>
+                                            <th scope="col">February <br /> <font size="10">17th</font><br /><font style="color: green">available</font></th>
+                                            <th scope="col">February <br /> <font size="10">18th</font><br /><font style="color: grey">n/a</font></th>
+                                            <th scope="col">February <br /> <font size="10">19th</font><br /><font style="color: green">available</font></th>
+                                            <th scope="col">February <br /> <font size="10">20th</font><br /><font style="color: green">available</font></th>
+                                            <th scope="col">February <br /> <font size="10">21st</font><br /><font style="color: grey">n/a</font></th>
+                                            <th scope="col">February <br /> <font size="10">22nd</font><br /><font style="color: green">available</font></th>
+                                            <th scope="col">February <br /> <font size="10">23rd</font><br /><font style="color: grey">n/a</font></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td></td>
+                                            <td><button type="button" class="btn btn-sm btn-grey-blue" data-toggle="modal" 
+                                                        data-target="#default">08:00</button></td>
+                                            <td></td>
+                                            <td><a href="#">08:00</a></td>
+                                            <td><a href="#">08:00</a></td>
+                                            <td></td>
+                                            <td><a href="#">08:00</a></td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td><a href="#">09:00</a></td>
+                                            <td></td>
+                                            <td><a href="#">09:00</a></td>
+                                            <td><a href="#">09:00</a></td>
+                                            <td></td>
+                                            <td><a href="#">09:00</a></td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td><a href="#">10:00</a></td>
+                                            <td></td>
+                                            <td><a href="#">10:00</a></td>
+                                            <td><a href="#">10:00</a></td>
+                                            <td></td>
+                                            <td><a href="#">10:00</a></td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td><a href="#">11:00</a></td>
+                                            <td></td>
+                                            <td><a href="#">11:00</a></td>
+                                            <td><a href="#">11:00</a></td>
+                                            <td></td>
+                                            <td><a href="#">11:00</a></td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td><a href="#">14:00</a></td>
+                                            <td></td>
+                                            <td><a href="#">14:00</a></td>
+                                            <td><a href="#">14:00</a></td>
+                                            <td></td>
+                                            <td><a href="#">14:00</a></td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td><a href="#">16:00</a></td>
+                                            <td></td>
+                                            <td><a href="#">16:00</a></td>
+                                            <td><a href="#">16:00</a></td>
+                                            <td></td>
+                                            <td><a href="#">16:00</a></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn grey btn-outline-secondary" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal fade text-left" id="default" tabindex="-1" role="dialog" aria-labelledby="myModalLabel16" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h2>Make payment for @sp.serviceprovidername</h2>
+                            </div>
+                            <div class="modal-body">
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-xs-12 col-md-4">
+                                            <div class="panel panel-default">
+                                                <div class="panel-heading">
+                                                    <h3 class="panel-title">
+                                                        Payment Details
+                                                    </h3>
+                                                    <div class="checkbox pull-right">
+                                                        <label>
+                                                            <input type="checkbox" />
+                                                            Remember
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div class="panel-body">
+                                                    <form role="form">
+                                                        <div class="form-group">
+                                                            <label for="cardNumber">
+                                                                CARD NUMBER
+                                                            </label>
+                                                            <div class="input-group">
+                                                                <input type="text" class="form-control" id="cardNumber" placeholder="Valid Card Number"
+                                                                       required autofocus />
+                                                                <span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-xs-7 col-md-7">
+                                                                <div class="form-group">
+                                                                    <label for="expityMonth">
+                                                                        EXPIRY DATE
+                                                                    </label>
+                                                                    <div class="col-xs-6 col-lg-6 pl-ziro">
+                                                                        <input type="text" class="form-control" id="expityMonth" placeholder="MM" required />
+                                                                    </div>
+                                                                    <div class="col-xs-6 col-lg-6 pl-ziro">
+                                                                        <input type="text" class="form-control" id="expityYear" placeholder="YY" required />
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-xs-5 col-md-5 pull-right">
+                                                                <div class="form-group">
+                                                                    <label for="cvCode">
+                                                                        CV CODE
+                                                                    </label>
+                                                                    <input type="password" class="form-control" id="cvCode" placeholder="CV" required />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                            <ul class="nav nav-pills nav-stacked">
+                                                <li class="active">
+                                                    <a href="#"><span class="badge pull-right"><span class="glyphicon glyphicon-usd"></span>4200</span> Final Payment</a>
+                                                </li>
+                                            </ul>
+                                            <br />
+                                            <a href="http://www.jquery2dotnet.com" class="btn btn-success btn-lg btn-block" role="button">Pay</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn grey btn-outline-secondary" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </section>
+    @section Scripts {
+        <script>
+            $(document).ready(function () {
+                $('#ratedserviceproviders').DataTable();
+                $('#closestserviceproviders').DataTable();
+                $('#read-only-stars').raty();
+            });
+        </script>
     }
-</section>
-
-
-
-
-
