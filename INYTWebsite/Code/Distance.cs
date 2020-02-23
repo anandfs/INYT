@@ -36,7 +36,7 @@ namespace INYTWebsite.Code
             //if (!ll2.HasValue) return null;
             //return ll1.Value.DistanceTo(ll2.Value, units);
 
-            var apikey = "AIzaSyDf4qQJbhaC_2NwNzp1xqKVLhbSo1gup_8";
+            var apikey = "";
 
             DistanceModel distanceBetweenPostcodes = new DistanceModel();
             distanceBetweenPostcodes = GetDistanceBetweenTwoPostcodes(postcodeA, postcodeB, units, apikey);

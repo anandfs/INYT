@@ -5,8 +5,6 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<script src="jquery.raty.js"></script>
-
 <section class="users-list-wrapper">
     <div class="users-list-filter px-1">
         <form>
@@ -63,11 +61,30 @@
                 <div class="card col-6">
                     <div class="card-body">
                         <img src="~/images/testicon.svg" class="rounded-circle  height-15-per" alt="Card image">
-                        <h4 class="card-title">@sp.serviceprovidername</h4>
+                        
+                        <h4 class="card-title">
+                            @sp.serviceprovidername
+                            <p class="card-text">
+                                @for (int i = 0; i < sp.rating; i++)
+                                {
+                                    <img src="~/images/star-on.svg" alt="">
+                                }
+                                @if ((5 - (sp.rating)) > 0)
+                                {
+                                    int offStars = 5 - sp.rating;
+                                    for (int j = 0; j < offStars; j++)
+                                    {
+                                        <img src="~/images/star-off.svg" alt="">
+                                    }
+                                }
+                            </p>
+                        </h4>
+
                         <p class="card-text">
                             Service provider lives @sp.miles away from you
                         </p>
-                        <div id="read-only-stars"></div>
+
+
                         <button type="button" class="btn btn-sm btn-grey-blue"><i class="fa fa-id-card"></i> &nbsp; View Profile</button>
                         <button type="button" class="btn btn-sm btn-grey-blue" data-toggle="modal" data-target="#xlarge"><i class="fa fa-calendar"></i> &nbsp; Book service provider</button>
                     </div>
@@ -169,77 +186,80 @@
                 </div>
 
                 <div class="modal fade text-left" id="default" tabindex="-1" role="dialog" aria-labelledby="myModalLabel16" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
+                    <div class="modal-dialog modal-lg" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h2>Make payment for @sp.serviceprovidername</h2>
                             </div>
                             <div class="modal-body">
-                                <div class="container">
-                                    <div class="row">
-                                        <div class="col-xs-12 col-md-4">
-                                            <div class="panel panel-default">
-                                                <div class="panel-heading">
-                                                    <h3 class="panel-title">
-                                                        Payment Details
-                                                    </h3>
-                                                    <div class="checkbox pull-right">
-                                                        <label>
-                                                            <input type="checkbox" />
-                                                            Remember
-                                                        </label>
+                                <div class="card-body p-5">
+                                    <ul class="nav bg-light nav-pills rounded nav-fill mb-3" role="tablist">
+                                        <li class="nav-item">
+                                            <a class="nav-link active" data-toggle="pill" href="#nav-tab-card">
+                                                <i class="fa fa-credit-card"></i> Credit Card
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" data-toggle="pill" href="#nav-tab-paypal">
+                                                <i class="fab fa-paypal"></i>  Paypal
+                                            </a>
+                                        </li>
+                                    </ul>
+                                    <div class="tab-content">
+                                        <div class="tab-pane fade show active" id="nav-tab-card">
+                                            <p class="alert alert-success">Some text success or error</p>
+                                            <form role="form">
+                                                <div class="form-group">
+                                                    <label for="username">Full name (on the card)</label>
+                                                    <input type="text" class="form-control" name="username" placeholder="" required="">
+                                                </div> <!-- form-group.// -->
+                                                <div class="form-group">
+                                                    <label for="cardNumber">Card number</label>
+                                                    <div class="input-group">
+                                                        <input type="text" class="form-control" name="cardNumber" placeholder="">
+                                                        <div class="input-group-append">
+                                                            <span class="input-group-text text-muted">
+                                                                <i class="fab fa-cc-visa"></i>   <i class="fab fa-cc-amex"></i>
+                                                                <i class="fab fa-cc-mastercard"></i>
+                                                            </span>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <div class="panel-body">
-                                                    <form role="form">
+                                                </div> <!-- form-group.// -->
+                                                <div class="row">
+                                                    <div class="col-sm-8">
                                                         <div class="form-group">
-                                                            <label for="cardNumber">
-                                                                CARD NUMBER
-                                                            </label>
+                                                            <label><span class="hidden-xs">Expiration</span> </label>
                                                             <div class="input-group">
-                                                                <input type="text" class="form-control" id="cardNumber" placeholder="Valid Card Number"
-                                                                       required autofocus />
-                                                                <span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
+                                                                <input type="number" class="form-control" placeholder="MM" name="">
+                                                                <input type="number" class="form-control" placeholder="YY" name="">
                                                             </div>
                                                         </div>
-                                                        <div class="row">
-                                                            <div class="col-xs-7 col-md-7">
-                                                                <div class="form-group">
-                                                                    <label for="expityMonth">
-                                                                        EXPIRY DATE
-                                                                    </label>
-                                                                    <div class="col-xs-6 col-lg-6 pl-ziro">
-                                                                        <input type="text" class="form-control" id="expityMonth" placeholder="MM" required />
-                                                                    </div>
-                                                                    <div class="col-xs-6 col-lg-6 pl-ziro">
-                                                                        <input type="text" class="form-control" id="expityYear" placeholder="YY" required />
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-xs-5 col-md-5 pull-right">
-                                                                <div class="form-group">
-                                                                    <label for="cvCode">
-                                                                        CV CODE
-                                                                    </label>
-                                                                    <input type="password" class="form-control" id="cvCode" placeholder="CV" required />
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </form>
-                                                </div>
-                                            </div>
-                                            <ul class="nav nav-pills nav-stacked">
-                                                <li class="active">
-                                                    <a href="#"><span class="badge pull-right"><span class="glyphicon glyphicon-usd"></span>4200</span> Final Payment</a>
-                                                </li>
-                                            </ul>
-                                            <br />
-                                            <a href="http://www.jquery2dotnet.com" class="btn btn-success btn-lg btn-block" role="button">Pay</a>
+                                                    </div>
+                                                    <div class="col-sm-4">
+                                                        <div class="form-group">
+                                                            <label data-toggle="tooltip" title="" data-original-title="3 digits code on back side of the card">CVV <i class="fa fa-question-circle"></i></label>
+                                                            <input type="number" class="form-control" required="">
+                                                        </div> <!-- form-group.// -->
+                                                    </div>
+                                                </div> <!-- row.// -->
+                                                <button class="subscribe btn btn-primary btn-block" type="button"> Confirm  </button>
+                                            </form>
+                                        </div> <!-- tab-pane.// -->
+                                        <div class="tab-pane fade" id="nav-tab-paypal">
+                                            <p>Paypal is easiest way to pay online</p>
+                                            <p>
+                                                <button type="button" class="btn btn-primary"> <i class="fab fa-paypal"></i> Log in my Paypal </button>
+                                            </p>
+                                            <p>
+                                                <strong>Note:</strong> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                                                tempor incididunt ut labore et dolore magna aliqua.
+                                            </p>
                                         </div>
-                                    </div>
-                                </div>
+                                    </div> <!-- tab-content .// -->
+                                </div> <!-- card-body.// -->
                             </div>
                             <div class="modal-footer">
+                                <button type="button" class="btn grey btn-outline-secondary" data-dismiss="modal">COnfirm</button>
                                 <button type="button" class="btn grey btn-outline-secondary" data-dismiss="modal">Close</button>
                             </div>
                         </div>
@@ -253,7 +273,7 @@
             $(document).ready(function () {
                 $('#ratedserviceproviders').DataTable();
                 $('#closestserviceproviders').DataTable();
-                $('#read-only-stars').raty();
+                
             });
         </script>
     }
