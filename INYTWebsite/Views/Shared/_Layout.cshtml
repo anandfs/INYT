@@ -1,19 +1,8 @@
 ﻿
 <!DOCTYPE html>
-<!--
-Template Name: Stack - Stack - Bootstrap 4 Admin Template
-Author: PixInvent
-Website: http://www.pixinvent.com/
-Contact: hello@pixinvent.com
-Follow: www.twitter.com/pixinvents
-Like: www.facebook.com/pixinvents
-Purchase: https://1.envato.market/stack_admin
-Renew Support: https://1.envato.market/stack_admin
-License: You must have a valid license purchased only from themeforest(the above link) in order to legally use the theme for your project.
 
--->
-<html class="loading" lang="en" data-textdirection="ltr">
-<!-- BEGIN: Head-->
+<html lang="en">
+<!-- START: Head-->
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -22,144 +11,138 @@ License: You must have a valid license purchased only from themeforest(the above
     <meta name="keywords" content="admin template, stack admin template, dashboard template, flat admin template, responsive admin template, web app">
     <meta name="author" content="PIXINVENT">
     <title>I need your time</title>
-    <link rel="apple-touch-icon" href="~/app-assets/images/ico/apple-icon-120.png">
-    <link rel="shortcut icon" type="image/x-icon" href="~/app-assets/images/ico/favicon.ico">
-    <link href="https://fonts.googleapis.com/css?family=Montserrat:300,300i,400,400i,500,500i%7COpen+Sans:300,300i,400,400i,600,600i,700,700i" rel="stylesheet">
 
-    <!-- BEGIN: Vendor CSS-->
-    <link rel="stylesheet" type="text/css" href="~/app-assets/vendors/css/vendors.min.css">
-    <link rel="stylesheet" type="text/css" href="~/app-assets/vendors/css/charts/jquery-jvectormap-2.0.3.css">
-    <link rel="stylesheet" type="text/css" href="~/app-assets/vendors/css/charts/morris.css">
-    <link rel="stylesheet" type="text/css" href="~/app-assets/vendors/css/extensions/unslider.css">
-    <link rel="stylesheet" type="text/css" href="~/app-assets/vendors/css/weather-icons/climacons.min.css">
-    <!-- END: Vendor CSS-->
-    <!-- BEGIN: Theme CSS-->
-    <link rel="stylesheet" type="text/css" href="~/app-assets/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="~/app-assets/css/bootstrap-extended.min.css">
-    <link rel="stylesheet" type="text/css" href="~/app-assets/css/colors.min.css">
-    <link rel="stylesheet" type="text/css" href="~/app-assets/css/components.min.css">
-    <!-- END: Theme CSS-->
-    <!-- BEGIN: Page CSS-->
-    <link rel="stylesheet" type="text/css" href="~/app-assets/css/core/menu/menu-types/horizontal-menu.min.css">
-    <link rel="stylesheet" type="text/css" href="~/app-assets/css/core/colors/palette-gradient.min.css">
-    <!-- link(rel='stylesheet', type='text/css', href=app_assets_path+'/css'+rtl+'/pages/users.css')-->
-    <!-- END: Page CSS-->
-    <!-- BEGIN: Custom CSS-->
-    <link rel="stylesheet" type="text/css" href="~/assets/css/style.css">
-    <!-- END: Custom CSS-->
-
-    <script src="jquery.raty.js"></script>
+    <!-- Bootstrap -->
+    <link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+    <link href="~/css/site.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/app-assets/fonts/font-awesome/css/font-awesome.min.css" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
 
 </head>
 <!-- END: Head-->
+
 <!-- BEGIN: Body-->
-<body class="horizontal-layout horizontal-menu horizontal-menu-padding 2-columns  " data-open="hover" data-menu="horizontal-menu" data-col="2-columns">
+<body style="background-color: aliceblue">
+    <div id="wrapper">
 
-    <!-- BEGIN: Header-->
-    <nav class="header-navbar navbar-expand-md navbar navbar-with-menu navbar-static-top navbar-light navbar-border navbar-brand-center">
-        <div class="navbar-wrapper">
-            <div class="navbar-header">
-                <ul class="nav navbar-nav flex-row">
-                    <li class="nav-item">
-                        <a class="navbar-brand" href="~/html/ltr/horizontal-menu-template/index.html">
-                            <img class="brand-logo" alt="stack admin logo" src="~/app-assets/images/logo/stack-logo.png">
-                            <h2 class="brand-text">I NEED YOUR TIME</h2>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-            <div class="navbar-container container center-layout">
-                <div class="collapse navbar-collapse" id="navbar-mobile">
-                    <ul class="nav navbar-nav mr-auto float-left"></ul>
-
-                </div>
-            </div>
-        </div>
-    </nav>
-    <!-- END: Header-->
-
-    <nav class="header-navbar navbar-expand-sm navbar navbar-with-menu navbar-dark bg-blue-grey  border-blue-grey border-darken-2">
-        <div class="navbar-wrapper">
-            <div class="navbar-header">
-                <ul class="nav navbar-nav mr-auto">
-                    <li class="nav-item mobile-menu d-md-none float-left">
-                        <button class="nav-link menu-toggle hamburger hamburger--arrow js-hamburger is-active"><span class="hamburger-box"></span><span class="hamburger-inner"></span></button>
-                    </li>
-                    <li class="nav-item">
-                        <a href="index.html" class="navbar-brand nav-link"><img src="../../../app-assets/images/logo/stack-logo-light.png" alt="branding logo"></a>
-                    </li>
-                    <li class="nav-item d-md-none float-right"><a data-toggle="collapse" data-target="#navbar-mobile3" class="nav-link open-navbar-container"><i class="icon-ellipsis pe-2x icon-rotate-right"></i></a></li>
-                </ul>
-            </div>
-            <div class="navbar-container content">
-                <div id="navbar-mobile3" class="collapse navbar-collapse">
-                    <ul class="nav navbar-nav mr-auto">
-                        <li class="nav-item"><a class="nav-link active" href="/">Home</a></li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">User</a>
-                            <div class="dropdown-menu">
-                                <a class="dropdown-item" href="#">Login</a>
-                                <a class="dropdown-item" href="#">Sign up</a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#">Separated link</a>
+        <!--Header Section Start-->
+        <header id="header" data-spy="affix" data-offset-top="60" data-offset-bottom="60">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-8  col-sm-12 col-xs-12 col-sm-12">
+                        <nav class="navbar">
+                            <!-- Brand and toggle get grouped for better mobile display -->
+                            <div class="navbar-header">
+                                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
+                                <a class="navbar-brand" href="#"><img class="logo-dark hidden-xs" src="~/images/logo.png" alt="" /> <img class="logo-dark hidden-lg hidden-md hidden-sm" src="images/mobile_logo.png" alt="" /></a>
                             </div>
-                        </li>
-                        <li class="nav-item"><a class="nav-link disabled" href="#">Disabled</a></li>
-                    </ul>
+
+                            <!-- Collect the nav links, forms, and other content for toggling -->
+                            <div class="main-menu collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                                <ul class="nav navbar-nav navbar-left">
+                                    <li><a href="~/">Home</a></li>
+                                    <li><a href="service.html">Service provider sign up</a></li>                                    
+                                </ul>
+                            </div>
+                            <!-- /.navbar-collapse -->
+                        </nav>
+                    </div>
+                    <div class="col-md-4  col-sm-12 col-xs-12 col-sm-12 hidden-xs">
+                        <ul class="right-contact">
+                            <li><i class="fa fa-phone" aria-hidden="true"></i> +44 8107186985</li>
+                            <li><a href="#" class="btn btn-primary btn-skin">Book now</a></li>
+                        </ul>
+                    </div>
                 </div>
             </div>
-        </div>
-    </nav>
+            <!-- /.container -->
+        </header>
+        <!--/Header Section End-->
+        <!-- /.container -->
+        @RenderBody()
 
-    <!-- BEGIN: Content-->
-    <div class="app-content container center-layout mt-2">
-        <div class="content-overlay"></div>
-        <div class="content-wrapper">
-            <div class="content-header row">
+        <!--Footer-->
+        <footer>
+            <div class="container-fluid footerbg">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <p>I NEED YOUR TIME</p>
+                            <div class="about_info">
+                                <p><i class="fa fa-map-marker" aria-hidden="true"></i> Our address</p>
+                                <p><i class="fa fa-envelope" aria-hidden="true"></i> info@inyt.com</p>
+                                <p><i class="fa fa-phone" aria-hidden="true"></i> +44 0207 123 4567</p>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <h4>Services</h4>
+                            <ul>
+                                <li><a href="#"><i class="fa fa-caret-right" aria-hidden="true"></i>Cleaning</a></li>
+                                <li><a href="#"><i class="fa fa-caret-right" aria-hidden="true"></i>Electrical</a></li>
+                                <li><a href="#"><i class="fa fa-caret-right" aria-hidden="true"></i>Plumbing</a></li>
+                                <li><a href="#"><i class="fa fa-caret-right" aria-hidden="true"></i>Appliances</a></li>
+                                <li><a href="#"><i class="fa fa-caret-right" aria-hidden="true"></i>Carpentry</a></li>
+                            </ul>
+                            <ul>
+                                <li><a href="#"><i class="fa fa-caret-right" aria-hidden="true"></i>Geyser Service</a></li>
+                                <li><a href="#"><i class="fa fa-caret-right" aria-hidden="true"></i>Vehicle Care</a></li>
+                                <li><a href="#"><i class="fa fa-caret-right" aria-hidden="true"></i>Pest Control</a></li>
+                                <li><a href="#"><i class="fa fa-caret-right" aria-hidden="true"></i>Panting</a></li>
+                            </ul>
+                        </div>
+                        <div class="col-md-2">
+                            <h4>About Us</h4>
+                            <ul>
+                                <li><a href="#">Home</a></li>
+                                <li><a href="#">About us</a></li>
+                                <li><a href="#">Services</a></li>
+                                <li><a href="#">Contact</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="top_awro pull-right" id="back-to-top"><i class="fa fa-chevron-up" aria-hidden="true"></i> </div>
+                </div>
             </div>
-            <div class="content-body">
-                @RenderBody()
+
+            <!--Boottom Footer-->
+            <div class="container-fluid bottom-footer">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <p class="copyright pull-left">&copy; I NEED YOUR TIME 2020 All Right Reserved</p>
+                            <ul class="footer-scoails pull-right">
+                                <li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+                                <li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+                                <li><a href="#"><i class="fa fa-google-plus" aria-hidden="true"></i></a></li>
+                                <li><a href="#"><i class="fa fa-pinterest" aria-hidden="true"></i></a></li>
+                                <li><a href="#"><i class="fa fa-youtube" aria-hidden="true"></i></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
+        </footer>
+        <!--/Footer-->
     </div>
-    <!-- END: Content-->
-    <!-- END: Content-->
-    <div class="sidenav-overlay"></div>
-    <div class="drag-target"></div>
-
     @RenderSection("Scripts", required: false)
 
-    <!-- BEGIN: Vendor JS-->
-    <script src="~/app-assets/vendors/js/vendors.min.js"></script>
-    <!-- BEGIN Vendor JS-->
-    <!-- BEGIN: Page Vendor JS-->
-    <script src="~/app-assets/vendors/js/ui/jquery.sticky.js"></script>
-    <script src="~/app-assets/vendors/js/charts/jquery.sparkline.min.js"></script>
-    <script src="~/app-assets/vendors/js/extensions/jquery.knob.min.js"></script>
-    <script src="~/app-assets/vendors/js/tables/datatable/datatables.min.js"></script>
-    <script src="~/app-assets/js/scripts/extensions/knob.min.js"></script>
-    <script src="~/app-assets/vendors/js/charts/raphael-min.js"></script>
-    <script src="~/app-assets/vendors/js/charts/morris.min.js"></script>
-    <script src="~/app-assets/vendors/js/charts/jvector/jquery-jvectormap-2.0.3.min.js"></script>
-    <script src="~/app-assets/vendors/js/charts/jvector/jquery-jvectormap-world-mill.js"></script>
-    <script src="~/app-assets/data/jvector/visitor-data.js"></script>
-    <script src="~/app-assets/vendors/js/charts/chart.min.js"></script>
-    <script src="~/app-assets/vendors/js/charts/jquery.sparkline.min.js"></script>
-    <script src="~/app-assets/vendors/js/extensions/unslider-min.js"></script>
-    <link rel="stylesheet" type="text/css" href="~/app-assets/css/core/colors/palette-climacon.css">
-    <link rel="stylesheet" type="text/css" href="~/app-assets/fonts/simple-line-icons/style.min.css">
-    <!-- END: Page Vendor JS-->
-    <!-- BEGIN: Theme JS-->
-    <script src="~/app-assets/js/core/app-menu.min.js"></script>
-    <script src="~/app-assets/js/core/app.min.js"></script>
-    <script src="~/app-assets/js/scripts/customizer.min.js"></script>
-    <!-- END: Theme JS-->
-    <!-- BEGIN: Page JS-->
-    <script src="~/app-assets/js/scripts/ui/breadcrumbs-with-stats.js"></script>
-    <script src="~/app-assets/js/scripts/tables/datatables/datatable-basic.js"></script>
-    <!-- END: Page JS-->
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="~/js/bootstrap.min.js"></script>
+    <script src="~/js/owlcarousel/owl.carousel.min.js"></script>
+    <script src="~/js/custom.js"></script>
+    <script>
+        (function (i, s, o, g, r, a, m) {
+        i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+            (i[r].q = i[r].q || []).push(arguments)
+        }, i[r].l = 1 * new Date(); a = s.createElement(o),
+            m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
 
+        ga('create', 'UA-106074231-1', 'auto');
+        ga('send', 'pageview');
 
+    </script>
 </body>
-<!-- END: Body-->
 </html>

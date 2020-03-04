@@ -6,10 +6,6 @@ namespace INYTWebsite.Model
 {
     public partial class INYTContext : DbContext
     {
-        public INYTContext()
-        {
-        }
-
         public INYTContext(DbContextOptions<INYTContext> options)
             : base(options)
         {
@@ -22,14 +18,13 @@ namespace INYTWebsite.Model
         public virtual DbSet<Ratings> Ratings { get; set; }
         public virtual DbSet<Tradesperson> Tradesperson { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            if (!optionsBuilder.IsConfigured)
-            {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseSqlServer("Server=FUTURESOLUTIONS;Database=INYT;Trusted_Connection=True;");
-            }
-        }
+        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //{
+        //    if (!optionsBuilder.IsConfigured)
+        //    {
+        //        optionsBuilder.UseSqlServer(Configuration.GetConnectionString("INYTConnection"));
+        //    }
+        //}
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

@@ -5,275 +5,49 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<section class="users-list-wrapper">
-    <div class="users-list-filter px-1">
-        <form>
-            <div class="row border border-light rounded py-2 mb-2">
-                <div class="col-12 col-sm-6 col-lg-3">
-                    <label for="users-list-verified">Location</label>
-                    <fieldset class="form-group">
-                        <input type="text" class="form-control form-control-xl input-xl" />
-                    </fieldset>
-                </div>
-                <div class="col-12 col-sm-6 col-lg-3">
-                    <label for="users-list-role">Distance from your postcode</label>
-                    <fieldset class="form-group">
-                        <select class="form-control" id="users-list-role">
-                            <option value="">Any</option>
-                            <option value="User">Less than 1 mile</option>
-                            <option value="Staff">1 - 5 miles</option>
-                            <option value="Staff">less than 10 miles</option>
-                        </select>
-                    </fieldset>
-                </div>
-                <div class="col-12 col-sm-6 col-lg-3">
-                    <label for="users-list-status">Rating</label>
-                    <fieldset class="form-group">
-                        <select class="form-control" id="users-list-status">
-                            <option value="">Any</option>
-                            <option value="5">5 stars</option>
-                            <option value="4">4 stars</option>
-                            <option value="3">3 stars</option>
-                        </select>
-                    </fieldset>
-                </div>
-                <div class="col-12 col-sm-6 col-lg-3 d-flex align-items-center">
-                    <button class="btn btn-block btn-primary glow">Filter</button>
-                </div>
-            </div>
-        </form>
-    </div>
-</section>
-    <section id="card-headings">
-        <div class="row">
-            <div class="col-12">
-                <div class="card">
-                    <div class="card-header" id="heading-links">
-                        <h4 class="card-title">Service Providers closest to you</h4>
-                        <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row col-12">
+
+<!--Section Start-->
+<section id="What_offer">
+    <div class="container text-center">
+        <h1 class="panel-heading">You searched for plumber in W13 9XW. We found 23 matching search results</h1>
+        <div class="row text-left">
             @foreach (var sp in Model.serviceProvidersList)
             {
-                <div class="card col-6">
-                    <div class="card-body">
-                        <img src="~/images/testicon.svg" class="rounded-circle  height-15-per" alt="Card image">
-                        
-                        <h4 class="card-title">
-                            @sp.serviceprovidername
-                            <p class="card-text">
-                                @for (int i = 0; i < sp.rating; i++)
+                <div class="col-md-4 col-sm-6 col-xs-12">
+                    <div class="icon_box_one">
+                        <div class="img-holder text-center"><img src="~/images/testicon.svg" class="img-circle height-15-per" alt="Card image"></div>
+                        <div class="box_content">
+                            <h4>@sp.serviceprovidername</h4>
+                            @for (int i = 0; i < sp.rating; i++)
+                            {
+                                <img src="~/images/star-on.svg" alt="">
+                            }
+                            @if ((5 - (sp.rating)) > 0)
+                            {
+                                int offStars = 5 - sp.rating;
+                                for (int j = 0; j < offStars; j++)
                                 {
-                                    <img src="~/images/star-on.svg" alt="">
+                                    <img src="~/images/star-off.svg" alt="">
                                 }
-                                @if ((5 - (sp.rating)) > 0)
-                                {
-                                    int offStars = 5 - sp.rating;
-                                    for (int j = 0; j < offStars; j++)
-                                    {
-                                        <img src="~/images/star-off.svg" alt="">
-                                    }
-                                }
-                            </p>
-                        </h4>
-
-                        <p class="card-text">
-                            Service provider lives @sp.miles away from you
-                        </p>
-
-
-                        <button type="button" class="btn btn-sm btn-grey-blue"><i class="fa fa-id-card"></i> &nbsp; View Profile</button>
-                        <button type="button" class="btn btn-sm btn-grey-blue" data-toggle="modal" data-target="#xlarge"><i class="fa fa-calendar"></i> &nbsp; Book service provider</button>
-                    </div>
-                </div>
-                <div class="modal fade text-left" id="xlarge" tabindex="-1" role="dialog" aria-labelledby="myModalLabel16" aria-hidden="true">
-                    <div class="modal-dialog modal-xl" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h2>Taking bookings for @sp.serviceprovidername</h2>
-                            </div>
-                            <div class="modal-header">
-                                <h1 class="page-header">
-                                    <i class="fa fa-calendar"></i> February
-                                </h1>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                <table class="table">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col">
-                                                <i class="fa fa-arrow"></i>
-                                            </th>
-                                            <th scope="col">February <br /> <font size="10">17th</font><br /><font style="color: green">available</font></th>
-                                            <th scope="col">February <br /> <font size="10">18th</font><br /><font style="color: grey">n/a</font></th>
-                                            <th scope="col">February <br /> <font size="10">19th</font><br /><font style="color: green">available</font></th>
-                                            <th scope="col">February <br /> <font size="10">20th</font><br /><font style="color: green">available</font></th>
-                                            <th scope="col">February <br /> <font size="10">21st</font><br /><font style="color: grey">n/a</font></th>
-                                            <th scope="col">February <br /> <font size="10">22nd</font><br /><font style="color: green">available</font></th>
-                                            <th scope="col">February <br /> <font size="10">23rd</font><br /><font style="color: grey">n/a</font></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td></td>
-                                            <td><button type="button" class="btn btn-sm btn-grey-blue" data-toggle="modal" 
-                                                        data-target="#default">08:00</button></td>
-                                            <td></td>
-                                            <td><a href="#">08:00</a></td>
-                                            <td><a href="#">08:00</a></td>
-                                            <td></td>
-                                            <td><a href="#">08:00</a></td>
-                                        </tr>
-                                        <tr>
-                                            <td></td>
-                                            <td><a href="#">09:00</a></td>
-                                            <td></td>
-                                            <td><a href="#">09:00</a></td>
-                                            <td><a href="#">09:00</a></td>
-                                            <td></td>
-                                            <td><a href="#">09:00</a></td>
-                                        </tr>
-                                        <tr>
-                                            <td></td>
-                                            <td><a href="#">10:00</a></td>
-                                            <td></td>
-                                            <td><a href="#">10:00</a></td>
-                                            <td><a href="#">10:00</a></td>
-                                            <td></td>
-                                            <td><a href="#">10:00</a></td>
-                                        </tr>
-                                        <tr>
-                                            <td></td>
-                                            <td><a href="#">11:00</a></td>
-                                            <td></td>
-                                            <td><a href="#">11:00</a></td>
-                                            <td><a href="#">11:00</a></td>
-                                            <td></td>
-                                            <td><a href="#">11:00</a></td>
-                                        </tr>
-                                        <tr>
-                                            <td></td>
-                                            <td><a href="#">14:00</a></td>
-                                            <td></td>
-                                            <td><a href="#">14:00</a></td>
-                                            <td><a href="#">14:00</a></td>
-                                            <td></td>
-                                            <td><a href="#">14:00</a></td>
-                                        </tr>
-                                        <tr>
-                                            <td></td>
-                                            <td><a href="#">16:00</a></td>
-                                            <td></td>
-                                            <td><a href="#">16:00</a></td>
-                                            <td><a href="#">16:00</a></td>
-                                            <td></td>
-                                            <td><a href="#">16:00</a></td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn grey btn-outline-secondary" data-dismiss="modal">Close</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="modal fade text-left" id="default" tabindex="-1" role="dialog" aria-labelledby="myModalLabel16" aria-hidden="true">
-                    <div class="modal-dialog modal-lg" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h2>Make payment for @sp.serviceprovidername</h2>
-                            </div>
-                            <div class="modal-body">
-                                <div class="card-body p-5">
-                                    <ul class="nav bg-light nav-pills rounded nav-fill mb-3" role="tablist">
-                                        <li class="nav-item">
-                                            <a class="nav-link active" data-toggle="pill" href="#nav-tab-card">
-                                                <i class="fa fa-credit-card"></i> Credit Card
-                                            </a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" data-toggle="pill" href="#nav-tab-paypal">
-                                                <i class="fab fa-paypal"></i>  Paypal
-                                            </a>
-                                        </li>
-                                    </ul>
-                                    <div class="tab-content">
-                                        <div class="tab-pane fade show active" id="nav-tab-card">
-                                            <p class="alert alert-success">Some text success or error</p>
-                                            <form role="form">
-                                                <div class="form-group">
-                                                    <label for="username">Full name (on the card)</label>
-                                                    <input type="text" class="form-control" name="username" placeholder="" required="">
-                                                </div> <!-- form-group.// -->
-                                                <div class="form-group">
-                                                    <label for="cardNumber">Card number</label>
-                                                    <div class="input-group">
-                                                        <input type="text" class="form-control" name="cardNumber" placeholder="">
-                                                        <div class="input-group-append">
-                                                            <span class="input-group-text text-muted">
-                                                                <i class="fab fa-cc-visa"></i>   <i class="fab fa-cc-amex"></i>
-                                                                <i class="fab fa-cc-mastercard"></i>
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                </div> <!-- form-group.// -->
-                                                <div class="row">
-                                                    <div class="col-sm-8">
-                                                        <div class="form-group">
-                                                            <label><span class="hidden-xs">Expiration</span> </label>
-                                                            <div class="input-group">
-                                                                <input type="number" class="form-control" placeholder="MM" name="">
-                                                                <input type="number" class="form-control" placeholder="YY" name="">
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-sm-4">
-                                                        <div class="form-group">
-                                                            <label data-toggle="tooltip" title="" data-original-title="3 digits code on back side of the card">CVV <i class="fa fa-question-circle"></i></label>
-                                                            <input type="number" class="form-control" required="">
-                                                        </div> <!-- form-group.// -->
-                                                    </div>
-                                                </div> <!-- row.// -->
-                                                <button class="subscribe btn btn-primary btn-block" type="button"> Confirm  </button>
-                                            </form>
-                                        </div> <!-- tab-pane.// -->
-                                        <div class="tab-pane fade" id="nav-tab-paypal">
-                                            <p>Paypal is easiest way to pay online</p>
-                                            <p>
-                                                <button type="button" class="btn btn-primary"> <i class="fab fa-paypal"></i> Log in my Paypal </button>
-                                            </p>
-                                            <p>
-                                                <strong>Note:</strong> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                                                tempor incididunt ut labore et dolore magna aliqua.
-                                            </p>
-                                        </div>
-                                    </div> <!-- tab-content .// -->
-                                </div> <!-- card-body.// -->
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn grey btn-outline-secondary" data-dismiss="modal">COnfirm</button>
-                                <button type="button" class="btn grey btn-outline-secondary" data-dismiss="modal">Close</button>
-                            </div>
+                            }
+                            <p>This service provider lives @sp.miles away</p>
+                            <button type="button" class="btn btn-sm btn-grey-blue"><i class="fa fa-id-card"></i> &nbsp; View Profile</button>
+                            <a href="~/BookService"><button type="button" class="btn btn-sm btn-grey-blue"><i class="fa fa-calendar"></i> &nbsp; Book service provider</button></a>
                         </div>
                     </div>
                 </div>
             }
         </div>
-    </section>
-    @section Scripts {
-        <script>
+    </div>
+</section>
+<!--Section End-->
+
+@section Scripts {
+    <script>
             $(document).ready(function () {
-                $('#ratedserviceproviders').DataTable();
-                $('#closestserviceproviders').DataTable();
-                
+                $("#bookservice").click(function () {
+
+                });
             });
-        </script>
-    }
+    </script>
+}

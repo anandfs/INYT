@@ -1,45 +1,192 @@
-﻿<!------ Include the above in your HEAD tag ---------->
-<section id="dropdown-buttons-with-arrow">
-    <div class="row">
-        <div class="col-12">
-            <form asp-action="Search" asp-controller="Home" enctype="multipart/form-data" method="post" id="searchServiceProviders">
-                <div class="card">
-                    <!-- TAGLINE -->
-                    <div class="card-header">
-                        <h1 class="card-title">whose time do you need today?</h1>
-                    </div>
-                    <div class="card-body">
-                        <div class="card-content">
-                            <div class="row" tabindex="1">
-                                <div class="col-sm-3 col-6">
-                                    <div class="heading-elements">
-                                        <fieldset>
-                                            <select class="form-control" id="basicSelect">
-                                                <option>I need a ....</option>
-                                                <option>Plumber</option>
-                                                <option>Electrician</option>
-                                                <option>Carpenter</option>
-                                                <option>Dog walker</option>                                                
-                                            </select>
-                                        </fieldset>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <fieldset class="form-group position-relative has-icon-left">
-                            <input type="text" class="form-control round mb-1" id="iconLeft10"
-                                   placeholder="Where do you need? (Enter postcode)">
-                            <div class="form-control-position">
-                                <i class="feather icon-map-pin warning"></i>
-                            </div>
-                        </fieldset>
-                        <div class="form-group">
-                            <input class="btn btn-primary btn-min-width mr-1 mb-1" type="submit" value="Submit">
+﻿@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!--Banner Start-->
+<section id="banner" class="home-one">
+    <div class="container text-center parallax-section">
+        <div class="row text-center">
+            <div class="col-md-12">
+                <h1 class="panel-heading">Whose time do you need today?</h1>
+                <p class="caption">
+                    Book the best service providwers closest to you
+                </p>
+                <form asp-action="Search" asp-controller="Home" enctype="multipart/form-data" method="post" id="searchServiceProviders" class="form-inline book-now-home">
+                    <div class="form-group">
+                        <div class="input-group">
+                            <fieldset>
+                                <select class="form-control" id="basicSelect">
+                                    <option>I need a ....</option>
+                                    <option>Plumber</option>
+                                    <option>Electrician</option>
+                                    <option>Carpenter</option>
+                                    <option>Dog walker</option>
+                                </select>
+                            </fieldset>
                         </div>
                     </div>
-                </div>
-            </form>
-            <!-- helpr TEXT -->
+                    <div class="form-group">
+                        <div class="input-group location-code">
+                            <input type="text" class="form-control zipcode" id="zipcode" placeholder="Enter your Postcode" />
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary booknow btn-skin">Book now</button>
+                </form>
+            </div>
         </div>
     </div>
 </section>
+<!--/Banner End-->
+
+<!--How it works Section Satrt-->
+<section id="howitwork">
+    <div class="container text-center">
+        <h1 class="panel-heading">How it works</h1>
+        <div class="row">
+            <div class="col-md-3 col-xs-offset-0 step-one">
+                <img src="~/images/book_service.jpg" height="100" width="100" alt="Book" class="img-circle htw" />
+                <h4>Book</h4>
+                <p>
+                    Select the date and time like<br />
+                    you want your service provider
+                </p>
+            </div>
+            <div class="col-md-1 hidden-xs hidden-sm"> </div>
+            <div class="col-md-3 step-two">
+                <img src="~/images/cleaner_service.jpg" height="100" width="100" alt="Schedule" class="img-circle" />
+                <h4>Schedule</h4>
+                <p>
+                    Certified service providers come over<br />
+                    to complete your work
+                </p>
+            </div>
+            <div class="col-md-1 hidden-xs hidden-sm"> </div>
+            <div class="col-md-3">
+                <img src="~/images/shake-hands.jpg" height="100" width="100" alt="Relax" class="img-circle" />
+                <h4>Relax</h4>
+                <p>
+                    Your work is completed to your<br />
+                    satisfaction - guaranteed!
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+<!--How it works Section End-->
+
+<!--Our services Section Satrt-->
+<section id="services">
+    <div class="container text-center">
+        <h1 class="panel-heading">Our services</h1>
+        <ul class="services-list">
+            <li>
+                <a href="service_detail.html">
+                    <img src="~/images/cleaning.png" alt="cleaning" /><br />
+                    Cleaning
+                </a>
+            </li>
+            <li>
+                <a href="service_detail.html">
+                    <img src="~/images/electrical.png" alt="electrical" /><br />
+                    Electrical
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <img src="~/images/plumbing.png" alt="plumbing" /><br />
+                    Plumbing
+                </a>
+            </li>
+            <li>
+                <a href="service_detail.html">
+                    <img src="~/images/appliances.png" alt="appliances" /><br />
+                    Appliances
+                </a>
+            </li>
+            <li>
+                <a href="service_detail.html">
+                    <img src="~/images/carpentry.png" alt="carpentry" /><br />
+                    Carpentry
+                </a>
+            </li>
+            <li>
+                <a href="service_detail.html">
+                    <img src="~/images/geyser.png" alt="geyser" /><br />
+                    Geyser Service
+                </a>
+            </li>
+            <li>
+                <a href="service_detail.html">
+                    <img src="~/images/vehicle.png" alt="vehicle" /><br />
+                    Vehicle Care
+                </a>
+            </li>
+            <li>
+                <a href="service_detail.html">
+                    <img src="~/images/pest.png" alt="pest" /><br />
+                    Pest Control
+                </a>
+            </li>
+            <li>
+                <a href="service_detail.html">
+                    <img src="~/images/painting.png" alt="painting" /><br />
+                    Painting
+                </a>
+            </li>
+            <li>
+                <a href="service_detail.html">
+                    <img src="~/images/more.png" alt="more" /><br />
+                    View More
+                </a>
+            </li>
+        </ul>
+    </div>
+</section>
+<!--Our services Section End-->
+
+<!--Our Numbers Satrt-->
+<section id="numbers">
+    <div class="container text-center">
+        <div class="row">
+            <div class="col-md-3 col-sm-6 col-xs-6">
+                <!--counter box-->
+                <div class="counter_box text-center">
+                    <div class="counter_icon"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i></div>
+                    <div class="counter_number counter"><span class="stat-count">100</span>%</div>
+                    <h4 class="counter_name">Quality</h4>
+                </div>
+                <!--counter box end-->
+            </div>
+            <div class="col-md-3 col-sm-6 col-xs-6">
+                <!--counter box-->
+                <div class="counter_box text-center">
+                    <div class="counter_icon"><i class="fa fa-user" aria-hidden="true"></i></div>
+                    <div class="counter_number counter"><span class="stat-count">2500</span>+</div>
+                    <h4 class="counter_name">People Working</h4>
+                </div>
+                <!--counter box end-->
+            </div>
+            <div class="col-md-3 col-sm-6 col-xs-6">
+                <!--counter box-->
+                <div class="counter_box text-center">
+                    <div class="counter_icon"><i class="fa fa-calendar-o" aria-hidden="true"></i></div>
+                    <div class="counter_number counter"><span class="stat-count">8</span> Years</div>
+                    <h4 class="counter_name">Years Experience</h4>
+                </div>
+                <!--counter box end-->
+            </div>
+            <div class="col-md-3 col-sm-6 col-xs-6">
+                <!--counter box-->
+                <div class="counter_box text-center">
+                    <div class="counter_icon"><i class="fa fa-smile-o" aria-hidden="true"></i></div>
+                    <div class="counter_number counter"><span class="stat-count">900</span>+</div>
+                    <h4 class="counter_name">Happy Smiles</h4>
+                </div>
+                <!--counter box end-->
+            </div>
+        </div>
+    </div>
+</section>
+<!--/Our Numbers Satrt End-->
+

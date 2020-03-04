@@ -28,15 +28,13 @@ namespace INYTWebsite.Code
         }
 
         // Will return a null if the Google API is unable to find either post code, or the country constraint fails
-        public static string BetweenTwoPostCodes(string postcodeA, string postcodeB, string countryCodeWithin, Units units)
+        public static string BetweenTwoPostCodes(string postcodeA, string postcodeB, string countryCodeWithin, Units units, string apikey)
         {
             //var ll1 = PostCodeToLongLat(postcodeA, countryCodeWithin);
             //if (!ll1.HasValue) return null;
             //var ll2 = PostCodeToLongLat(postcodeB, countryCodeWithin);
             //if (!ll2.HasValue) return null;
             //return ll1.Value.DistanceTo(ll2.Value, units);
-
-            var apikey = "";
 
             DistanceModel distanceBetweenPostcodes = new DistanceModel();
             distanceBetweenPostcodes = GetDistanceBetweenTwoPostcodes(postcodeA, postcodeB, units, apikey);
@@ -74,9 +72,9 @@ namespace INYTWebsite.Code
         }
 
         // Overload for UK post codes
-        public static string BetweenTwoUKPostCodes(string postcodeA, string postcodeB)
+        public static string BetweenTwoUKPostCodes(string postcodeA, string postcodeB, string apikey)
         {
-            return BetweenTwoPostCodes(postcodeA, postcodeB, "GB", Units.Miles);
+            return BetweenTwoPostCodes(postcodeA, postcodeB, "GB", Units.Miles, apikey);
         }
 
         // Uses the Google API to resolve a post code (within the specified country)

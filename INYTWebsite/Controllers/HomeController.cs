@@ -7,16 +7,24 @@ using Microsoft.AspNetCore.Mvc;
 using INYTWebsite.Models;
 using INYTWebsite.Model;
 using INYTWebsite.Code;
+using Microsoft.Extensions.Options;
 
 namespace INYTWebsite.Controllers
 {
     public class HomeController : Controller
     {
+        public INYTContext _db;
+        private AppSettings _AppSettings;
 
-        INYTContext db = new INYTContext();
+        public HomeController(INYTContext db, IOptions<AppSettings> settings)
+        {
+            _db = db;
+            _AppSettings = settings.Value;
+       }
+
 
         public IActionResult Index()
-        {   
+        {
             return View();
         }
 
@@ -26,13 +34,18 @@ namespace INYTWebsite.Controllers
         {
             string postcode = string.Empty;
             postcode = "W13 9XW";
+            string trade = string.Empty;
+            trade = "Plumbing";
+
+            string apikey = string.Empty;
+            apikey = _AppSettings.apikey;
 
             List<Serviceprovider> spList = new List<Serviceprovider>();
-            foreach(var tradesperson in db.Tradesperson.ToList())
+            foreach(var tradesperson in _db.Tradesperson.ToList().Where(a => a.Trade == trade))
             {
                 Serviceprovider sp = new Serviceprovider();
                 sp.serviceprovidername = String.Format("{0} {1}", tradesperson.FirstName, tradesperson.LastName);
-                //sp.miles = Distance.BetweenTwoUKPostCodes(postcode, tradesperson.Postcode);
+                //sp.miles = Distance.BetweenTwoUKPostCodes(postcode, tradesperson.Postcode, apikey);
                 sp.miles = "1 mile";
                 sp.rating = 4;
                 spList.Add(sp);
