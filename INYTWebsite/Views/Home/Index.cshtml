@@ -1,6 +1,11 @@
-﻿@{
+﻿@inject Microsoft.Extensions.Options.IOptions<AppSettings> appSettings
+@model INYTWebsite.Models.BookingModel
+
+@{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var AppSettings = appSettings.Value;
+    var ddlTrades = ViewData["Trades"] as List<SelectListItem>;
 }
 
 <!--Banner Start-->
@@ -10,36 +15,33 @@
             <div class="col-md-12">
                 <h1 class="panel-heading">Whose time do you need today?</h1>
                 <p class="caption">
-                    Book the best service providwers closest to you
+                    Book the best service providers closest to you
                 </p>
                 <form asp-action="Search" asp-controller="Home" enctype="multipart/form-data" method="post" id="searchServiceProviders" class="form-inline book-now-home">
                     <div class="form-group">
                         <div class="input-group">
                             <fieldset>
-                                <select class="form-control" id="basicSelect">
-                                    <option>I need a ....</option>
-                                    <option>Plumber</option>
-                                    <option>Electrician</option>
-                                    <option>Carpenter</option>
-                                    <option>Dog walker</option>
-                                </select>
+                                <select class="form-control" asp-for="selectedTrade"
+                                    asp-items="ddlTrades" required></select>
                             </fieldset>
                         </div>
                     </div>
                     <div class="form-group">
                         <div class="input-group location-code">
-                            <input type="text" class="form-control zipcode" id="zipcode" placeholder="Enter your Postcode" />
+                            <input asp-for="postCode" type="text" 
+                                class="form-control zipcode" style="width: 300px;"
+                                placeholder="Enter your Postcode"><br />
                         </div>
                     </div>
                     <button type="submit" class="btn btn-primary booknow btn-skin">Book now</button>
+                    <div id="output_field" class="text-center" style="color: #0094ff; font-family: Montserrat"></div>
                 </form>
             </div>
         </div>
     </div>
 </section>
 <!--/Banner End-->
-
-<!--How it works Section Satrt-->
+<!--How it works Section Start-->
 <section id="howitwork">
     <div class="container text-center">
         <h1 class="panel-heading">How it works</h1>
@@ -74,8 +76,7 @@
     </div>
 </section>
 <!--How it works Section End-->
-
-<!--Our services Section Satrt-->
+<!--Our services Section Start-->
 <section id="services">
     <div class="container text-center">
         <h1 class="panel-heading">Our services</h1>
@@ -144,8 +145,7 @@
     </div>
 </section>
 <!--Our services Section End-->
-
-<!--Our Numbers Satrt-->
+<!--Our Numbers Start-->
 <section id="numbers">
     <div class="container text-center">
         <div class="row">
@@ -188,5 +188,4 @@
         </div>
     </div>
 </section>
-<!--/Our Numbers Satrt End-->
-
+<!--/Our Numbers End-->

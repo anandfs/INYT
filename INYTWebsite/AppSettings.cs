@@ -8,6 +8,11 @@ namespace INYTWebsite
     public class AppSettings
     {
         public string apikey { get; set; }
-        //public PostcodesAPI PostcodesAPI { get; set; }
+        public PostcodesAPI PostcodesAPI { get; set; }
+    }
+
+    public class PostcodesAPI
+    {
+        public string apiKey { get; set; }
     }
 }

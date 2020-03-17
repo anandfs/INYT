@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using INYTWebsite.Models;
-using INYTWebsite.Model;
 using INYTWebsite.Code;
 using Microsoft.Extensions.Options;
+using INYTWebsite.Model;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace INYTWebsite.Controllers
 {
@@ -25,38 +25,58 @@ namespace INYTWebsite.Controllers
 
         public IActionResult Index()
         {
+            BookingModel model = new BookingModel();
+            var tradesList = _db.TradeMaster.ToList().Select(x => new SelectListItem
+            {
+                Text = x.Trade.ToString(),
+                Value = x.Id.ToString()
+            }).ToList();
+
+            ViewData["Trades"] = tradesList;
+
             return View();
         }
 
 
         [HttpPost]
-        public ActionResult Search()
+        public ActionResult Search(BookingModel model)
         {
-            string postcode = string.Empty;
-            postcode = "W13 9XW";
-            string trade = string.Empty;
-            trade = "Plumbing";
-
             string apikey = string.Empty;
             apikey = _AppSettings.apikey;
 
-            List<Serviceprovider> spList = new List<Serviceprovider>();
-            foreach(var tradesperson in _db.Tradesperson.ToList().Where(a => a.Trade == trade))
+            TradeMaster tradeMaster = new TradeMaster();
+            tradeMaster = _db.TradeMaster.Where(a => a.Id == Convert.ToInt32(model.selectedTrade)).FirstOrDefault();
+
+
+            ViewData["postcode"] = model.postCode;
+            ViewData["trade"] = tradeMaster.Trade;
+
+            List<ServiceProviderModel> spList = new List<ServiceProviderModel>();
+            int miles = 10; //TEMPORARY TO SAVE ON LICENSE
+            int spCount = 0;
+
+            List<Tradesperson> serviceProviders = new List<Tradesperson>();
+            if (_db.Tradesperson.ToList().Count > 0)
             {
-                Serviceprovider sp = new Serviceprovider();
-                sp.serviceprovidername = String.Format("{0} {1}", tradesperson.FirstName, tradesperson.LastName);
-                //sp.miles = Distance.BetweenTwoUKPostCodes(postcode, tradesperson.Postcode, apikey);
-                sp.miles = "1 mile";
+                serviceProviders = _db.Tradesperson.Where(a => a.TradeId == Convert.ToInt32(model.selectedTrade)).ToList();
+                spCount = serviceProviders.Count();
+                ViewData["spCount"] = spCount;
+            }
+
+            foreach (var tradesperson in serviceProviders)
+            {
+                ServiceProviderModel sp = new ServiceProviderModel();
+                sp.firstName = tradesperson.FirstName;
+                sp.lastName = tradesperson.LastName;
+                sp.id = tradesperson.Id;                
+                //sp.distanceinmiles = Distance.BetweenTwoUKPostCodes(model.postCode, tradesperson.Postcode, apikey);
+                sp.distanceinmiles = String.Format("{0}",miles); miles+=10; //TEMPORARILY TO SAVE ON LICENSE
                 sp.rating = 4;
+                sp.tradeId = Convert.ToInt32(tradesperson.TradeId);
                 spList.Add(sp);
             }
 
-
-            ServiceProviders serviceproviders = new ServiceProviders();
-            serviceproviders.serviceProvidersList = spList;
-
-
-            return View("SearchResults", serviceproviders);
+            return View("SearchResults", spList);
 
         }
 
@@ -64,7 +84,7 @@ namespace INYTWebsite.Controllers
         public ActionResult ServiceProviderCalendarDetails(string spid)
         {
             int sp_id = Convert.ToInt32(EncryptionUtility.Decrypt(spid.ToString(), true));
-            Serviceprovider model = new Serviceprovider();
+            ServiceProviderModel model = new ServiceProviderModel();
 
             return PartialView("_SPCalendarModal", model);
         }

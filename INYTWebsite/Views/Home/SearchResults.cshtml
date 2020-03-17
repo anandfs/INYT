@@ -1,4 +1,4 @@
-﻿@model INYTWebsite.Model.ServiceProviders
+﻿@model List<INYTWebsite.Models.ServiceProviderModel>
 
 @{
     ViewData["Title"] = "Index";
@@ -9,33 +9,56 @@
 <!--Section Start-->
 <section id="What_offer">
     <div class="container text-center">
-        <h1 class="panel-heading">You searched for plumber in W13 9XW. We found 23 matching search results</h1>
+        <h1 class="panel-heading">You searched for <u>@ViewData["trade"]</u> in <u>@ViewData["postcode"]</u>. We found @ViewData["spCount"] matching search results</h1>
         <div class="row text-left">
-            @foreach (var sp in Model.serviceProvidersList)
+            @foreach (var sp in Model)
             {
-                <div class="col-md-4 col-sm-6 col-xs-12">
-                    <div class="icon_box_one">
-                        <div class="img-holder text-center"><img src="~/images/testicon.svg" class="img-circle height-15-per" alt="Card image"></div>
-                        <div class="box_content">
-                            <h4>@sp.serviceprovidername</h4>
-                            @for (int i = 0; i < sp.rating; i++)
+            <div class="col-md-4 col-sm-6 col-xs-12">
+                <div class="icon_box_one">
+                    <div class="img-holder text-center"><img src="~/images/testicon.svg" class="img-circle height-15-per" alt="Card image"></div>
+                    <div class="box_content">
+                        <h4>@sp.firstName @sp.lastName</h4>
+                        @for (int i = 0; i < sp.rating; i++)
+                        {
+                            <img src="~/images/star-on.svg" alt="">
+                        }
+                        @if ((5 - (sp.rating)) > 0)
+                        {
+                            int offStars = 5 - sp.rating;
+                            for (int j = 0; j < offStars; j++)
                             {
-                                <img src="~/images/star-on.svg" alt="">
+                                <img src="~/images/star-off.svg" alt="">
                             }
-                            @if ((5 - (sp.rating)) > 0)
-                            {
-                                int offStars = 5 - sp.rating;
-                                for (int j = 0; j < offStars; j++)
-                                {
-                                    <img src="~/images/star-off.svg" alt="">
-                                }
-                            }
-                            <p>This service provider lives @sp.miles away</p>
-                            <button type="button" class="btn btn-sm btn-grey-blue"><i class="fa fa-id-card"></i> &nbsp; View Profile</button>
-                            <a href="~/BookService"><button type="button" class="btn btn-sm btn-grey-blue"><i class="fa fa-calendar"></i> &nbsp; Book service provider</button></a>
+                        }
+                        <p>This service provider lives @sp.distanceinmiles away</p>
+                        <button type="button" class="btn btn-sm btn-grey-blue"><i class="fa fa-id-card"></i> &nbsp; View Profile</button>
+                        <a href="#theModal" class="nav-link" data-remote="/Trades/QuestionDetails?tradeId=@sp.tradeId" 
+                           data-toggle="modal" data-target="#theModal">Book Service Provider</a>
+                    </div>
+
+                    <div class="modal fade" id="theModal" tabindex="-1" role="dialog">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">My modal</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">×</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <button type="button" class="btn btn-primary">Send message</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
+
+                
+            </div>
             }
         </div>
     </div>
@@ -44,10 +67,17 @@
 
 @section Scripts {
     <script>
-            $(document).ready(function () {
-                $("#bookservice").click(function () {
+        $('#theModal').on('show.bs.modal', function (e) {
 
-                });
-            });
+            var button = $(e.relatedTarget);
+            var modal = $(this);
+
+            // load content from HTML string
+            //modal.find('.modal-body').html("Nice modal body baby...");
+
+            // or, load content from value of data-remote url
+            modal.find('.modal-body').load(button.data("remote"));
+
+        });
     </script>
 }
