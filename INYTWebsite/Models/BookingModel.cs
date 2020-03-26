@@ -12,5 +12,17 @@ namespace INYTWebsite.Models
         public string postCode { get; set; }
         public string selectedTrade { get; set; }
 
+        public int id { get; set; }
+
+        public CustomerModel customer { get; set; }
+        public Tradesperson serviceProvider { get; set; }
+        public List<TradeAdditionalQuestions> questionsList { get; set; }
+
+        public int tradeId { get; set; }
+        public DateTime bookingDate { get; set; }
+        public DateTime bookingTime { get; set; }
+        public double bookingAmount { get; set; }
+        public string bookingPaymentType { get; set; }
+        public bool bookingFulfilled { get; set; }
     }
 }

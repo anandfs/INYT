@@ -69,6 +69,11 @@ namespace INYTWebsite
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=home}/{action=index}/{id?}");
+
+                routes.MapRoute(
+                    name: "serviceProviderAreaRoute",
+                    template: "{area:exists}/{controller=serviceprovider}/{action=index}/{id?}"
+                );
             });
         }
     }

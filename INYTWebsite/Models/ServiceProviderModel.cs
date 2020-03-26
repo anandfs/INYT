@@ -10,9 +10,11 @@ namespace INYTWebsite.Models
         public int id { get; set; }
         public string firstName { get; set; }
         public string lastName { get; set; }
+        public string emailAddress { get; set; }
         public int tradeId { get; set; }
         public string trade { get; set; }
         public string description { get; set; }
+        public string companyName { get; set; }
         public string companyNumber { get; set; }
         public string companySize { get; set; }
         public string addressLine1 { get; set; }
@@ -28,6 +30,8 @@ namespace INYTWebsite.Models
 
         public string distanceinmiles { get; set; }
         public List<TradeAdditionalQuestions> questionsList { get; set; }
+        public string password { get; set; }
+        public string repeatPassword { get; set; }
         public int rating { get; set; }
     }
 }

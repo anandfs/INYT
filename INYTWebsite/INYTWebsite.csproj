@@ -15,6 +15,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Areas\ServiceProvider\Data\" />
+    <Folder Include="Areas\ServiceProvider\Models\" />
     <Folder Include="Model\" />
   </ItemGroup>
 

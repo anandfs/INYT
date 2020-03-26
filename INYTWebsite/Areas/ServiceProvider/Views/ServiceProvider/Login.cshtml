@@ -1,0 +1,53 @@
+﻿@model INYTWebsite.Models.Login
+@{
+    ViewData["Title"] = "Login";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!--Service Provider Login form-->
+<section id="contact_information">
+    <div class="container">
+        <div class="row">
+            <!--Left Form Part-->
+            <div class="col-md-8 col-sm-8 col-xs-12">
+                <div id="login-row" class="row justify-content-center align-items-center">
+                    <div id="login-column" class="col-md-6">
+                        <div id="login-box" class="col-md-12">
+                            <form id="login-form" class="form" action="" method="post">
+                                <h3 class="text-center text-info">Login</h3>
+                                <div class="input-group">
+                                    <span class="validation-error" asp-validation-for="Username"></span>
+                                    <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                                    <input asp-for="Username" type="text" class="form-control" placeholder="User Name">
+                                </div>
+                                <div class="input-group">
+                                    <span class="validation-error" asp-validation-for="Password"></span>
+                                    <span class="input-group-addon"><i class="fa fa-key"></i></span>
+                                    <input asp-for="Password" type="password" class="form-control" placeholder="Password">
+                                </div>
+                                <div class="form-group">
+                                    <label for="remember-me" class="text-info"><span>Remember me</span> <span><input id="remember-me" name="remember-me" type="checkbox"></span></label><br>
+                                    <input type="submit" name="submit" class="btn btn-info btn-md" value="submit">
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--/Left Form Part-->
+            <!--Right Form Part-->
+            <div class="col-md-4 col-sm-4 col-xs-12">
+                <div class="row">
+                    <h3>Haven't signed up yet?</h3>
+                    <span>
+                        <a asp-area="ServiceProvider"
+                           asp-controller="ServiceProvider"
+                           asp-action="Index">Sign up</a>
+                    </span>
+                </div>
+            </div>
+            <!--Right Form Part-->
+        </div>
+    </div>
+</section>
+<!--Service Provider Login End-->

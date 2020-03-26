@@ -7,7 +7,7 @@ namespace INYTWebsite.Models
     {
         public int Id { get; set; }
         public int? CustomerId { get; set; }
-        public int? JobId { get; set; }
+        public int? BookingId { get; set; }
         public int? Ratings1 { get; set; }
         public string RatingComments { get; set; }
         public int? CreatedBy { get; set; }

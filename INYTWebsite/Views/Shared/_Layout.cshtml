@@ -15,6 +15,7 @@
     <link href="~/css/site.css" rel="stylesheet" />
     <link rel="stylesheet" href="~/app-assets/fonts/font-awesome/css/font-awesome.min.css" />
     <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
+    <link href="~/css/bootstrap-datetimepicker.css" rel="stylesheet" />
 
     <!--Postcode-->
     <script src="~/js/ideal-postcodes-autocomplete.min.js"></script>
@@ -44,7 +45,34 @@
                             <div class="main-menu collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                                 <ul class="nav navbar-nav navbar-left">
                                     <li><a href="~/">Home</a></li>
-                                    <li><a href="service.html">Service provider sign up</a></li>
+                                    <li><a href="~/howitworks">How it works</a></li>
+                                    <li><a href="~/about us">About us</a></li>
+                                    <li class="dropdown">
+                                        <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"> Customer <span class="caret"></span> </a>
+                                        <ul class="dropdown-menu">
+                                            <li>
+                                                <a asp-area="Customer" asp-controller="Customer"
+                                                   asp-action="Index">Sign up</a>
+                                            </li>
+                                            <li>
+                                                <a asp-area="Customer" asp-controller="Customer"
+                                                   asp-action="Index">Login</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li class="dropdown">
+                                        <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"> Service Provider <span class="caret"></span> </a>
+                                        <ul class="dropdown-menu">
+                                            <li>
+                                                <a asp-area="ServiceProvider" asp-controller="ServiceProvider"
+                                                   asp-action="Index">Sign up</a>
+                                            </li>
+                                            <li>
+                                                <a asp-area="ServiceProvider" asp-controller="ServiceProvider"
+                                                   asp-action="Index">Login</a>
+                                            </li>
+                                        </ul>
+                                    </li>
                                 </ul>
                             </div>
                             <!-- /.navbar-collapse -->
@@ -52,8 +80,8 @@
                     </div>
                     <div class="col-md-4  col-sm-12 col-xs-12 col-sm-12 hidden-xs">
                         <ul class="right-contact">
-                            <li><i class="fa fa-phone" aria-hidden="true"></i> +44 8107186985</li>
-                            <li><a href="#" class="btn btn-primary btn-skin">Book now</a></li>
+                            <li><i class="fa fa-phone" aria-hidden="true"></i>Call us: +44 8107186985</li>
+                            <li><i class="fa fa-envelope" aria-hidden="true"></i>Email us: admin@ineedyourtime.com</li>
                         </ul>
                     </div>
                 </div>
@@ -135,8 +163,22 @@
     <script src="~/js/bootstrap.min.js"></script>
     <script src="~/js/owlcarousel/owl.carousel.min.js"></script>
     <script src="~/js/custom.js"></script>
-    <script src="~/js/index.js"></script>
+    <script src="~/js/moment.js"></script>
+    <script src="~/js/bootstrap-datetimepicker.min.js"></script>
+    @*<script src="~/js/index.js"></script>*@
+    <script>
+        $(document).ready(function () {
+            $(function () {
+                $('#datetimepicker1').datetimepicker();
+            });
 
+            $(function () {
+                $('#datetimepicker3').datetimepicker({
+                    format: 'LT'
+                });
+            });
+        });
+    </script>
 
 </body>
 </html>

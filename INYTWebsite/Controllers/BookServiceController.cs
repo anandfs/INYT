@@ -21,33 +21,31 @@ namespace INYTWebsite.Controllers
         }
 
         [HttpGet ("BookService/{id}")]
-        public IActionResult Index(string id)
+        public IActionResult Index(string id, string postcode)
         {
-            Tradesperson model = new Tradesperson();
-            model = _db.Tradesperson.Find(Convert.ToInt32(id));
-
-            ServiceProviderModel spModel = new ServiceProviderModel();
-            spModel.addressLine1 = model.AddressLine1;
-            spModel.addressLine2 = model.AddressLine2;
-            spModel.city = model.City;
-            spModel.companyNumber = model.CompanyNumber;
-            spModel.companySize = model.CompanySize;
-            spModel.contactNumber = model.ContactNumber;
-            spModel.country = model.Country;
-            spModel.deactivationReason = model.DeactivationReason;
-            spModel.description = model.Description;
-            spModel.firstName = model.FirstName;
-            spModel.lastName = model.LastName;
-            spModel.postcode = model.Postcode;
-            spModel.region = model.Region;
-            spModel.tradeId = Convert.ToInt32(model.TradeId);            
-            spModel.website = model.Website;
+            Tradesperson serviceprovider = new Tradesperson();
+            serviceprovider = _db.Tradesperson.Find(Convert.ToInt32(id));
 
             List<TradeAdditionalQuestions> questions = new List<TradeAdditionalQuestions>();
-            questions = _db.TradeAdditionalQuestions.Where(a => a.TradeId == spModel.tradeId).ToList();
-            spModel.questionsList = questions;
+            questions = _db.TradeAdditionalQuestions.Where(a => a.TradeId == Convert.ToInt32(serviceprovider.TradeId)).ToList();
 
-            return View(spModel);
+            CustomerModel customer = new CustomerModel();
+            customer.postcode = postcode;
+            
+            //Get the customer address from the postcode here
+
+
+            BookingModel model = new BookingModel();
+            model.questionsList = questions;
+            model.customer = customer;
+            model.serviceProvider = serviceprovider;
+
+            return View(model);
+        }
+
+        public IActionResult BookStep1(BookingModel model)
+        {
+            return View(model);
         }
     }
 }
