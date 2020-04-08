@@ -81,37 +81,38 @@
                                             @foreach (var question in Model.questionsList)
                                             {
                                             <div class="tab">
-                                                <strong>@question.AdditionalQuestion:</strong><br /><br />
-                                                @if (question.AnswerOptionType == "textarea")
+                                                <strong>@question.additionalQuestion:</strong><br /><br />
+                                                @if (question.answeroptionType == "textarea")
                                                 {
                                                     <p>
-                                                        <textarea id="text_@question.Id"
-                                                                  rows="4" cols="80"
-                                                                  style="margin-bottom: 0px !important;"></textarea>
+                                                        <textarea id="txa_@question.questionId"
+                                                                  name="txa_@question.questionId"
+                                                                rows="4" cols="80"
+                                                                style="margin-bottom: 0px !important;">@question.answer</textarea>
                                                     </p>
                                                 }
-                                                else if (question.AnswerOptionType == "radio")
+                                                else if (question.answeroptionType == "radio")
                                                 {
                                                     <div>
-                                                        @foreach (var answer in question.AnswerOptions.Split(',').ToList())
+                                                        @foreach (var answer in question.answerOptions.Split(',').ToList())
                                                         {
                                                             <input type="radio"
+                                                                   id="rdo_@question.questionId"
+                                                                   name="rdo_@question.questionId"
                                                                    class="custom-control-input"
-                                                                   id="text_@question.Id"
-                                                                   name="text_@question.Id"
                                                                    value="@answer">
                                                             <label>@answer</label><br />
                                                         }
                                                     </div>
                                                 }
-                                                else if (question.AnswerOptionType == "checkbox")
+                                                else if (question.answeroptionType == "checkbox")
                                                 {
-                                                    foreach (var answer in question.AnswerOptions.Split(',').ToList())
+                                                    foreach (var answer in question.answerOptions.Split(',').ToList())
                                                     {
                                                         <input type="checkbox"
+                                                               id="chk_@question.questionId"
+                                                               name="chk_@question.questionId"
                                                                class="custom-control-input"
-                                                               id="text_@question.Id"
-                                                               name="text_@question.Id"
                                                                value="@answer">
                                                         <label>@answer</label><br />
                                                     }
@@ -204,13 +205,13 @@
                                     <div class="form-group col-md-6 col-sm-6 col-xs-12">
                                         <div class='input-group date' id='datetimepicker1'>
                                             <input asp-for="bookingDate" type="text" class="form-control" />
-                                            <span class="input-group-addon"> <span class="glyphicon glyphicon-calendar"></span> </span>
+                                            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span> </span>
                                         </div>
                                     </div>
                                     <div class="form-group col-md-6 col-sm-6 col-xs-12 padding-r">
                                         <div class='input-group date' id='datetimepicker3'>
                                             <input asp-for="bookingTime" type="text" class="form-control" />
-                                            <span class="input-group-addon"> <span class="glyphicon glyphicon-time"></span> </span>
+                                            <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span> </span>
                                         </div>
                                     </div>
                                     <div class="clearfix"></div>
@@ -223,7 +224,8 @@
                                     </div>
                                     <div class="clearfix"></div>
                                     <hr />
-
+                                    @Html.HiddenFor(m => m.serviceProviderId)
+                                    @Html.HiddenFor(m => m.tradeId)
                                 </form>
                             </div>
                         </div>
