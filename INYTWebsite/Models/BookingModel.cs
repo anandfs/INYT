@@ -31,6 +31,8 @@ namespace INYTWebsite.Models
         public string bookingPaymentType { get; set; }
         public bool bookingFulfilled { get; set; }
 
+        public int customerId { get; set; }
+
         public int serviceProviderId { get; set; }
     }
 

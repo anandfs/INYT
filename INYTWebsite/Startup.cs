@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using INYTWebsite.Code;
 using INYTWebsite.Model;
 using INYTWebsite.Models;
 using Microsoft.AspNetCore.Builder;
@@ -44,6 +45,8 @@ namespace INYTWebsite
 
             services.AddTransient<INYTContext, INYTContext>();
             services.AddTransient<AppSettings, AppSettings>();
+            services.AddTransient<IEmailManager, EmailManager>();
+            services.AddTransient<IModelFactory, ModelFactory>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

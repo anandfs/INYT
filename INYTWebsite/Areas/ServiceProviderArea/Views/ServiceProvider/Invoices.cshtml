@@ -1,0 +1,236 @@
+﻿@inject Microsoft.Extensions.Options.IOptions<AppSettings> appSettings
+@model INYTWebsite.Models.ServiceProviderModel
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_LayoutServiceProvider.cshtml";
+    var AppSettings = appSettings.Value;
+    var ddlTrades = ViewData["Trades"] as List<SelectListItem>;
+}
+
+<!-- Breadcrumb -->
+<div class="breadcrumb-bar">
+    <div class="container-fluid">
+        <div class="row align-items-center">
+            <div class="col-md-12 col-12">
+                <nav aria-label="breadcrumb" class="page-breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Dashboard</li>
+                    </ol>
+                </nav>
+                <h2 class="breadcrumb-title">Dashboard</h2>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /Breadcrumb -->
+<!-- Page Content -->
+<div class="content">
+
+    <div class="container-fluid">
+
+        <div class="row">
+            <div class="col-md-4 col-lg-3 col-xl-3 theiaStickySidebar">
+
+                <!-- Profile Sidebar -->
+                <div class="profile-sidebar">
+                    <div class="widget-profile pro-widget-content">
+                        <div class="profile-info-widget">
+                            <a href="#" class="booking-doc-img">
+                                <img src="~/app-assets/images/portrait/medium/avatar-m-11.png" alt="User Image">
+                            </a>
+                            <div class="profile-det-info">
+                                <h3>Darren Elder</h3>
+
+                                <div class="Customer-details">
+                                    <h5 class="mb-0">Plumber</h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="dashboard-widget">
+                        <nav class="dashboard-menu">
+                            <ul>
+                                <li>
+                                    <a href="~/index">
+                                        <i class="fa fa-columns"></i>
+                                        <span>Dashboard</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="~/schedules">
+                                        <i class="fa fa-hourglass-start"></i>
+                                        <span>Schedule Timings</span>
+                                    </a>
+                                </li>
+                                <li class="active">
+                                    <a href="~/invoices">
+                                        <i class="fa fa-file-invoice"></i>
+                                        <span>Invoices</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="~/ratings">
+                                        <i class="fa fa-star"></i>
+                                        <span>Ratings</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="~/profile">
+                                        <i class="fa fa-user-cog"></i>
+                                        <span>Profile Settings</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="~/changepassword">
+                                        <i class="fa fa-lock"></i>
+                                        <span>Change Password</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="~/logout">
+                                        <i class="fa fa-sign-out-alt"></i>
+                                        <span>Logout</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+                <!-- /Profile Sidebar -->
+
+            </div>
+
+            <div class="col-md-7 col-lg-8 col-xl-9">
+                <div class="card card-table">
+                    <div class="card-body">
+
+                        <!-- Invoice Table -->
+                        <div class="table-responsive">
+                            <table class="table table-hover table-center mb-0">
+                                <thead>
+                                    <tr>
+                                        <th>Invoice No</th>
+                                        <th>Customer</th>
+                                        <th>Amount</th>
+                                        <th>Paid On</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <a href="invoice-view.html">#INV-0010</a>
+                                        </td>
+                                        <td>
+                                            <h2 class="table-avatar">
+                                                <a href="patient-profile.html" class="avatar avatar-sm mr-2">
+                                                    <img class="avatar-img rounded-circle" src="~/images/testimonails2.png" alt="User Image">
+                                                </a>
+                                                <a href="patient-profile.html">Richard Wilson <span>#PT0016</span></a>
+                                            </h2>
+                                        </td>
+                                        <td>£450</td>
+                                        <td>14 Nov 2019</td>
+                                        <td class="text-right">
+                                            <div class="table-action">
+                                                <a href="invoice-view.html" class="btn btn-sm bg-info-light">
+                                                    <i class="fa fa-eye"></i> View
+                                                </a>
+                                                <a href="javascript:void(0);" class="btn btn-sm bg-primary-light">
+                                                    <i class="fa fa-print"></i> Print
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <a href="invoice-view.html">#INV-0009</a>
+                                        </td>
+                                        <td>
+                                            <h2 class="table-avatar">
+                                                <a href="patient-profile.html" class="avatar avatar-sm mr-2">
+                                                    <img class="avatar-img rounded-circle" src="~/images/testimonails2.png" alt="User Image">
+                                                </a>
+                                                <a href="patient-profile.html">Charlene Reed <span>#PT0001</span></a>
+                                            </h2>
+                                        </td>
+                                        <td>£200</td>
+                                        <td>13 Nov 2019</td>
+                                        <td class="text-right">
+                                            <div class="table-action">
+                                                <a href="invoice-view.html" class="btn btn-sm bg-info-light">
+                                                    <i class="fa fa-eye"></i> View
+                                                </a>
+                                                <a href="javascript:void(0);" class="btn btn-sm bg-primary-light">
+                                                    <i class="fa fa-print"></i> Print
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <a href="invoice-view.html">#INV-0008</a>
+                                        </td>
+                                        <td>
+                                            <h2 class="table-avatar">
+                                                <a href="patient-profile.html" class="avatar avatar-sm mr-2">
+                                                    <img class="avatar-img rounded-circle" src="~/images/testimonails2.png" alt="User Image">
+                                                </a>
+                                                <a href="patient-profile.html">Travis Trimble <span>#PT0002</span></a>
+                                            </h2>
+                                        </td>
+                                        <td>£100</td>
+                                        <td>12 Nov 2019</td>
+                                        <td class="text-right">
+                                            <div class="table-action">
+                                                <a href="invoice-view.html" class="btn btn-sm bg-info-light">
+                                                    <i class="fa fa-eye"></i> View
+                                                </a>
+                                                <a href="javascript:void(0);" class="btn btn-sm bg-primary-light">
+                                                    <i class="fa fa-print"></i> Print
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <a href="invoice-view.html">#INV-0007</a>
+                                        </td>
+                                        <td>
+                                            <h2 class="table-avatar">
+                                                <a href="patient-profile.html" class="avatar avatar-sm mr-2">
+                                                    <img class="avatar-img rounded-circle" src="~/images/testimonails2.png" alt="User Image">
+                                                </a>
+                                                <a href="patient-profile.html">Carl Kelly <span>#PT0003</span></a>
+                                            </h2>
+                                        </td>
+                                        <td>£350</td>
+                                        <td>11 Nov 2019</td>
+                                        <td class="text-right">
+                                            <div class="table-action">
+                                                <a href="invoice-view.html" class="btn btn-sm bg-info-light">
+                                                    <i class="fa fa-eye"></i> View
+                                                </a>
+                                                <a href="javascript:void(0);" class="btn btn-sm bg-primary-light">
+                                                    <i class="fa fa-print"></i> Print
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- /Invoice Table -->
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+<!-- /Page Content -->
+<!-- Sticky Sidebar JS -->

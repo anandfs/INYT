@@ -5,42 +5,91 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-
-<!--Section Start-->
-<section id="What_offer">
-    <div class="container text-center">
-        <h1 class="panel-heading">You searched for <u>@ViewData["trade"]</u> in <u>@ViewData["postcode"]</u>. We found @ViewData["spCount"] matching search results</h1>
-        <div class="row text-left">
-            @foreach (var sp in Model)
-            {
-                <div class="col-md-4 col-sm-6 col-xs-12">
-                    <div class="icon_box_one">
-                        <div class="img-holder text-center"><img src="~/images/testicon.svg" class="img-circle height-15-per" alt="Card image"></div>
-                        <div class="box_content">
-                            <h4>@sp.firstName @sp.lastName</h4>
-                            @for (int i = 0; i < sp.rating; i++)
-                            {
-                                <img src="~/images/star-on.svg" alt="">
-                            }
-                            @if ((5 - (sp.rating)) > 0)
-                            {
-                                int offStars = 5 - sp.rating;
-                                for (int j = 0; j < offStars; j++)
-                                {
-                                    <img src="~/images/star-off.svg" alt="">
-                                }
-                            }
-                            <p>This service provider lives @sp.distanceinmiles away</p>
-                            @Html.ActionLink("View Profile", "Profile", "Trades", new { id = sp.id }, new { @class = "btn btn-primary", @style = "color:white" })
-                            @Html.ActionLink("Book", "Index", "BookService", new { id = sp.id, postcode=ViewData["postcode"] }, new { @class = "btn btn-primary", @style = "color:white" })
-                        </div>
-                    </div>
+<!-- Breadcrumb -->
+<div class="breadcrumb-bar">
+    <div class="container-fluid">
+        <div class="row align-items-center">
+            <div class="col-md-8 col-12">
+                <nav aria-label="breadcrumb" class="page-breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Search</li>
+                    </ol>
+                </nav>
+                <h2 class="breadcrumb-title">You searched for <u>@ViewData["trade"]</u> in <u>@ViewData["postcode"]</u>. We found @ViewData["spCount"] matching search results</h2>
+            </div>
+            <div class="col-md-4 col-12 d-md-block d-none">
+                <div class="sort-by">
+                    <span class="sort-title">Sort by</span>
+                    <span class="sortby-fliter">
+                        <select class="select">
+                            <option>Select</option>
+                            <option class="sorting">Rating</option>
+                            <option class="sorting">Popular</option>
+                            <option class="sorting">Latest</option>
+                            <option class="sorting">Free</option>
+                        </select>
+                    </span>
                 </div>
-            }
+            </div>
         </div>
     </div>
-</section>
-<!--Section End-->
+</div>
+<!-- /Breadcrumb -->
+
+<!-- Page Content -->
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            @foreach (var sp in Model)
+            {
+                <div class="col-md-4 col-md-4 col-md-4">
+                    <!-- Service Provider Widget -->
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="doctor-img">
+                                <a href="doctor-profile.html">
+                                    <img src="~/images/testicon.svg" class="img-fluid" alt="User Image">
+                                </a>
+                            </div>
+                            <div class="doc-info-cont">
+                                <h4 class="doc-name"><a href="doctor-profile.html">@sp.firstName @sp.lastName</a></h4>
+                                <p class="doc-speciality">@sp.trade</p>
+                                <div class="rating">
+                                    <i class="fa fa-star filled"></i>
+                                    <i class="fa fa-star filled"></i>
+                                    <i class="fa fa-star filled"></i>
+                                    <i class="fa fa-star filled"></i>
+                                    <i class="fa fa-star"></i>
+                                    <span class="d-inline-block average-rating">(17)</span>
+                                </div>
+                                <div class="clinic-details">
+                                    <p class="doc-location"><i class="fa fa-map-marker-alt"></i> @sp.postcode</p>
+                                </div>
+                            </div>
+                            <div class="clini-infos">
+                                <ul>
+                                    <li><i class="fa fa-thumbs-up"></i> 98%</li>
+                                    <li><i class="fa fa-comment"></i> 17 Feedback</li>
+                                    <li><i class="fa fa-map"></i> @sp.postcode</li>
+                                    <li><p>This service provider lives @sp.distanceinmiles away</p> <i class="fa fa-info-circle" data-toggle="tooltip" title="Lorem Ipsum"></i> </li>
+                                </ul>
+                            </div>
+                            <div class="clinic-booking">
+                                @Html.ActionLink("View Profile", "Profile", "Trades", new { id = sp.id }, new { @class = "view-pro-btn" })
+                                @Html.ActionLink("Book", "Index", "BookService", new { id = sp.id, postcode = ViewData["postcode"] }, new { @class = "apt-btn" })
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /Service Provider Widget -->
+                </div>
+
+            }
+        </div>        
+    </div>
+</div>
+<!-- /Page Content -->
+
 
 @section Scripts {
     <script>

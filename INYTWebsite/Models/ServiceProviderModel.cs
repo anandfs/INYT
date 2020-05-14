@@ -30,8 +30,13 @@ namespace INYTWebsite.Models
 
         public string distanceinmiles { get; set; }
         public List<TradeAdditionalQuestions> questionsList { get; set; }
+        public List<BookingModel> bookings { get; set; }
         public string password { get; set; }
         public string repeatPassword { get; set; }
         public int rating { get; set; }
+        public bool isEmailVerified { get; set; }
+        public bool isRegistrationApproved { get; set; }
+        public DateTime createdDate { get; set; }
+
     }
 }

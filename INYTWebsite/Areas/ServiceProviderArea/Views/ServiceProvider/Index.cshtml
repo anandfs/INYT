@@ -1,0 +1,228 @@
+﻿@inject Microsoft.Extensions.Options.IOptions<AppSettings> appSettings
+@model INYTWebsite.Models.ServiceProviderModel
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_LayoutServiceProvider.cshtml";
+    var AppSettings = appSettings.Value;
+    var ddlTrades = ViewData["Trades"] as List<SelectListItem>;
+}
+
+<!-- Breadcrumb -->
+<div class="breadcrumb-bar">
+    <div class="container-fluid">
+        <div class="row align-items-center">
+            <div class="col-md-12 col-12">
+                <nav aria-label="breadcrumb" class="page-breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Dashboard</li>
+                    </ol>
+                </nav>
+                <h2 class="breadcrumb-title">Dashboard</h2>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /Breadcrumb -->
+
+<!-- Page Content -->
+<div class="content">
+
+    <div class="container-fluid">
+
+        <div class="row">
+            <div class="col-md-4 col-lg-3 col-xl-3 theiaStickySidebar">
+
+                <!-- Profile Sidebar -->
+                <div class="profile-sidebar">
+                    <div class="widget-profile pro-widget-content">
+                        <div class="profile-info-widget">
+                            <a href="#" class="booking-doc-img">
+                                <img src="~/app-assets/images/portrait/medium/avatar-m-11.png" alt="User Image">
+                            </a>
+                            <div class="profile-det-info">
+                                <h3>@Model.firstName @Model.lastName</h3>
+
+                                <div class="Customer-details">
+                                    <h5 class="mb-0">@Model.trade</h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="dashboard-widget">
+                        <nav class="dashboard-menu">
+                            <ul>
+                                <li class="active">
+                                    <a href="~/index">
+                                        <i class="fa fa-columns"></i>
+                                        <span>Dashboard</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="~/schedules">
+                                        <i class="fa fa-hourglass-start"></i>
+                                        <span>Schedule Timings</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="~/invoices">
+                                        <i class="fa fa-file-invoice"></i>
+                                        <span>Invoices</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="~/ratings">
+                                        <i class="fa fa-star"></i>
+                                        <span>Ratings</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="~/profile">
+                                        <i class="fa fa-user-cog"></i>
+                                        <span>Profile Settings</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="~/changepassword">
+                                        <i class="fa fa-lock"></i>
+                                        <span>Change Password</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="~/logout">
+                                        <i class="fa fa-sign-out-alt"></i>
+                                        <span>Logout</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+                <!-- /Profile Sidebar -->
+
+
+            </div>
+
+            <div class="col-md-9 col-lg-9 col-xl-9">
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card dash-card">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-12 col-lg-4">
+                                        <div class="dash-widget dct-border-rht">
+                                            <div class="circle-bar circle-bar1">
+                                                <div class="circle-graph1" data-percent="75">
+                                                    <img src="~/images/testimonails2.png" class="img-fluid" alt="Customer">
+                                                </div>
+                                            </div>
+                                            <div class="dash-widget-info">
+                                                <h6>Total Customers</h6>
+                                                <h3>25</h3>
+                                                <p class="text-muted">Till Today</p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12 col-lg-4">
+                                        <div class="dash-widget dct-border-rht">
+                                            <div class="circle-bar circle-bar2">
+                                                <div class="circle-graph2" data-percent="65">
+                                                    <img src="~/images/testimonails2.png" class="img-fluid" alt="Customer">
+                                                </div>
+                                            </div>
+                                            <div class="dash-widget-info">
+                                                <h6>Customers today</h6>
+                                                <h3>2</h3>
+                                                <p class="text-muted">06, Nov 2020</p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12 col-lg-4">
+                                        <div class="dash-widget">
+                                            <div class="circle-bar circle-bar3">
+                                                <div class="circle-graph3" data-percent="50">
+                                                    <img src="~/images/testimonails2.png" class="img-fluid" alt="Customer">
+                                                </div>
+                                            </div>
+                                            <div class="dash-widget-info">
+                                                <h6>Upcoming Bookings</h6>
+                                                <h3>6</h3>
+                                                <p class="text-muted">06, Apr 2020</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <h4><strong>Upcoming Customer Bookings</strong></h4>
+                        <div class="appointment-tab">
+
+
+                            <!-- Upcoming Customer Bookings Table -->
+                            <div class="table-responsive table-primary">
+                                <table class="table table-hover table-center mb-0">
+                                    <thead>
+                                        <tr>
+                                            <th>Customer Name</th>
+                                            <th>Booking Date</th>
+                                            <th>Purpose</th>
+                                            <th>Type</th>
+                                            <th class="text-center">Paid Amount</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var booking in Model.bookings)
+                                        {
+                                            <tr>
+                                                <td>
+                                                    <h2 class="table-avatar">
+                                                        <a href="Customer-profile.html" class="avatar avatar-sm mr-2"><img class="avatar-img rounded-circle" src="~/app-assets/images/avatar.jpg" alt="User Image"></a>
+                                                        <a href="Customer-profile.html">@booking.customer.firstName @booking.customer.lastName <span>#C100 @booking.customer.id</span></a>
+                                                    </h2>
+                                                </td>
+                                                <td>@booking.bookingDate.ToLongDateString() <span class="d-block text-info">@booking.bookingTime.ToShortTimeString() </span></td>
+                                                <td>@booking.selectedTrade</td>
+                                                <td>New Customer</td>
+                                                <td class="text-center">£@booking.bookingAmount</td>
+                                                <td class="text-right">
+                                                    <div class="table-action">
+                                                        <a href="javascript:void(0);" class="btn btn-sm bg-info-light">
+                                                            <i class="fa fa-eye"></i> View
+                                                        </a>
+
+                                                        <a href="javascript:void(0);" class="btn btn-sm bg-success-light">
+                                                            <i class="fa fa-check"></i> Accept
+                                                        </a>
+                                                        <a href="javascript:void(0);" class="btn btn-sm bg-danger-light">
+                                                            <i class="fa fa-times"></i> Cancel
+                                                        </a>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- /Upcoming Appointment Tab -->
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+</div>
+<!-- /Page Content -->
+<!-- Sticky Sidebar JS -->

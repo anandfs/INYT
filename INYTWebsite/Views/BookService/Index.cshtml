@@ -70,150 +70,315 @@
                         <div class="container-fluid">
                             <div class="row">
                                 <form id="regForm" asp-controller="BookService" asp-action="BookStep1" method="post">
-                                    <!-- Additional Questions -->
-                                    <div id="questionform">
-                                        <!-- Extra questions information-->
-                                        @if (Model.questionsList.Count > 0)
-                                        {
-                                            <h2>Additional Questions</h2>
-                                            <p>These are required to ensure your quote best reflects your need</p>
 
-                                            @foreach (var question in Model.questionsList)
+                                    <!-- Additional Questions-->
+                                    <h2>Additional Questions</h2>
+                                    <p>These are required to ensure your quote best reflects your need</p>
+                                    <div class="info-widget">
+                                        <div id="questionform">
+                                            <!-- Extra questions information-->
+                                            @if (Model.questionsList.Count > 0)
                                             {
+                                                @foreach (var question in Model.questionsList)
+                                                {
                                             <div class="tab">
+
                                                 <strong>@question.additionalQuestion:</strong><br /><br />
                                                 @if (question.answeroptionType == "textarea")
                                                 {
                                                     <p>
                                                         <textarea id="txa_@question.questionId"
                                                                   name="txa_@question.questionId"
-                                                                rows="4" cols="80"
-                                                                style="margin-bottom: 0px !important;">@question.answer</textarea>
+                                                                  rows="4" cols="80"
+                                                                  class="form-control">@question.answer</textarea>
                                                     </p>
                                                 }
                                                 else if (question.answeroptionType == "radio")
                                                 {
-                                                    <div>
-                                                        @foreach (var answer in question.answerOptions.Split(',').ToList())
-                                                        {
-                                                            <input type="radio"
-                                                                   id="rdo_@question.questionId"
-                                                                   name="rdo_@question.questionId"
-                                                                   class="custom-control-input"
-                                                                   value="@answer">
-                                                            <label>@answer</label><br />
-                                                        }
+                                                    @foreach (var answer in question.answerOptions.Split(',').ToList())
+                                                    {
+                                                    <div class="radio">
+                                                        <input type="radio"
+                                                                id="rdo_@question.questionId"
+                                                                name="rdo_@question.questionId"
+                                                                value="@answer" />&nbsp;@answer
                                                     </div>
+                                                    }
+
                                                 }
                                                 else if (question.answeroptionType == "checkbox")
                                                 {
-                                                    foreach (var answer in question.answerOptions.Split(',').ToList())
+                                                    @foreach (var answer in question.answerOptions.Split(',').ToList())
                                                     {
-                                                        <input type="checkbox"
-                                                               id="chk_@question.questionId"
-                                                               name="chk_@question.questionId"
-                                                               class="custom-control-input"
-                                                               value="@answer">
-                                                        <label>@answer</label><br />
+                                                        <div class="checkbox">
+                                                            <input type="checkbox"
+                                                                   id="chk_@question.questionId"
+                                                                   name="chk_@question.questionId"
+                                                                   value="@answer">
+                                                            <label>@answer</label><br />
+                                                        </div>
                                                     }
                                                 }
                                             </div>
+                                                }
                                             }
-                                        }
+                                        </div>
+                                        <!-- Buttons to move along the form: -->
+                                        <div style="text-align:center;margin-top:40px;">
+                                            @foreach (var question in Model.questionsList)
+                                            {
+                                                <span class="step"></span>
+                                            }
+                                            <button type="button" id="prevBtn" onclick="nextPrev(-1)">Previous</button>
+                                            <button type="button" id="nextBtn" onclick="nextPrev(1)">Next</button>
+                                        </div>
                                     </div>
-                                    <!-- Buttons to move along the form: -->
-                                    <div style="text-align:center;margin-top:40px;">
-                                        @foreach (var question in Model.questionsList)
-                                        {
-                                            <span class="step"></span>
-                                        }
-                                        <button type="button" id="prevBtn" onclick="nextPrev(-1)">Previous</button>
-                                        <button type="button" id="nextBtn" onclick="nextPrev(1)">Next</button>
-                                    </div>
-
+                                    <!-- /Additional Questions-->
                                     <!-- Contact information-->
                                     <h2>Contact Information</h2>
                                     <p>This information will be used to contact you about your service</p>
-                                    <div class="form-group col-md-6 col-sm-6 col-xs-12">
-                                        <div class="input-group">
-                                            <span class="validation-error" asp-validation-for="customer.firstName"></span>
-                                            <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                                            <input asp-for="customer.firstName" type="text" class="form-control" placeholder="First Name">
+                                    <div class="info-widget">
+                                        <h4 class="card-title">Personal Information</h4>
+                                        <div class="row">
+                                            <div class="col-md-6 col-sm-12">
+                                                <div class="form-group card-label">
+                                                    <span class="validation-error" asp-validation-for="customer.firstName"></span>
+                                                    <input asp-for="customer.firstName" type="text" class="form-control" placeholder="First Name">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 col-sm-12">
+                                                <div class="form-group card-label">
+                                                    <span class="validation-error" asp-validation-for="customer.lastName"></span>
+                                                    <input asp-for="customer.lastName" type="text" class="form-control" placeholder="Last Name">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 col-sm-12">
+                                                <div class="form-group card-label">
+                                                    <span class="validation-error" asp-validation-for="customer.emailAddress"></span>
+                                                    <input asp-for="customer.emailAddress" type="text" class="form-control" placeholder="Email address">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 col-sm-12">
+                                                <div class="form-group card-label">
+                                                    <span class="validation-error" asp-validation-for="customer.contactNumber"></span>
+                                                    <input asp-for="customer.contactNumber" type="text" class="form-control" placeholder="Contact number">
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="form-group col-md-6 col-sm-6 col-xs-12 padding-r">
-                                        <div class="input-group">
-                                            <span class="validation-error" asp-validation-for="customer.lastName"></span>
-                                            <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                                            <input asp-for="customer.lastName" type="text" class="form-control" placeholder="Last Name">
-                                        </div>
-                                    </div>
-                                    <div class="form-group col-md-6 col-sm-6 col-xs-12">
-                                        <div class="input-group">
-                                            <span class="validation-error" asp-validation-for="customer.emailAddress"></span>
-                                            <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
-                                            <input asp-for="customer.emailAddress" type="text" class="form-control" placeholder="Email address">
-                                        </div>
-                                    </div>
-                                    <div class="form-group col-md-6 col-sm-6 col-xs-12 padding-r">
-                                        <div class="input-group">
-                                            <span class="validation-error" asp-validation-for="customer.contactNumber"></span>
-                                            <span class="input-group-addon"><i class="fa fa-phone"></i></span>
-                                            <input asp-for="customer.contactNumber" type="text" class="form-control" placeholder="Contact number">
-                                        </div>
-                                    </div>
+                                    <!-- /Contact Information -->
+
                                     <div class="clearfix"></div>
                                     <hr />
 
                                     <!--Service Address-->
                                     <h2>Service Address</h2>
                                     <p>Where would you like this service?</p>
-                                    <div class="form-group col-md-8 col-sm-8 col-xs-12 ">
-                                        <div class="input-group">
-                                            <span class="validation-error" asp-validation-for="customer.addressLine1"></span>
-                                            <span class="input-group-addon"><i class="fa fa-location-arrow"></i></span>
-                                            <input asp-for="customer.addressLine1" type="text" class="form-control" placeholder="Address First Line">
+                                    <div class="info-widget">
+                                        <h4 class="card-title">Service Address</h4>
+                                        <div class="row">
+                                            <div class="col-md-6 col-sm-12">
+                                                <div class="form-group card-label">
+                                                    <span class="validation-error" asp-validation-for="customer.addressLine1"></span>
+                                                    <input asp-for="customer.addressLine1" type="text" class="form-control" placeholder="First Name">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 col-sm-12">
+                                                <div class="form-group card-label">
+                                                    <span class="validation-error" asp-validation-for="customer.addressLine2"></span>
+                                                    <input asp-for="customer.addressLine2" type="text" class="form-control" placeholder="Last Name">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 col-sm-12">
+                                                <div class="form-group card-label">
+                                                    <span class="validation-error" asp-validation-for="customer.city"></span>
+                                                    <input asp-for="customer.city" type="text" class="form-control" placeholder="Email address">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 col-sm-12">
+                                                <div class="form-group card-label">
+                                                    <span class="validation-error" asp-validation-for="customer.postcode"></span>
+                                                    <input asp-for="customer.postcode" type="text" class="form-control" placeholder="Contact number">
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="form-group col-md-4 col-sm-4 col-xs-12 padding-r">
-                                        <div class="input-group">
-                                            <span class="validation-error" asp-validation-for="customer.addressLine2"></span>
-                                            <span class="input-group-addon"><i class="fa fa-location-arrow"></i></span>
-                                            <input asp-for="customer.addressLine2" type="text" class="form-control" placeholder="Address Second Line">
-                                        </div>
-                                    </div>
-                                    <div class="form-group col-md-4 col-sm-4 col-xs-12">
-                                        <div class="input-group">
-                                            <span class="validation-error" asp-validation-for="customer.city"></span>
-                                            <span class="input-group-addon"><i class="fa fa-location-arrow"></i></span>
-                                            <input asp-for="customer.city" type="text" class="form-control" placeholder="City">
-                                        </div>
-                                    </div>
-                                    <div class="form-group col-md-4 col-sm-4 col-xs-12 padding-r">
-                                        <div class="input-group">
-                                            <span class="validation-error" asp-validation-for="customer.postcode"></span>
-                                            <span class="input-group-addon"><i class="fa fa-location-arrow"></i></span>
-                                            <input asp-for="customer.postcode" type="text" class="form-control" placeholder="Postcode">
-                                        </div>
-                                    </div>
+
                                     <div class="clearfix"></div>
                                     <hr />
 
                                     <!--Select Date Time-->
                                     <h2>When would you like this service?</h2>
-                                    <p></p>
-                                    <div class="form-group col-md-6 col-sm-6 col-xs-12">
-                                        <div class='input-group date' id='datetimepicker1'>
-                                            <input asp-for="bookingDate" type="text" class="form-control" />
-                                            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span> </span>
+                                    <div class="col-12">
+                                        <div class="row">
+                                            <div class="col-12 col-sm-4 col-md-6">
+                                                <h4 class="mb-1">@DateTime.Now.ToLongDateString()</h4>
+                                                <p class="text-muted">@DateTime.Now.DayOfWeek</p>
+                                            </div>
+                                            <div class="col-12 col-sm-8 col-md-6 text-sm-right">
+                                                <div class="bookingrange btn btn-white btn-sm mb-3">
+                                                    <i class="far fa-calendar-alt mr-2"></i>
+                                                    <span></span>
+                                                    <i class="fas fa-chevron-down ml-2"></i>
+                                                </div>
+                                            </div>
                                         </div>
+
                                     </div>
-                                    <div class="form-group col-md-6 col-sm-6 col-xs-12 padding-r">
-                                        <div class='input-group date' id='datetimepicker3'>
-                                            <input asp-for="bookingTime" type="text" class="form-control" />
-                                            <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span> </span>
+
+                                    <!-- Schedule Widget -->
+                                    <div class="card booking-schedule schedule-widget">
+
+                                        <!-- Schedule Header -->
+                                        <div class="schedule-header">
+                                            <div class="row">
+                                                <div class="col-md-12">
+
+                                                    <!-- Day Slot -->
+                                                    <div class="day-slot">
+                                                        <ul>
+                                                            <li class="left-arrow">
+                                                                <a href="">
+                                                                    <i class="fa fa-chevron-left"></i>
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <span>Mon</span>
+                                                                <span class="slot-date">11 Nov <small class="slot-year">2019</small></span>
+                                                            </li>
+                                                            <li>
+                                                                <span>Tue</span>
+                                                                <span class="slot-date">12 Nov <small class="slot-year">2019</small></span>
+                                                            </li>
+                                                            <li>
+                                                                <span>Wed</span>
+                                                                <span class="slot-date">13 Nov <small class="slot-year">2019</small></span>
+                                                            </li>
+                                                            <li>
+                                                                <span>Thu</span>
+                                                                <span class="slot-date">14 Nov <small class="slot-year">2019</small></span>
+                                                            </li>
+                                                            <li>
+                                                                <span>Fri</span>
+                                                                <span class="slot-date">15 Nov <small class="slot-year">2019</small></span>
+                                                            </li>
+                                                            <li>
+                                                                <span>Sat</span>
+                                                                <span class="slot-date">16 Nov <small class="slot-year">2019</small></span>
+                                                            </li>
+                                                            <li>
+                                                                <span>Sun</span>
+                                                                <span class="slot-date">17 Nov <small class="slot-year">2019</small></span>
+                                                            </li>
+                                                            <li class="right-arrow">
+                                                                <a href="">
+                                                                    <i class="fa fa-chevron-right"></i>
+                                                                </a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                    <!-- /Day Slot -->
+
+                                                </div>
+                                            </div>
                                         </div>
+                                        <!-- /Schedule Header -->
+                                        <!-- Schedule Content -->
+                                        <div class="schedule-cont">
+                                            <div class="row">
+                                                <div class="col-md-12">
+
+                                                    <!-- Time Slot -->
+                                                    <div class="time-slot">
+                                                        <ul class="clearfix">
+                                                            <li>
+                                                                <a class="timing" href="#">
+                                                                    <span>9:00</span> <span>AM</span>
+                                                                </a>
+                                                                <a class="timing" href="#">
+                                                                    <span>10:00</span> <span>AM</span>
+                                                                </a>
+                                                                <a class="timing" href="#">
+                                                                    <span>11:00</span> <span>AM</span>
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a class="timing" href="#">
+                                                                    <span>9:00</span> <span>AM</span>
+                                                                </a>
+                                                                <a class="timing" href="#">
+                                                                    <span>10:00</span> <span>AM</span>
+                                                                </a>
+                                                                <a class="timing" href="#">
+                                                                    <span>11:00</span> <span>AM</span>
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a class="timing" href="#">
+                                                                    <span>9:00</span> <span>AM</span>
+                                                                </a>
+                                                                <a class="timing" href="#">
+                                                                    <span>10:00</span> <span>AM</span>
+                                                                </a>
+                                                                <a class="timing" href="#">
+                                                                    <span>11:00</span> <span>AM</span>
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a class="timing" href="#">
+                                                                    <span>9:00</span> <span>AM</span>
+                                                                </a>
+                                                                <a class="timing" href="#">
+                                                                    <span>10:00</span> <span>AM</span>
+                                                                </a>
+                                                                <a class="timing" href="#">
+                                                                    <span>11:00</span> <span>AM</span>
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a class="timing" href="#">
+                                                                    <span>9:00</span> <span>AM</span>
+                                                                </a>
+                                                                <a class="timing selected" href="#">
+                                                                    <span>10:00</span> <span>AM</span>
+                                                                </a>
+                                                                <a class="timing" href="#">
+                                                                    <span>11:00</span> <span>AM</span>
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a class="timing" href="#">
+                                                                    <span>9:00</span> <span>AM</span>
+                                                                </a>
+                                                                <a class="timing" href="#">
+                                                                    <span>10:00</span> <span>AM</span>
+                                                                </a>
+                                                                <a class="timing" href="#">
+                                                                    <span>11:00</span> <span>AM</span>
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a class="timing" href="#">
+                                                                    <span>9:00</span> <span>AM</span>
+                                                                </a>
+                                                                <a class="timing" href="#">
+                                                                    <span>10:00</span> <span>AM</span>
+                                                                </a>
+                                                                <a class="timing" href="#">
+                                                                    <span>11:00</span> <span>AM</span>
+                                                                </a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                    <!-- /Time Slot -->
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- /Schedule Content -->
+
                                     </div>
+                                    <!-- /Schedule Widget -->
                                     <div class="clearfix"></div>
                                     <hr />
 

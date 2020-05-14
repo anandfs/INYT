@@ -8,45 +8,45 @@
     var ddlTrades = ViewData["Trades"] as List<SelectListItem>;
 }
 
-<!--Banner Start-->
-<section id="banner" class="home-one">
-    <div class="container text-center parallax-section">
-        <div class="row text-center">
-            <div class="col-md-12">
-                <h1 class="panel-heading">Whose time do you need today?</h1>
-                <p class="caption">
-                    Book the best service providers closest to you
-                </p>
+<!-- Home Banner -->
+<section class="section section-search">
+    <div class="container-fluid">
+        <div class="banner-wrapper">
+            <div class="banner-header text-center">
+                <h1>Whose time do you need today?</h1>
+                <p>Book the best service providers closest to you</p>
+            </div>
+
+            <!-- Search -->
+            <div class="search-box">
                 <form asp-action="Search" asp-controller="Home" enctype="multipart/form-data" method="post" id="searchServiceProviders" class="form-inline book-now-home">
-                    <div class="form-group">
-                        <div class="input-group">
-                            <fieldset>
-                                <select class="form-control" asp-for="selectedTrade"
-                                    asp-items="ddlTrades" required></select>
-                            </fieldset>
-                        </div>
+                    <div class="form-group search-location">
+                        <select class="form-control" asp-for="selectedTrade"
+                                asp-items="ddlTrades" style="width: 200px;" required></select>
                     </div>
                     <div class="form-group">
-                        <div class="input-group location-code">
-                            <input asp-for="postCode" type="text" 
-                                class="form-control zipcode" style="width: 300px;"
-                                placeholder="Enter your Postcode"><br />
+                        <div class="input-group search-info">
+                            <input asp-for="postCode" type="text"
+                                   class="form-control zipcode" style="width: 300px;"
+                                   placeholder="Enter your Postcode"><br />
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-primary booknow btn-skin">Book now</button>
+                    <button type="submit" class="btn btn-primary search-btn"><i class="fa fa-search"></i> <span>Search</span></button>
                     <div id="output_field" class="text-center" style="color: #0094ff; font-family: Montserrat"></div>
                 </form>
             </div>
+            <!-- /Search -->
+
         </div>
     </div>
 </section>
-<!--/Banner End-->
+<!-- /Home Banner -->
 <!--How it works Section Start-->
 <section id="howitwork">
     <div class="container text-center">
         <h1 class="panel-heading">How it works</h1>
         <div class="row">
-            <div class="col-md-3 col-xs-offset-0 step-one">
+            <div class="col-md-4 col-xs-offset-0 step-one">
                 <img src="~/images/book_service.jpg" height="100" width="100" alt="Book" class="img-circle htw" />
                 <h4>Book</h4>
                 <p>
@@ -54,8 +54,7 @@
                     you want your service provider
                 </p>
             </div>
-            <div class="col-md-1 hidden-xs hidden-sm"> </div>
-            <div class="col-md-3 step-two">
+            <div class="col-md-4 step-two">
                 <img src="~/images/cleaner_service.jpg" height="100" width="100" alt="Schedule" class="img-circle" />
                 <h4>Schedule</h4>
                 <p>
@@ -63,8 +62,7 @@
                     to complete your work
                 </p>
             </div>
-            <div class="col-md-1 hidden-xs hidden-sm"> </div>
-            <div class="col-md-3">
+            <div class="col-md-4">
                 <img src="~/images/shake-hands.jpg" height="100" width="100" alt="Relax" class="img-circle" />
                 <h4>Relax</h4>
                 <p>
@@ -76,116 +74,55 @@
     </div>
 </section>
 <!--How it works Section End-->
-<!--Our services Section Start-->
-<section id="services">
-    <div class="container text-center">
-        <h1 class="panel-heading">Our services</h1>
-        <ul class="services-list">
-            <li>
-                <a href="service_detail.html">
-                    <img src="~/images/cleaning.png" alt="cleaning" /><br />
-                    Cleaning
-                </a>
-            </li>
-            <li>
-                <a href="service_detail.html">
-                    <img src="~/images/electrical.png" alt="electrical" /><br />
-                    Electrical
-                </a>
-            </li>
-            <li>
-                <a href="#">
-                    <img src="~/images/plumbing.png" alt="plumbing" /><br />
-                    Plumbing
-                </a>
-            </li>
-            <li>
-                <a href="service_detail.html">
-                    <img src="~/images/appliances.png" alt="appliances" /><br />
-                    Appliances
-                </a>
-            </li>
-            <li>
-                <a href="service_detail.html">
-                    <img src="~/images/carpentry.png" alt="carpentry" /><br />
-                    Carpentry
-                </a>
-            </li>
-            <li>
-                <a href="service_detail.html">
-                    <img src="~/images/geyser.png" alt="geyser" /><br />
-                    Geyser Service
-                </a>
-            </li>
-            <li>
-                <a href="service_detail.html">
-                    <img src="~/images/vehicle.png" alt="vehicle" /><br />
-                    Vehicle Care
-                </a>
-            </li>
-            <li>
-                <a href="service_detail.html">
-                    <img src="~/images/pest.png" alt="pest" /><br />
-                    Pest Control
-                </a>
-            </li>
-            <li>
-                <a href="service_detail.html">
-                    <img src="~/images/painting.png" alt="painting" /><br />
-                    Painting
-                </a>
-            </li>
-            <li>
-                <a href="service_detail.html">
-                    <img src="~/images/more.png" alt="more" /><br />
-                    View More
-                </a>
-            </li>
-        </ul>
-    </div>
-</section>
-<!--Our services Section End-->
-<!--Our Numbers Start-->
-<section id="numbers">
-    <div class="container text-center">
+
+<!-- Availabe Features -->
+<section class="section section-features">
+    <div class="container-fluid">
         <div class="row">
-            <div class="col-md-3 col-sm-6 col-xs-6">
-                <!--counter box-->
-                <div class="counter_box text-center">
-                    <div class="counter_icon"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i></div>
-                    <div class="counter_number counter"><span class="stat-count">100</span>%</div>
-                    <h4 class="counter_name">Quality</h4>
+            <div class="col-md-12">
+                <div class="section-header">
+                    <h1 class="panel-heading">Available services</h1>
                 </div>
-                <!--counter box end-->
-            </div>
-            <div class="col-md-3 col-sm-6 col-xs-6">
-                <!--counter box-->
-                <div class="counter_box text-center">
-                    <div class="counter_icon"><i class="fa fa-user" aria-hidden="true"></i></div>
-                    <div class="counter_number counter"><span class="stat-count">2500</span>+</div>
-                    <h4 class="counter_name">People Working</h4>
+                <div class="features-slider slider">
+                    <!-- Slider Item -->
+                    <div class="feature-item text-center">
+                        <img src="~/images/cleaning.png" class="img-fluid" alt="Feature">
+                        <p>Cleaning</p>
+                    </div>
+                    <!-- /Slider Item -->
+                    <!-- Slider Item -->
+                    <div class="feature-item text-center">
+                        <img src="~/images/painting.png" class="img-fluid" alt="Feature">
+                        <p>Painting</p>
+                    </div>
+                    <!-- /Slider Item -->
+                    <!-- Slider Item -->
+                    <div class="feature-item text-center">
+                        <img src="~/images/carpentry.png" class="img-fluid" alt="Feature">
+                        <p>Carpentry</p>
+                    </div>
+                    <!-- /Slider Item -->
+                    <!-- Slider Item -->
+                    <div class="feature-item text-center">
+                        <img src="~/images/electrical.png" class="img-fluid" alt="Feature">
+                        <p>Electrical</p>
+                    </div>
+                    <!-- /Slider Item -->
+                    <!-- Slider Item -->
+                    <div class="feature-item text-center">
+                        <img src="~/images/plumbing.png" class="img-fluid" alt="Feature">
+                        <p>Plumbing</p>
+                    </div>
+                    <!-- /Slider Item -->
+                    <!-- Slider Item -->
+                    <div class="feature-item text-center">
+                        <img src="~/images/appliances.png" class="img-fluid" alt="Feature">
+                        <p>Appliances</p>
+                    </div>
+                    <!-- /Slider Item -->
                 </div>
-                <!--counter box end-->
-            </div>
-            <div class="col-md-3 col-sm-6 col-xs-6">
-                <!--counter box-->
-                <div class="counter_box text-center">
-                    <div class="counter_icon"><i class="fa fa-calendar-o" aria-hidden="true"></i></div>
-                    <div class="counter_number counter"><span class="stat-count">8</span> Years</div>
-                    <h4 class="counter_name">Years Experience</h4>
-                </div>
-                <!--counter box end-->
-            </div>
-            <div class="col-md-3 col-sm-6 col-xs-6">
-                <!--counter box-->
-                <div class="counter_box text-center">
-                    <div class="counter_icon"><i class="fa fa-smile-o" aria-hidden="true"></i></div>
-                    <div class="counter_number counter"><span class="stat-count">900</span>+</div>
-                    <h4 class="counter_name">Happy Smiles</h4>
-                </div>
-                <!--counter box end-->
             </div>
         </div>
     </div>
 </section>
-<!--/Our Numbers End-->
+<!-- /Availabe Features -->

@@ -165,16 +165,16 @@ namespace INYTWebsite.Models
 
             modelBuilder.Entity<Login>(entity =>
             {
-                entity.Property(e => e.LoginDate)
+                entity.Property(e => e.CreatedDate)
                     .HasColumnType("datetime")
                     .HasDefaultValueSql("(getdate())");
 
                 entity.Property(e => e.Password)
-                    .HasMaxLength(12)
+                    .HasMaxLength(100)
                     .IsUnicode(false);
 
                 entity.Property(e => e.Username)
-                    .HasMaxLength(50)
+                    .HasMaxLength(100)
                     .IsUnicode(false);
             });
 

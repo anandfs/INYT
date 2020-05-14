@@ -1,6 +1,5 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
-<!-- START: Head-->
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -10,102 +9,163 @@
     <meta name="author" content="PIXINVENT">
     <title>I need your time</title>
 
-    <!-- Bootstrap -->
-    <link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
-    <link href="~/css/site.css" rel="stylesheet" />
-    <link rel="stylesheet" href="~/app-assets/fonts/font-awesome/css/font-awesome.min.css" />
-    <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
-    <link href="~/css/bootstrap-datetimepicker.css" rel="stylesheet" />
 
-    <!--Postcode-->
-    <script src="~/js/ideal-postcodes-autocomplete.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="~/css/ideal-postcodes-autocomplete.css" />
-    <link rel="stylesheet" type="text/css" href="~/css/optional-effects.css" />
+    <!-- Favicons -->
+    <link href="assets/img/favicon.png" rel="icon">
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+          crossorigin="anonymous">
+
+    <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
+
+
+    <!-- Select2 CSS -->
+    <link rel="stylesheet" href="~/assets/css/select2.min.css">
+
+    <!-- Service Provider CSS -->
+    <link rel="stylesheet" href="~/assets/css/serviceprovider-style.css">
+
+    <link href="~/assets/css/daterangepicker.css" rel="stylesheet" />
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+        <script src="assets/js/html5shiv.min.js"></script>
+        <script src="assets/js/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Place your kit's code here -->
+    <script src="https://kit.fontawesome.com/cab76e203f.js" crossorigin="anonymous"></script>
+
 
 </head>
-<!-- END: Head-->
 
 <!-- BEGIN: Body-->
 <body style="background-color: aliceblue">
-    <div id="wrapper">
+    <div class="main-wrapper">
 
-        <!--Header Section Start-->
-        <header id="header" data-spy="affix" data-offset-top="60" data-offset-bottom="60">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-8  col-sm-12 col-xs-12 col-sm-12">
-                        <nav class="navbar">
-                            <!-- Brand and toggle get grouped for better mobile display -->
-                            <div class="navbar-header">
-                                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
-                                <a class="navbar-brand" href="#"><img class="logo-dark hidden-xs" src="~/images/logo.png" alt="" /> <img class="logo-dark hidden-lg hidden-md hidden-sm" src="images/mobile_logo.png" alt="" /></a>
-                            </div>
-
-                            <!-- Collect the nav links, forms, and other content for toggling -->
-                            <div class="main-menu collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                                <ul class="nav navbar-nav navbar-left">
-                                    <li><a href="~/">Home</a></li>
-                                    <li><a href="~/howitworks">How it works</a></li>
-                                    <li><a href="~/about us">About us</a></li>
-                                    <li class="dropdown">
-                                        <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"> Customer <span class="caret"></span> </a>
-                                        <ul class="dropdown-menu">
-                                            <li>
-                                                <a asp-area="Customer" asp-controller="Customer"
-                                                   asp-action="Index">Sign up</a>
-                                            </li>
-                                            <li>
-                                                <a asp-area="Customer" asp-controller="Customer"
-                                                   asp-action="Index">Login</a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                    <li class="dropdown">
-                                        <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"> Service Provider <span class="caret"></span> </a>
-                                        <ul class="dropdown-menu">
-                                            <li>
-                                                <a asp-area="ServiceProvider" asp-controller="ServiceProvider"
-                                                   asp-action="Index">Sign up</a>
-                                            </li>
-                                            <li>
-                                                <a asp-area="ServiceProvider" asp-controller="ServiceProvider"
-                                                   asp-action="Index">Login</a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </div>
-                            <!-- /.navbar-collapse -->
-                        </nav>
-                    </div>
-                    <div class="col-md-4  col-sm-12 col-xs-12 col-sm-12 hidden-xs">
-                        <ul class="right-contact">
-                            <li><i class="fa fa-phone" aria-hidden="true"></i>Call us: +44 8107186985</li>
-                            <li><i class="fa fa-envelope" aria-hidden="true"></i>Email us: admin@ineedyourtime.com</li>
-                        </ul>
-                    </div>
+        <!-- Header -->
+        <header class="header">
+            <nav class="navbar navbar-expand-lg header-nav">
+                <div class="navbar-header">
+                    <a id="mobile_btn" href="javascript:void(0);">
+                        <span class="bar-icon">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </span>
+                    </a>
+                    <a href="index.html" class="navbar-brand logo">
+                        <img src="~/images/logo.png" class="img-fluid" alt="Logo">
+                    </a>
                 </div>
-            </div>
-            <!-- /.container -->
+                <div class="main-menu-wrapper">
+                    <div class="menu-header">
+                        <a href="index.html" class="menu-logo">
+                            <img src="assets/img/logo.png" class="img-fluid" alt="Logo">
+                        </a>
+                        <a id="menu_close" class="menu-close" href="javascript:void(0);">
+                            <i class="fa fa-times"></i>
+                        </a>
+                    </div>
+                    <ul class="main-nav">
+                        <li>
+                            <a href="index.html">Home</a>
+                        </li>
+                        <li>
+                            <a href="index.html">How it works</a>
+                        </li>
+
+                        <li class="has-submenu">
+                            <a href="">Service Providers <i class="fa fa-chevron-down"></i></a>
+
+                            <ul class="submenu">
+                                <li>
+                                    <a asp-area="ServiceProviderArea" asp-controller="ServiceProvider"
+                                       asp-action="Index">Sign up</a>
+                                </li>
+                                <li>
+                                    <a asp-area="ServiceProviderArea" asp-controller="ServiceProvider"
+                                       asp-action="Login">Login</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="has-submenu active">
+                            <a href="">Customers <i class="fa fa-chevron-down"></i></a>
+                            <ul class="submenu">
+                                <li>
+                                    <a asp-area="Customer" asp-controller="Customer"
+                                       asp-action="Index">Sign up</a>
+                                </li>
+                                <li>
+                                    <a asp-area="Customer" asp-controller="Customer"
+                                       asp-action="Index">Login</a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                <ul class="nav header-navbar-rht">
+                    <li class="nav-item contact-item">
+                        <div class="header-contact-img">
+                            <i class="fa fa-hospital"></i>
+                        </div>
+                        <div class="header-contact-detail">
+                            <p class="contact-header">Contact</p>
+                            <p class="contact-info-header"> +1 315 369 5943</p>
+                        </div>
+                    </li>
+                </ul>
+            </nav>
         </header>
-        <!--/Header Section End-->
-        <!-- /.container -->
+        <!-- /Header -->
+
         @RenderBody()
 
-        <!--Footer-->
-        <footer>
-            <div class="container-fluid footerbg">
-                <div class="container">
+        <!-- Footer -->
+        <footer class="footer">
+
+            <!-- Footer Top -->
+            <div class="footer-top">
+                <div class="container-fluid">
                     <div class="row">
-                        <div class="col-md-3">
-                            <p>I NEED YOUR TIME</p>
-                            <div class="about_info">
-                                <p><i class="fa fa-map-marker" aria-hidden="true"></i> Our address</p>
-                                <p><i class="fa fa-envelope" aria-hidden="true"></i> info@inyt.com</p>
-                                <p><i class="fa fa-phone" aria-hidden="true"></i> +44 0207 123 4567</p>
+                        <div class="col-lg-3 col-md-6">
+
+                            <!-- Footer Widget -->
+                            <div class="footer-widget footer-about">
+                                <div class="footer-logo">
+                                    <img src="assets/img/footer-logo.png" alt="logo">
+                                </div>
+                                <div class="footer-about-content">
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p>
+                                    <div class="social-icon">
+                                        <ul>
+                                            <li>
+                                                <a href="#" target="_blank"><i class="fab fa-facebook-f"></i> </a>
+                                            </li>
+                                            <li>
+                                                <a href="#" target="_blank"><i class="fab fa-twitter"></i> </a>
+                                            </li>
+                                            <li>
+                                                <a href="#" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+                                            </li>
+                                            <li>
+                                                <a href="#" target="_blank"><i class="fab fa-instagram"></i></a>
+                                            </li>
+                                            <li>
+                                                <a href="#" target="_blank"><i class="fab fa-dribbble"></i> </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
                             </div>
+                            <!-- /Footer Widget -->
+
                         </div>
-                        <div class="col-md-3">
+
+                        <div class="col-lg-3 col-md-6">
+
                             <h4>Services</h4>
                             <ul>
                                 <li><a href="#"><i class="fa fa-caret-right" aria-hidden="true"></i>Cleaning</a></li>
@@ -120,65 +180,97 @@
                                 <li><a href="#"><i class="fa fa-caret-right" aria-hidden="true"></i>Pest Control</a></li>
                                 <li><a href="#"><i class="fa fa-caret-right" aria-hidden="true"></i>Panting</a></li>
                             </ul>
-                        </div>
-                        <div class="col-md-2">
-                            <h4>About Us</h4>
-                            <ul>
-                                <li><a href="#">Home</a></li>
-                                <li><a href="#">About us</a></li>
-                                <li><a href="#">Services</a></li>
-                                <li><a href="#">Contact</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="top_awro pull-right" id="back-to-top"><i class="fa fa-chevron-up" aria-hidden="true"></i> </div>
-                </div>
-            </div>
 
-            <!--Boottom Footer-->
-            <div class="container-fluid bottom-footer">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <p class="copyright pull-left">&copy; I NEED YOUR TIME 2020 All Right Reserved</p>
-                            <ul class="footer-scoails pull-right">
-                                <li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
-                                <li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
-                                <li><a href="#"><i class="fa fa-google-plus" aria-hidden="true"></i></a></li>
-                                <li><a href="#"><i class="fa fa-pinterest" aria-hidden="true"></i></a></li>
-                                <li><a href="#"><i class="fa fa-youtube" aria-hidden="true"></i></a></li>
-                            </ul>
                         </div>
+
+                        <div class="col-lg-3 col-md-6">
+
+                            <!-- Footer Widget -->
+                            <div class="footer-widget footer-contact">
+                                <h2 class="footer-title">Contact Us</h2>
+                                <div class="footer-contact-info">
+                                    <div class="footer-address">
+                                        <span><i class="fa fa-map-marker-alt"></i></span>
+                                        <p> 3, Somewhere Street, Ealing, London W5 </p>
+                                    </div>
+                                    <p>
+                                        <i class="fa fa-phone-alt"></i>
+                                        +44 123 4567
+                                    </p>
+                                    <p class="mb-0">
+                                        <i class="fa fa-envelope"></i>
+                                        admin@inyt.com
+                                    </p>
+                                </div>
+                            </div>
+                            <!-- /Footer Widget -->
+
+                        </div>
+
                     </div>
                 </div>
             </div>
+            <!-- /Footer Top -->
+            <!-- Footer Bottom -->
+            <div class="footer-bottom">
+                <div class="container-fluid">
+
+                    <!-- Copyright -->
+                    <div class="copyright">
+                        <div class="row">
+                            <div class="col-md-6 col-lg-6">
+                                <div class="copyright-text">
+                                    <p class="mb-0">&copy; 2020 INEEDYOURTIME. All rights reserved.</p>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-lg-6">
+
+                                <!-- Copyright Menu -->
+                                <div class="copyright-menu">
+                                    <ul class="policy-menu">
+                                        <li><a href="term-condition.html">Terms and Conditions</a></li>
+                                        <li><a href="privacy-policy.html">Policy</a></li>
+                                    </ul>
+                                </div>
+                                <!-- /Copyright Menu -->
+
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /Copyright -->
+
+                </div>
+            </div>
+            <!-- /Footer Bottom -->
+
         </footer>
-        <!--/Footer-->
+        <!-- /Footer -->
     </div>
     @RenderSection("Scripts", required: false)
 
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="~/js/bootstrap.min.js"></script>
-    <script src="~/js/owlcarousel/owl.carousel.min.js"></script>
-    <script src="~/js/custom.js"></script>
-    <script src="~/js/moment.js"></script>
-    <script src="~/js/bootstrap-datetimepicker.min.js"></script>
-    @*<script src="~/js/index.js"></script>*@
-    <script>
-        $(document).ready(function () {
-            $(function () {
-                $('#datetimepicker1').datetimepicker();
-            });
+    <!-- jQuery -->
+    <script src="assets/js/jquery.min.js"></script>
 
-            $(function () {
-                $('#datetimepicker3').datetimepicker({
-                    format: 'LT'
-                });
-            });
-        });
-    </script>
+    <!-- Bootstrap Core JS -->
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+    <!-- Sticky Sidebar JS -->
+    <script src="assets/js/Resizesensor.js"></script>
+    <script src="assets/js/theia-sticky-sidebar.js"></script>
+
+    <!-- Select2 JS -->
+    <script src="assets/js/select2.min.js"></script>
+
+    <!--Date Range picker-->
+    <script src="~/js/moment.min.js"></script>
+    <script src="~/js/daterangepicker.js"></script>
+
+    <!-- Custom JS -->
+    <script src="~/assets/js/serviceprovider-script.js"></script>
+
+    <script src="~/js/slick.js"></script>
 
 </body>
 </html>

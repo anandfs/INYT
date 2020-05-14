@@ -1,0 +1,335 @@
+﻿@inject Microsoft.Extensions.Options.IOptions<AppSettings> appSettings
+@model INYTWebsite.Models.ServiceProviderModel
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_LayoutServiceProvider.cshtml";
+    var AppSettings = appSettings.Value;
+    var ddlTrades = ViewData["Trades"] as List<SelectListItem>;
+}
+
+<!-- Breadcrumb -->
+<div class="breadcrumb-bar">
+    <div class="container-fluid">
+        <div class="row align-items-center">
+            <div class="col-md-12 col-12">
+                <nav aria-label="breadcrumb" class="page-breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Dashboard</li>
+                    </ol>
+                </nav>
+                <h2 class="breadcrumb-title">Dashboard</h2>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /Breadcrumb -->
+<!-- Page Content -->
+<div class="content">
+
+    <div class="container-fluid">
+
+        <div class="row">
+            <div class="col-md-4 col-lg-3 col-xl-3 theiaStickySidebar">
+
+                <!-- Profile Sidebar -->
+                <div class="profile-sidebar">
+                    <div class="widget-profile pro-widget-content">
+                        <div class="profile-info-widget">
+                            <a href="#" class="booking-doc-img">
+                                <img src="~/app-assets/images/portrait/medium/avatar-m-11.png" alt="User Image">
+                            </a>
+                            <div class="profile-det-info">
+                                <h3>Darren Elder</h3>
+
+                                <div class="Customer-details">
+                                    <h5 class="mb-0">Plumber</h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="dashboard-widget">
+                        <nav class="dashboard-menu">
+                            <ul>
+                                <li>
+                                    <a href="~/index">
+                                        <i class="fa fa-columns"></i>
+                                        <span>Dashboard</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="~/schedules">
+                                        <i class="fa fa-hourglass-start"></i>
+                                        <span>Schedule Timings</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="~/invoices">
+                                        <i class="fa fa-file-invoice"></i>
+                                        <span>Invoices</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="~/ratings">
+                                        <i class="fa fa-star"></i>
+                                        <span>Ratings</span>
+                                    </a>
+                                </li>
+                                <li class="active">
+                                    <a href="~/profile">
+                                        <i class="fa fa-user-cog"></i>
+                                        <span>Profile Settings</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="~/changepassword">
+                                        <i class="fa fa-lock"></i>
+                                        <span>Change Password</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="~/logout">
+                                        <i class="fa fa-sign-out-alt"></i>
+                                        <span>Logout</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+                <!-- /Profile Sidebar -->
+
+            </div>
+
+            <div class="col-md-7 col-lg-8 col-xl-9">
+
+                <!-- Basic Information -->
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">Basic Information</h4>
+                        <div class="row form-row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <div class="change-avatar">
+                                        <div class="profile-img">
+                                            <img src="app-assets/images/portrait/medium/avatar-m-11.png" alt="User Image">
+                                        </div>
+                                        <div class="upload-img">
+                                            <div class="change-photo-btn">
+                                                <span><i class="fa fa-upload"></i> Upload Photo</span>
+                                                <input type="file" class="upload">
+                                            </div>
+                                            <small class="form-text text-muted">Allowed JPG, GIF or PNG. Max size of 2MB</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Username <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" readonly>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Email <span class="text-danger">*</span></label>
+                                    <input type="email" class="form-control" readonly>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>First Name <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Last Name <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Phone Number</label>
+                                    <input type="text" class="form-control">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Gender</label>
+                                    <select class="form-control select">
+                                        <option>Select</option>
+                                        <option>Male</option>
+                                        <option>Female</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group mb-0">
+                                    <label>Date of Birth</label>
+                                    <input type="text" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /Basic Information -->
+                <!-- About Me -->
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">About Me</h4>
+                        <div class="form-group mb-0">
+                            <label>Biography</label>
+                            <textarea class="form-control" rows="5"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <!-- /About Me -->
+                <!-- Service Info -->
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">Service Info</h4>
+                        <div class="row form-row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Service Name</label>
+                                    <select class="form-control">
+                                        <option>-- Select --</option>
+                                        <option>Plumber</option>
+                                        <option>Carpenter</option>
+                                        <option>Painter</option>
+                                        <option>Dog walker</option>
+                                        <option>Option 5</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Service Address</label>
+                                    <input type="text" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /Service Info -->
+
+                <!-- Contact Details -->
+                <div class="card contact-card">
+                    <div class="card-body">
+                        <h4 class="card-title">Contact Details</h4>
+                        <div class="row form-row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Address Line 1</label>
+                                    <input type="text" class="form-control">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label">Address Line 2</label>
+                                    <input type="text" class="form-control">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label">City</label>
+                                    <input type="text" class="form-control">
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label">State / Province</label>
+                                    <input type="text" class="form-control">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label">Country</label>
+                                    <input type="text" class="form-control">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label">Postal Code</label>
+                                    <input type="text" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /Contact Details -->
+                <!-- Pricing -->
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">Pricing</h4>
+
+                        <div class="form-group mb-0">
+                            <div id="pricing_select">
+                                <div class="custom-control custom-radio custom-control-inline">
+                                    <input type="radio" id="price_free" name="rating_option" class="custom-control-input" value="price_free" checked>
+                                    <label class="custom-control-label" for="price_free">Free</label>
+                                </div>
+                                <div class="custom-control custom-radio custom-control-inline">
+                                    <input type="radio" id="price_custom" name="rating_option" value="custom_price" class="custom-control-input">
+                                    <label class="custom-control-label" for="price_custom">Custom Price (per hour)</label>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="row custom_price_cont" id="custom_price_cont" style="display: none;">
+                            <div class="col-md-4">
+                                <input type="text" class="form-control" id="custom_rating_input" name="custom_rating_count" value="" placeholder="20">
+                                <small class="form-text text-muted">Custom price you can add</small>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <!-- /Pricing -->
+                
+                
+                <!-- Certification -->
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">Certification</h4>
+                        <div class="awards-info">
+                            <div class="row form-row awards-cont">
+                                <div class="col-12 col-md-5">
+                                    <div class="form-group">
+                                        <label>Certificate</label>
+                                        <input type="text" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-5">
+                                    <div class="form-group">
+                                        <label>Year</label>
+                                        <input type="text" class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="add-more">
+                            <a href="javascript:void(0);" class="add-award"><i class="fa fa-plus-circle"></i> Add More</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- /Certificates -->
+                
+                                
+
+                <div class="submit-section submit-btn-bottom">
+                    <button type="submit" class="btn btn-primary submit-btn">Save Changes</button>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+</div>
+<!-- /Page Content -->
+<!-- Sticky Sidebar JS -->
