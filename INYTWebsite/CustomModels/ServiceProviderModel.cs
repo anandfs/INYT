@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace INYTWebsite.Models
+namespace INYTWebsite.CustomModels
 {
     public class ServiceProviderModel
     {
@@ -29,14 +29,15 @@ namespace INYTWebsite.Models
         public string website { get; set; }
 
         public string distanceinmiles { get; set; }
-        public List<TradeAdditionalQuestions> questionsList { get; set; }
-        public List<BookingModel> bookings { get; set; }
+        
         public string password { get; set; }
         public string repeatPassword { get; set; }
         public int rating { get; set; }
         public bool isEmailVerified { get; set; }
         public bool isRegistrationApproved { get; set; }
         public DateTime createdDate { get; set; }
-
+        public List<SlotsModel> slots { get; set; }
+        public List<AdditionalQuestionsModel> questionsList { get; set; }
+        public List<BookingModel> bookings { get; set; }
     }
 }

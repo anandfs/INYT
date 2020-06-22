@@ -1,11 +1,11 @@
 ﻿@inject Microsoft.Extensions.Options.IOptions<AppSettings> appSettings
-@model INYTWebsite.Models.ServiceProviderModel
+@model INYTWebsite.CustomModels.ServiceProviderModel
 
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_LayoutServiceProvider.cshtml";
     var AppSettings = appSettings.Value;
-    var ddlTrades = ViewData["Trades"] as List<SelectListItem>;
+    var ddlTrades = ViewData["Services"] as List<SelectListItem>;
 }
 
 <!-- Breadcrumb -->
@@ -41,10 +41,10 @@
                                 <img src="~/app-assets/images/portrait/medium/avatar-m-11.png" alt="User Image">
                             </a>
                             <div class="profile-det-info">
-                                <h3>Darren Elder</h3>
+                                <h3>@Model.firstName @Model.lastName</h3>
 
                                 <div class="Customer-details">
-                                    <h5 class="mb-0">Plumber</h5>
+                                    <h5 class="mb-0">@Model.trade</h5>
                                 </div>
                             </div>
                         </div>

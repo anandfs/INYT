@@ -8,31 +8,36 @@ using INYTWebsite.Code;
 using Microsoft.Extensions.Options;
 using INYTWebsite.Model;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using INYTWebsite.CustomModels;
+using INYTWebsite.Areas.ServiceProviderArea.Controllers;
 
 namespace INYTWebsite.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
-        public INYTContext _db;
+        Repository _repo = null;
         private AppSettings _AppSettings;
 
-        public HomeController(INYTContext db, IOptions<AppSettings> settings)
+        public HomeController(Repository repo, IOptions<AppSettings> settings)
+            : base(repo)
         {
-            _db = db;
+            _repo = repo;
             _AppSettings = settings.Value;
-       }
+        }
 
 
         public IActionResult Index()
         {
             BookingModel model = new BookingModel();
-            var tradesList = _db.TradeMaster.ToList().Select(x => new SelectListItem
+            var services = TheRepository.GetServices().ToList();
+
+            var servicesList = services.Select(x => new SelectListItem
             {
-                Text = x.Trade.ToString(),
-                Value = x.Id.ToString()
+                Text = x.Service.ToString(),
+                Value = x.id.ToString()
             }).ToList();
 
-            ViewData["Trades"] = tradesList;
+            ViewData["Services"] = servicesList;
 
             return View();
         }
@@ -44,40 +49,36 @@ namespace INYTWebsite.Controllers
             string apikey = string.Empty;
             apikey = _AppSettings.apikey;
 
-            TradeMaster tradeMaster = new TradeMaster();
-            tradeMaster = _db.TradeMaster.Where(a => a.Id == Convert.ToInt32(model.selectedTrade)).FirstOrDefault();
+            var services = TheRepository.GetServices();
+
+            ServiceModel serviceModel = services.Where(a => a.id == Convert.ToInt32(model.selectedTrade)).FirstOrDefault();
 
 
             ViewData["postcode"] = model.postCode;
-            ViewData["trade"] = tradeMaster.Trade;
+            ViewData["trade"] = serviceModel.Service;
 
             List<ServiceProviderModel> spList = new List<ServiceProviderModel>();
             int miles = 10; //TEMPORARY TO SAVE ON LICENSE
             int spCount = 0;
 
-            List<Tradesperson> serviceProviders = new List<Tradesperson>();
-            if (_db.Tradesperson.ToList().Count > 0)
-            {
-                serviceProviders = _db.Tradesperson.Where(a => a.TradeId == Convert.ToInt32(model.selectedTrade)).ToList();
-                spCount = serviceProviders.Count();
-                ViewData["spCount"] = spCount;
-            }
+            var serviceProviders = TheRepository.GetServiceProvidersByService(Convert.ToInt32(model.selectedTrade)).ToList();
+            spCount = serviceProviders.Count();
+            ViewData["spCount"] = spCount;
 
-            foreach (var tradesperson in serviceProviders)
+            foreach (var serviceperson in serviceProviders)
             {
                 ServiceProviderModel sp = new ServiceProviderModel();
-                sp.firstName = tradesperson.FirstName;
-                sp.lastName = tradesperson.LastName;
-                sp.id = tradesperson.Id;                
+                sp.firstName = serviceperson.FirstName;
+                sp.lastName = serviceperson.LastName;
+                sp.id = serviceperson.Id;                
                 //sp.distanceinmiles = Distance.BetweenTwoUKPostCodes(model.postCode, tradesperson.Postcode, apikey);
                 sp.distanceinmiles = String.Format("{0}",miles); miles+=10; //TEMPORARILY TO SAVE ON LICENSE
                 sp.rating = 4;
-                sp.tradeId = Convert.ToInt32(tradesperson.TradeId);
+                sp.tradeId = Convert.ToInt32(serviceperson.TradeId);
                 spList.Add(sp);
             }
 
             return View("SearchResults", spList);
-
         }
 
 

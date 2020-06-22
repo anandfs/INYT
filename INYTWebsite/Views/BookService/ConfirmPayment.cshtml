@@ -1,0 +1,89 @@
+﻿@model INYTWebsite.CustomModels.BookingModel
+
+@{
+    ViewData["Title"] = "ConfirmPayment";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section id="contact_information">
+    <div class="container">
+        <div class="row">
+            <!--Form Part-->
+            <div class="col-md-12 col-sm-12 col-xs-12">
+
+                <!--Booking Information-->
+                <div class="contact_information_left ">
+
+                    <!-- HTML Form (wrapped in a .bootstrap-iso div) -->
+                    <div class="booking_form">
+                        <div class="container-fluid">
+                            <div class="row">
+                                <form id="bookingForm" asp-controller="BookService" asp-action="CompleteBooking" method="post">
+
+                                    <!--Choose Your Service-->
+                                    <h2>Confirm your booking</h2>
+                                    <p>
+                                        Enter your card information below. <br />
+                                        <strong>Please note. INeedYourTime will hold the charges and pay the service provider <u>after</u> the service has been rendered.</strong>
+                                    </p>
+                                    <div class="form-group col-md-6 col-sm-6 col-xs-12">
+                                        <input class="form-control" id="card_number" name="card_number" placeholder="card number" type="text" />
+                                    </div>
+                                    <div class="form-group col-md-3 col-sm-3 col-xs-12 ">
+                                        <input class="form-control" id="month" name="month" placeholder="MM/YYYY" type="text" />
+                                    </div>
+                                    <div class="form-group col-md-3 col-sm-3 col-xs-12 padding-r">
+                                        <input class="form-control" id="cvc" name="cvc" placeholder="CVC" type="text" />
+                                    </div>
+                                    <div class="clearfix"></div>
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <p class="help-block"><img src="~/images/Booking/cards.png" alt="booking" /></p>
+                                    </div>
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <p class="help-block">
+                                            <i class="fa fa-lock" aria-hidden="true"></i> <span>
+                                                Safe and secure 256-BIT<br />
+                                                SSL encrypted payment.
+                                            </span>
+                                        </p>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                    <hr />
+                                    <!--BOOK NOW-->
+
+                                    <div class="booking_summary hidden-xs">
+                                        <h1>Booking Summary</h1>
+
+                                        <div class="price_totle">
+                                            <div class="subtotal">
+                                                <div class="heading text-left">SUBTOTAL</div>
+                                                <div class="price text-right">£40.00</div>
+                                            </div>
+                                            <div class="subtotal">
+                                                <div class="heading text-left">VAT</div>
+                                                <div class="price text-right">£16.00</div>
+                                            </div>
+                                            <div class="subtotal">
+                                                <div class="heading text-left">TOTAL:</div>
+                                                <div class="price text-right">£56.00</div>
+                                                @Html.HiddenFor(m => m.bookingAmount, "£56.00")
+                                            </div>
+                                        </div>
+                                        @Html.HiddenFor(m => m.bookingPaymentType, "Credit Card")
+                                        @Html.HiddenFor(m => m.bookingFulfilled, false)
+                                    </div>
+
+                                    <p>By clicking the Book Now button you are agreeing to our Terms of Service and Privacy Policy.</p>
+                                    <div class="form-group col-md-6 col-sm-6 col-xs-12">
+                                        <button class="btn btn-primary btn-skin" name="submit" type="submit"> BOOK NOW</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

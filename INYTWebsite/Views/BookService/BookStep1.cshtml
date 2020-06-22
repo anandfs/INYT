@@ -1,89 +1,258 @@
-﻿@model INYTWebsite.Models.BookingModel
+﻿@model INYTWebsite.CustomModels.BookingModel
 
 @{
     ViewData["Title"] = "BookStep1";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    string classname = string.Empty;
 }
 
-<section id="contact_information">
-    <div class="container">
-        <div class="row">
-            <!--Form Part-->
-            <div class="col-md-12 col-sm-12 col-xs-12">
+<div class="container">
+    <div class="row">
+        <!--Form Part-->
+        <div class="col-12">
 
-                <!--Booking Information-->
-                <div class="contact_information_left ">
-
-                    <!-- HTML Form (wrapped in a .bootstrap-iso div) -->
-                    <div class="booking_form">
-                        <div class="container-fluid">
-                            <div class="row">
-                                <form id="bookingForm" asp-controller="BookService" asp-action="CompleteBooking" method="post">
-
-                                    <!--Choose Your Service-->
-                                    <h2>Confirm your booking</h2>
-                                    <p>
-                                        Enter your card information below. <br />
-                                        <strong>Please note. INeedYourTime will hold the charges and pay the service provider <u>after</u> the service has been rendered.</strong>
-                                    </p>
-                                    <div class="form-group col-md-6 col-sm-6 col-xs-12">
-                                        <input class="form-control" id="card_number" name="card_number" placeholder="card number" type="text" />
-                                    </div>
-                                    <div class="form-group col-md-3 col-sm-3 col-xs-12 ">
-                                        <input class="form-control" id="month" name="month" placeholder="MM/YYYY" type="text" />
-                                    </div>
-                                    <div class="form-group col-md-3 col-sm-3 col-xs-12 padding-r">
-                                        <input class="form-control" id="cvc" name="cvc" placeholder="CVC" type="text" />
-                                    </div>
-                                    <div class="clearfix"></div>
-                                    <div class="col-md-6 col-sm-6 col-xs-12">
-                                        <p class="help-block"><img src="~/images/Booking/cards.png" alt="booking" /></p>
-                                    </div>
-                                    <div class="col-md-6 col-sm-6 col-xs-12">
-                                        <p class="help-block">
-                                            <i class="fa fa-lock" aria-hidden="true"></i> <span>
-                                                Safe and secure 256-BIT<br />
-                                                SSL encrypted payment.
-                                            </span>
-                                        </p>
-                                    </div>
-                                    <div class="clearfix"></div>
-                                    <hr />
-                                    <!--BOOK NOW-->
-
-                                    <div class="booking_summary hidden-xs">
-                                        <h1>Booking Summary</h1>
-
-                                        <div class="price_totle">
-                                            <div class="subtotal">
-                                                <div class="heading text-left">SUBTOTAL</div>
-                                                <div class="price text-right">£40.00</div>
-                                            </div>
-                                            <div class="subtotal">
-                                                <div class="heading text-left">VAT</div>
-                                                <div class="price text-right">£16.00</div>
-                                            </div>
-                                            <div class="subtotal">
-                                                <div class="heading text-left">TOTAL:</div>
-                                                <div class="price text-right">£56.00</div>
-                                                @Html.HiddenFor(m => m.bookingAmount, "£56.00")
-                                            </div>
-                                        </div>
-                                        @Html.HiddenFor(m => m.bookingPaymentType, "Credit Card")
-                                        @Html.HiddenFor(m => m.bookingFulfilled, false)
-                                    </div>
-
-                                    <p>By clicking the Book Now button you are agreeing to our Terms of Service and Privacy Policy.</p>
-                                    <div class="form-group col-md-6 col-sm-6 col-xs-12">
-                                        <button class="btn btn-primary btn-skin" name="submit" type="submit"> BOOK NOW</button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
+            <!--Booking Information-->
+            <div class="card ">
+                <!-- HTML Form (wrapped in a .bootstrap-iso div) -->
+                <div class="card-body">
+                    <h2>Booking Calendar</h2>
+                    <p>Please select when you would require this service</p>
+                    <br />
+                    <p><strong>Service Provider:</strong>@Model.serviceProvider.firstName @Model.serviceProvider.lastName</p>
+                    <p><strong>Service requested:</strong>@Model.serviceName</p>
 
                 </div>
             </div>
+            <div class="row">
+            </div>
+
+            <form id="regForm" asp-controller="BookService" asp-action="BookStep2" method="post">
+
+                <!-- Schedule Widget -->
+                <div class="card booking-schedule schedule-widget">
+
+                    <!-- Schedule Header -->
+                    <div class="schedule-header">
+                        <div class="row">
+                            <div class="col-md-12">
+
+                                <!-- Day Slot -->
+                                <div class="day-slot">
+                                    <ul>
+                                        <li class="left-arrow">
+                                            <a id="prevDates">
+                                                <i class="fa fa-chevron-left"></i>
+                                            </a>
+                                        </li>
+                                        @foreach (var weekday in Model.calendar)
+                                        {
+                                            <li>
+                                                <span>@weekday.weekname</span>
+                                                <span class="slot-date">@weekday.weekdate.ToShortDateString() <small class="slot-year">@weekday.weekdate.Year</small></span>
+                                            </li>
+                                        }
+                                        <li class="right-arrow">
+                                            <a href="">
+                                                <i class="fa fa-chevron-right"></i>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <!-- /Day Slot -->
+
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /Schedule Header -->
+                    <!-- Schedule Content -->
+                    <div class="schedule-cont">
+                        <div class="row">
+                            <div class="col-md-12">
+
+                                <!-- Time Slot -->
+                                <div class="time-slot">
+                                    <ul class="clearfix">
+                                        <li>
+                                            @foreach (var timing in Model.availabilityDates.Where(a => a.weekName == "Monday"))
+                                            {
+                                                var timeid = timing.availabilityDate.TimeOfDay.ToString().Replace(':','-');
+                                                var dayid = timing.availabilityDate.DayOfWeek;
+                                                var dateid = timing.availabilityDate.Day + "-" + timing.availabilityDate.Month + "-" + timing.availabilityDate.Year;
+                                                var id = dateid+"_"+timeid + "_" + dayid;
+                                                if (timing.availability == "Available")
+                                                {
+                                                    classname = "timing available";
+                                                }
+                                                else
+                                                {
+                                                    classname = "timing unavailable";
+                                                }
+
+                                                <a class="@classname" id="link_@id" href="javascript:changethis('@id')">
+                                                    <span>@timing.availabilityDate.TimeOfDay</span> <span>AM</span>
+                                                </a>
+                                            }
+                                        </li>
+                                        <li>
+                                            @foreach (var timing in Model.availabilityDates.Where(a => a.weekName == "Tuesday"))
+                                            {
+                                                var timeid = timing.availabilityDate.TimeOfDay.ToString().Replace(':', '-');
+                                                var dayid = timing.availabilityDate.DayOfWeek;
+                                                var dateid = timing.availabilityDate.Day + "-" + timing.availabilityDate.Month + "-" + timing.availabilityDate.Year;
+                                                var id = dateid + "_" + timeid + "_" + dayid;
+                                                if (timing.availability == "Available")
+                                                {
+                                                    classname = "timing available";
+                                                }
+                                                else
+                                                {
+                                                    classname = "timing unavailable";
+                                                }
+                                                <a class="@classname" id="link_@id" href="javascript:changethis('@id')">
+                                                    <span>@timing.availabilityDate.TimeOfDay</span> <span>AM</span>
+                                                </a>
+                                            }
+                                        </li>
+                                        <li>
+                                            @foreach (var timing in Model.availabilityDates.Where(a => a.weekName == "Wednesday"))
+                                            {
+                                                var timeid = timing.availabilityDate.TimeOfDay.ToString().Replace(':', '-');
+                                                var dayid = timing.availabilityDate.DayOfWeek;
+                                                var dateid = timing.availabilityDate.Day + "-" + timing.availabilityDate.Month + "-" + timing.availabilityDate.Year;
+                                                var id = dateid + "_" + timeid + "_" + dayid;
+                                                if (timing.availability == "Available")
+                                                {
+                                                    classname = "timing available";
+                                                }
+                                                else
+                                                {
+                                                    classname = "timing unavailable";
+                                                }
+                                                <a class="@classname" id="link_@id" href="javascript:changethis('@id')">
+                                                    <span>@timing.availabilityDate.TimeOfDay</span> <span>AM</span>
+                                                </a>
+                                            }
+                                        </li>
+                                        <li>
+                                            @foreach (var timing in Model.availabilityDates.Where(a => a.weekName == "Thursday"))
+                                            {
+                                                var timeid = timing.availabilityDate.TimeOfDay.ToString().Replace(':', '-');
+                                                var dayid = timing.availabilityDate.DayOfWeek;
+                                                var dateid = timing.availabilityDate.Day + "-" + timing.availabilityDate.Month + "-" + timing.availabilityDate.Year;
+                                                var id = dateid + "_" + timeid + "_" + dayid;
+                                                if (timing.availability == "Available")
+                                                {
+                                                    classname = "timing available";
+                                                }
+                                                else
+                                                {
+                                                    classname = "timing unavailable";
+                                                }
+                                                <a class="@classname" id="link_@id" href="javascript:changethis('@id')">
+                                                    <span>@timing.availabilityDate.TimeOfDay</span> <span>AM</span>
+                                                </a>
+                                            }
+                                        </li>
+                                        <li>
+                                            @foreach (var timing in Model.availabilityDates.Where(a => a.weekName == "Friday"))
+                                            {
+                                                var timeid = timing.availabilityDate.TimeOfDay.ToString().Replace(':', '-');
+                                                var dayid = timing.availabilityDate.DayOfWeek;
+                                                var dateid = timing.availabilityDate.Day + "-" + timing.availabilityDate.Month + "-" + timing.availabilityDate.Year;
+                                                var id = dateid + "_" + timeid + "_" + dayid;
+                                                if (timing.availability == "Available")
+                                                {
+                                                    classname = "timing available";
+                                                }
+                                                else
+                                                {
+                                                    classname = "timing unavailable";
+                                                }
+                                                <a class="@classname" id="link_@id" href="javascript:changethis('@id')">
+                                                    <span>@timing.availabilityDate.TimeOfDay</span> <span>AM</span>
+                                                </a>
+                                            }
+                                        </li>
+                                        <li>
+                                            @foreach (var timing in Model.availabilityDates.Where(a => a.weekName == "Saturday"))
+                                            {
+                                                var timeid = timing.availabilityDate.TimeOfDay.ToString().Replace(':', '-');
+                                                var dayid = timing.availabilityDate.DayOfWeek;
+                                                var dateid = timing.availabilityDate.Day + "-" + timing.availabilityDate.Month + "-" + timing.availabilityDate.Year;
+                                                var id = dateid + "_" + timeid + "_" + dayid;
+                                                if (timing.availability == "Available")
+                                                {
+                                                    classname = "timing available";
+                                                }
+                                                else
+                                                {
+                                                    classname = "timing unavailable";
+                                                }
+                                                <a class="@classname" id="link_@id" href="javascript:changethis('@id')">
+                                                    <span>@timing.availabilityDate.TimeOfDay</span> <span>AM</span>
+                                                </a>
+                                            }
+                                        </li>
+                                        <li>
+                                            @foreach (var timing in Model.availabilityDates.Where(a => a.weekName == "Sunday"))
+                                            {
+                                                var timeid = timing.availabilityDate.TimeOfDay.ToString().Replace(':', '-');
+                                                var dayid = timing.availabilityDate.DayOfWeek;
+                                                var dateid = timing.availabilityDate.Day + "-" + timing.availabilityDate.Month + "-" + timing.availabilityDate.Year;
+                                                var id = dateid + "_" + timeid + "_" + dayid;
+                                                if (timing.availability == "Available")
+                                                {
+                                                    classname = "timing available";
+                                                }
+                                                else
+                                                {
+                                                    classname = "timing unavailable";
+                                                }
+                                                <a class="@classname" id="link_@id" href="javascript:changethis('@id')">
+                                                    <span>@timing.availabilityDate.TimeOfDay</span> <span>AM</span>
+                                                </a>
+                                            }
+                                        </li>
+                                    </ul>
+                                </div>
+                                <!-- /Time Slot -->
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /Schedule Content -->
+
+                    @Html.Hidden("selectedTimes")
+
+                </div>
+                <!-- /Schedule Widget -->
+                <div class="clearfix"></div>
+                <hr />
+
+
+                <p>By clicking the Book Now button you are agreeing to our Terms of Service and Privacy Policy.</p>
+                <div class="form-group col-md-6 col-sm-6 col-xs-12">
+                    <button class="btn btn-primary btn-skin" name="submit" type="submit"> BOOK NOW</button>
+                </div>
+
+            </form>
         </div>
     </div>
-</section>
+</div>
+
+@section Scripts{
+    <script>
+        function changethis(id) {
+
+            if ($("#link_" + id).hasClass("available"))
+                $("#link_" + id).removeClass("available").addClass("selected");
+
+            var selectedtimes = $("#selectedTimes").val();
+            selectedtimes = selectedtimes + "," + id;
+            $("#selectedTimes").val(selectedtimes);
+
+            $('a[id^="link_"]').not("selected").removeClass("available").addClass("timing unavailable");
+
+           
+        }
+    </script>
+}

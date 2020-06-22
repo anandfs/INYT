@@ -8,7 +8,7 @@ namespace INYTWebsite.Models
         public int Id { get; set; }
         public int? CustomerId { get; set; }
         public int? BookingId { get; set; }
-        public int? TradeId { get; set; }
+        public int? ServiceId { get; set; }
         public string AdditionalQuestion { get; set; }
         public string Answer { get; set; }
     }

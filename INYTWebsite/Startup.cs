@@ -28,6 +28,16 @@ namespace INYTWebsite
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddMvc().AddSessionStateTempDataProvider();
+            services.AddSession();
+
+            services.AddAuthentication("UserCookieScheme")
+                .AddCookie("UserCookieScheme", options => {
+                    options.LoginPath = "/User/Login/";
+                    options.AccessDeniedPath = "/Error/AccessDenied/";
+                }
+            );
+
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
@@ -46,7 +56,8 @@ namespace INYTWebsite
             services.AddTransient<INYTContext, INYTContext>();
             services.AddTransient<AppSettings, AppSettings>();
             services.AddTransient<IEmailManager, EmailManager>();
-            services.AddTransient<IModelFactory, ModelFactory>();
+            services.AddTransient<ModelFactory, ModelFactory>();
+            services.AddTransient<Repository, Repository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -64,7 +75,7 @@ namespace INYTWebsite
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-            //app.UseSession();
+            app.UseSession();
             app.UseCookiePolicy();
 
             app.UseMvc(routes =>

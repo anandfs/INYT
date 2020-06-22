@@ -1,4 +1,4 @@
-﻿@model  List<INYTWebsite.Models.TradeAdditionalQuestions>
+﻿@model  List<INYTWebsite.CustomModels.ServiceProviderAdditionalQuestionsModel>
 @*
     For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 *@
@@ -66,21 +66,21 @@
     @foreach (var question in Model)
     {
         <div class="tab">
-            @question.AdditionalQuestion:<br />
-            @if (question.AnswerOptionType == "textarea")
+            @question.additionalQuestion:<br />
+            @if (question.answerOptionType == "textarea")
             {
-                <p><textarea id="text_@question.Id"></textarea></p>
+                <p><textarea id="text_@question.id"></textarea></p>
             }
-            else if (question.AnswerOptionType == "radio")
+            else if (question.answerOptionType == "radio")
             {
-                foreach (var answer in question.AnswerOptions.Split(',').ToList())
+                foreach (var answer in question.answerOptions.Split(',').ToList())
                 {
                     @Html.RadioButton("group1", new Dictionary<string, object> { { "id", @answer } }) @answer <br />
                 }
             }
-            else if (question.AnswerOptionType == "checkbox")
+            else if (question.answerOptionType == "checkbox")
             {
-                foreach (var answer in question.AnswerOptions.Split(',').ToList())
+                foreach (var answer in question.answerOptions.Split(',').ToList())
                 {
                     @Html.CheckBox("group1", new Dictionary<string, object> { { "id", @answer } }) @answer <br />
                 }

@@ -2,6 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using INYTWebsite.Areas.ServiceProviderArea.Controllers;
+using INYTWebsite.Code;
+using INYTWebsite.CustomModels;
+using INYTWebsite.Extensions;
 using INYTWebsite.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
@@ -9,60 +13,51 @@ using Microsoft.Extensions.Options;
 namespace INYTWebsite.Controllers
 {
 
-    public class BookServiceController : Controller
+    public class BookServiceController : BaseController
     {
-        public INYTContext _db;
+        Repository _repo = null;
         private AppSettings _AppSettings;
 
-        public BookServiceController(INYTContext db, IOptions<AppSettings> settings)
+        public BookServiceController(Repository repo, IOptions<AppSettings> settings)
+             : base(repo)
         {
-            _db = db;
+            _repo = repo;
             _AppSettings = settings.Value;
+        }
+
+        public JsonResult GetAvailableDates(int serviceProviderId, DateTime startDate, DateTime endDate)
+        {
+            string totalcost = "";
+            return Json(totalcost);
         }
 
         [HttpGet ("BookService/{id}")]
         public IActionResult Index(string id, string postcode)
         {
-            Tradesperson serviceprovider = new Tradesperson();
-            serviceprovider = _db.Tradesperson.Find(Convert.ToInt32(id));
+            ServiceProviderModel serviceProvider = new ServiceProviderModel();
+            serviceProvider = TheRepository.GetServiceProvider(Convert.ToInt32(id));
+            var questionsModel = TheRepository.GetAdditionalQuestions(serviceProvider.id);
 
-            List<TradeAdditionalQuestions> questions = new List<TradeAdditionalQuestions>();
-            questions = _db.TradeAdditionalQuestions.Where(a => a.TradeId == Convert.ToInt32(serviceprovider.TradeId)).ToList();
-
-            List<AdditionalQuestionsModel> questionsModel = new List<AdditionalQuestionsModel>();
-
-            foreach(var question in questions)
-            {
-                AdditionalQuestionsModel questionModel = new AdditionalQuestionsModel
-                {
-                    additionalQuestion = question.AdditionalQuestion,
-                    answerOptions = question.AnswerOptions,
-                    answeroptionType = question.AnswerOptionType,
-                    questionId = question.Id,
-                    tradeId = Convert.ToInt32(question.TradeId)
-                };
-
-                questionsModel.Add(questionModel);
-            }
-
+            //Get the customer address from the postcode here
             CustomerModel customer = new CustomerModel();
             customer.postcode = postcode;
             
-            //Get the customer address from the postcode here
-
-
             BookingModel model = new BookingModel();
             model.questionsList = questionsModel;
             model.customer = customer;
-            model.serviceProviderId = serviceprovider.Id;
+            model.serviceProviderId = serviceProvider.id;
+            model.serviceProvider = serviceProvider;
+            model.serviceId = serviceProvider.tradeId;
             model.bookingDate = DateTime.Now;
             model.bookingTime = DateTime.Now;
-
             return View(model);
         }
 
         public IActionResult BookStep1(BookingModel model)
         {
+            model.serviceProvider = TheRepository.GetServiceProvider(model.serviceProviderId);
+            model.serviceName = TheRepository.GetServices().Where(a => a.id == model.serviceId).FirstOrDefault().Service;
+
             List<AdditionalQuestionsModel> questionsModel = new List<AdditionalQuestionsModel>();
 
             foreach(var key in Request.Form.Keys)
@@ -72,81 +67,100 @@ namespace INYTWebsite.Controllers
                     AdditionalQuestionsModel questionModel = new AdditionalQuestionsModel();
 
                     string field = key.Substring(0, 3);
-                    questionModel.questionId = Convert.ToInt32(key.Substring(4, (key.Length - 4)));
+                    questionModel.id = Convert.ToInt32(key.Substring(4, (key.Length - 4)));
 
-                    TradeAdditionalQuestions additionalQuestion = new TradeAdditionalQuestions();
-                    additionalQuestion = _db.TradeAdditionalQuestions.Where(a => a.Id == questionModel.questionId).FirstOrDefault();
+                    ServiceProviderAdditionalQuestionsModel additionalQuestion = new ServiceProviderAdditionalQuestionsModel();
+                    additionalQuestion = TheRepository.GetServiceProviderQuestion(questionModel.id);
 
-                    questionModel.additionalQuestion = additionalQuestion.AdditionalQuestion;
-                    questionModel.tradeId = Convert.ToInt32(additionalQuestion.TradeId);
-                    questionModel.answer = Request.Form[String.Format("{0}_{1}", field, questionModel.questionId)].ToString();
+                    questionModel.additionalQuestion = additionalQuestion.additionalQuestion;
+                    questionModel.serviceId = Convert.ToInt32(model.serviceId);
+                    questionModel.answer = Request.Form[String.Format("{0}_{1}", field, questionModel.id)].ToString();
                     questionsModel.Add(questionModel);
                 }
             }
 
-            model.questionsList = questionsModel;
+            model.additionalQuestionsList = questionsModel;
 
-            int customerid = 0;
+            List<AvailabilityDatesModel> availabilityDates = new List<AvailabilityDatesModel>();
+            System.Globalization.CultureInfo ci = System.Threading.Thread.CurrentThread.CurrentCulture;
+            DayOfWeek fdow = ci.DateTimeFormat.FirstDayOfWeek;
+            DayOfWeek today = DateTime.Now.DayOfWeek;
+            DateTime sow = DateTime.Now.AddDays(-(today - fdow)).Date;
+            DateTime eow = sow.AddDays(7).Date;
+            int interval = 1;
+            availabilityDates = TheRepository.GetAvailabilityDates(model.serviceProviderId, sow, eow, interval);
 
-            if (!_db.CustomerRegistration.Any(a => a.EmailAddress == model.customer.emailAddress))
+            availabilityDates = availabilityDates.Where(a => a.availabilityDate.TimeOfDay >= new DateTime(a.availabilityDate.Year, a.availabilityDate.Month, a.availabilityDate.Day, 09, 00, 00).TimeOfDay
+                                                                && a.availabilityDate.TimeOfDay <= new DateTime(a.availabilityDate.Year, a.availabilityDate.Month, a.availabilityDate.Day, 20, 00, 00).TimeOfDay).ToList();
+
+            model.availabilityDates = availabilityDates;
+
+            List<CalendarDates> calendar = new List<CalendarDates>();
+
+            foreach (var item in availabilityDates)
             {
-                CustomerRegistration cust = new CustomerRegistration();
-                cust.AddressLine1 = model.customer.addressLine1;
-                cust.AddressLine2 = model.customer.addressLine2;
-                cust.City = model.customer.city;
-                cust.ContactNumber = model.customer.contactNumber;
-                cust.Country = model.customer.country;
-                cust.EmailAddress = model.customer.emailAddress;
-                cust.FirstName = model.customer.firstName;
-                cust.HasAgreedTc = true;
-                cust.LastName = model.customer.lastName;
-                cust.Postcode = model.customer.postcode;
-                cust.Region = model.customer.region;
-
-                _db.CustomerRegistration.Add(cust);
-                _db.SaveChanges();
-
-                customerid = cust.Id;
-            }
-            else
-            {
-                customerid = _db.CustomerRegistration.Where(a => a.EmailAddress == model.customer.emailAddress).FirstOrDefault().Id;
-            }
-
-            //Create a temporary booking
-            Booking newBooking = new Booking();
-
-            newBooking.BookingAmount = 0;
-            newBooking.BookingDate = model.bookingDate;
-            newBooking.BookingFulfilled = false;
-            newBooking.BookingPaymentType = String.Empty;
-            newBooking.BookingTime = model.bookingTime;
-            newBooking.CustomerId = customerid;
-            newBooking.TradeId = model.tradeId;
-            newBooking.TradespersonId = model.serviceProviderId;
-
-            _db.Booking.Add(newBooking);
-            _db.SaveChanges();
-
-            int newBookingId = newBooking.Id;
-
-            foreach(var answer in model.questionsList)
-            {
-                AdditionalQuestionAnswers AdditionalAnswer = new AdditionalQuestionAnswers()
+                if (!calendar.Any(a => a.weekdate.Date == item.availabilityDate.Date))
                 {
-                    AdditionalQuestion = answer.additionalQuestion,
-                    Answer = answer.answer,
-                    BookingId = newBookingId,
-                    CustomerId = model.customer.id,
-                    TradeId = model.tradeId
-                };
-                _db.AdditionalQuestionAnswers.Add(AdditionalAnswer);
-                _db.SaveChanges();
+                    calendar.Add(new CalendarDates
+                    {
+                        weekdate = item.availabilityDate.Date,
+                        weekname = item.weekName
+                    });
+                }
             }
 
-            ViewData["newBookingId"] = newBookingId;
+            model.calendar = calendar;
 
+            HttpContext.Session.SetObject("bookingmodel", model);
+
+
+            //int customerid = 0;
+
+            //if (TheRepository.GetCustomerByEmail(model.customer.emailAddress) != null)
+            //{
+            //    var cust = TheRepository.CreateCustomer(model.customer);
+            //    customerid = cust.id;
+            //}
+            //else
+            //{
+            //    customerid = TheRepository.GetCustomerByEmail(model.customer.emailAddress).id;
+            //}
+
+            //var newBooking = TheRepository.CreateBooking(model);
+            //int newBookingId = newBooking.id;
+            //if (newBooking != null)
+            //{
+            //    foreach (var answer in model.questionsList)
+            //    {
+            //        TheRepository.CreateAdditionalQuestions(answer);
+            //    }
+            //}
+
+            //ViewData["newBookingId"] = newBookingId;
             return View(model);
+        }
+
+        public ActionResult BookStep2(BookingModel model)
+        {
+            var selectedTimes = Request.Form["selectedTimes"].ToString();
+
+            foreach(var selectedTime in selectedTimes.Split(','))
+            {
+                if (!String.IsNullOrEmpty(selectedTime))
+                {
+                    var requestedDate = Convert.ToDateTime(selectedTime.Split('_')[0].ToString());
+                    var requestedTime = Convert.ToDateTime(selectedTime.Split('_')[1].ToString().Replace('-',':'));
+                    var requestedDay = selectedTime.Split('_')[2].ToString();
+
+                    model.bookingDate = new DateTime(requestedDate.Year, requestedDate.Month, requestedDate.Day, requestedTime.Hour, requestedTime.Minute, requestedTime.Second);
+                    model.bookingTime = new DateTime(requestedDate.Year, requestedDate.Month, requestedDate.Day, requestedTime.Hour, requestedTime.Minute, requestedTime.Second);
+                    var newBooking = TheRepository.CreateBooking(model);
+                    model.id = newBooking.id;
+                }
+
+            }
+
+            return View("ConfirmPayment", model);
         }
     }
 }

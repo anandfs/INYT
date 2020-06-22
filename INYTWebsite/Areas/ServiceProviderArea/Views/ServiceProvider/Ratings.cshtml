@@ -1,11 +1,11 @@
 ﻿@inject Microsoft.Extensions.Options.IOptions<AppSettings> appSettings
-@model INYTWebsite.Models.ServiceProviderModel
+@model INYTWebsite.CustomModels.ServiceProviderModel
 
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_LayoutServiceProvider.cshtml";
     var AppSettings = appSettings.Value;
-    var ddlTrades = ViewData["Trades"] as List<SelectListItem>;
+    var ddlTrades = ViewData["Services"] as List<SelectListItem>;
 }
 
 <!-- Breadcrumb -->

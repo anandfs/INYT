@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace INYTWebsite.Models
 {
-    public partial class Tradesperson
+    public partial class ServiceProvider
     {
         public int Id { get; set; }
         public string FirstName { get; set; }

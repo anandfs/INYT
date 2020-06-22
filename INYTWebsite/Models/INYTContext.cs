@@ -20,17 +20,17 @@ namespace INYTWebsite.Models
         public virtual DbSet<AvailabilitySlots> AvailabilitySlots { get; set; }
         public virtual DbSet<Booking> Booking { get; set; }
         public virtual DbSet<CustomerRegistration> CustomerRegistration { get; set; }
-        public virtual DbSet<Job> Job { get; set; }
         public virtual DbSet<Login> Login { get; set; }
         public virtual DbSet<LookupTable> LookupTable { get; set; }
         public virtual DbSet<Message> Message { get; set; }
         public virtual DbSet<Ratings> Ratings { get; set; }
-        public virtual DbSet<TradeAdditionalQuestions> TradeAdditionalQuestions { get; set; }
-        public virtual DbSet<TradeMaster> TradeMaster { get; set; }
-        public virtual DbSet<Tradesperson> Tradesperson { get; set; }
-        public virtual DbSet<TradespersonAttachments> TradespersonAttachments { get; set; }
-        public virtual DbSet<TradespersonBooking> TradespersonBooking { get; set; }
+        public virtual DbSet<ServiceProvider> ServiceProvider { get; set; }
+        public virtual DbSet<ServiceProviderAdditionalQuestions> ServiceProviderAdditionalQuestions { get; set; }
+        public virtual DbSet<ServiceProviderAttachments> ServiceProviderAttachments { get; set; }
+        public virtual DbSet<ServiceProviderBooking> ServiceProviderBooking { get; set; }
+        public virtual DbSet<Services> Services { get; set; }
         public virtual DbSet<UnavailableDates> UnavailableDates { get; set; }
+        public virtual DbSet<AvailabilityDates> AvailabilityDates { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -138,31 +138,6 @@ namespace INYTWebsite.Models
                     .IsUnicode(false);
             });
 
-            modelBuilder.Entity<Job>(entity =>
-            {
-                entity.Property(e => e.CreatedDate).HasColumnType("datetime");
-
-                entity.Property(e => e.Currency)
-                    .HasMaxLength(3)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.JobCloseReason)
-                    .HasMaxLength(1000)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.JobReference)
-                    .HasMaxLength(10)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.JobRequiredAddress).IsUnicode(false);
-
-                entity.Property(e => e.JobRequiredDate).HasColumnType("datetime");
-
-                entity.Property(e => e.JobTradesperson)
-                    .HasMaxLength(255)
-                    .IsUnicode(false);
-            });
-
             modelBuilder.Entity<Login>(entity =>
             {
                 entity.Property(e => e.CreatedDate)
@@ -221,31 +196,7 @@ namespace INYTWebsite.Models
                 entity.Property(e => e.Ratings1).HasColumnName("Ratings");
             });
 
-            modelBuilder.Entity<TradeAdditionalQuestions>(entity =>
-            {
-                entity.Property(e => e.AdditionalQuestion)
-                    .HasMaxLength(1000)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.AnswerOptionType)
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.AnswerOptions).HasMaxLength(4000);
-            });
-
-            modelBuilder.Entity<TradeMaster>(entity =>
-            {
-                entity.Property(e => e.Trade)
-                    .HasMaxLength(100)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.TradeDescription)
-                    .HasMaxLength(500)
-                    .IsUnicode(false);
-            });
-
-            modelBuilder.Entity<Tradesperson>(entity =>
+            modelBuilder.Entity<ServiceProvider>(entity =>
             {
                 entity.Property(e => e.AddressLine1)
                     .HasMaxLength(50)
@@ -306,7 +257,20 @@ namespace INYTWebsite.Models
                     .IsUnicode(false);
             });
 
-            modelBuilder.Entity<TradespersonAttachments>(entity =>
+            modelBuilder.Entity<ServiceProviderAdditionalQuestions>(entity =>
+            {
+                entity.Property(e => e.AdditionalQuestion)
+                    .HasMaxLength(1000)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.AnswerOptionType)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.AnswerOptions).HasMaxLength(4000);
+            });
+
+            modelBuilder.Entity<ServiceProviderAttachments>(entity =>
             {
                 entity.Property(e => e.AttachmentFileDescription)
                     .HasMaxLength(100)
@@ -317,7 +281,7 @@ namespace INYTWebsite.Models
                     .IsUnicode(false);
             });
 
-            modelBuilder.Entity<TradespersonBooking>(entity =>
+            modelBuilder.Entity<ServiceProviderBooking>(entity =>
             {
                 entity.Property(e => e.BookingDescription)
                     .HasMaxLength(255)
@@ -328,6 +292,17 @@ namespace INYTWebsite.Models
                     .IsUnicode(false);
 
                 entity.Property(e => e.MinimumAmount).HasColumnType("money");
+            });
+
+            modelBuilder.Entity<Services>(entity =>
+            {
+                entity.Property(e => e.Service)
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.ServiceDescription)
+                    .HasMaxLength(500)
+                    .IsUnicode(false);
             });
 
             modelBuilder.Entity<UnavailableDates>(entity =>

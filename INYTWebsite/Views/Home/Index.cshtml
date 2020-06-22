@@ -1,11 +1,11 @@
 ﻿@inject Microsoft.Extensions.Options.IOptions<AppSettings> appSettings
-@model INYTWebsite.Models.BookingModel
+@model INYTWebsite.CustomModels.BookingModel
 
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
     var AppSettings = appSettings.Value;
-    var ddlTrades = ViewData["Trades"] as List<SelectListItem>;
+    var ddlTrades = ViewData["Services"] as List<SelectListItem>;
 }
 
 <!-- Home Banner -->
