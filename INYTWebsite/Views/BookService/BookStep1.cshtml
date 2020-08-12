@@ -72,147 +72,39 @@
                                 <!-- Time Slot -->
                                 <div class="time-slot">
                                     <ul class="clearfix">
-                                        <li>
-                                            @foreach (var timing in Model.availabilityDates.Where(a => a.weekName == "Monday"))
+                                        @foreach (var timing in Model.availabilityDates)
+                                        {
+                                            var timeid = timing.availabilityDate.TimeOfDay.ToString().Replace(':', '-');
+                                            var dayid = timing.availabilityDate.DayOfWeek;
+                                            var dateid = timing.availabilityDate.Day + "-" + timing.availabilityDate.Month + "-" + timing.availabilityDate.Year;
+                                            var id = String.Format("{0:n0}", timing.minRate) + "_" + dateid + "_" + timeid + "_" + dayid;
+                                            var minHours = timing.minHours;
+                                            if (timing.availability == "Available")
                                             {
-                                                var timeid = timing.availabilityDate.TimeOfDay.ToString().Replace(':','-');
-                                                var dayid = timing.availabilityDate.DayOfWeek;
-                                                var dateid = timing.availabilityDate.Day + "-" + timing.availabilityDate.Month + "-" + timing.availabilityDate.Year;
-                                                var id = dateid+"_"+timeid + "_" + dayid;
-                                                if (timing.availability == "Available")
-                                                {
-                                                    classname = "timing available";
-                                                }
-                                                else
-                                                {
-                                                    classname = "timing unavailable";
-                                                }
-
-                                                <a class="@classname" id="link_@id" href="javascript:changethis('@id')">
-                                                    <span>@timing.availabilityDate.TimeOfDay</span> <span>AM</span>
-                                                </a>
+                                                classname = "timing available";
                                             }
-                                        </li>
-                                        <li>
-                                            @foreach (var timing in Model.availabilityDates.Where(a => a.weekName == "Tuesday"))
+                                            else
                                             {
-                                                var timeid = timing.availabilityDate.TimeOfDay.ToString().Replace(':', '-');
-                                                var dayid = timing.availabilityDate.DayOfWeek;
-                                                var dateid = timing.availabilityDate.Day + "-" + timing.availabilityDate.Month + "-" + timing.availabilityDate.Year;
-                                                var id = dateid + "_" + timeid + "_" + dayid;
-                                                if (timing.availability == "Available")
-                                                {
-                                                    classname = "timing available";
-                                                }
-                                                else
-                                                {
-                                                    classname = "timing unavailable";
-                                                }
-                                                <a class="@classname" id="link_@id" href="javascript:changethis('@id')">
-                                                    <span>@timing.availabilityDate.TimeOfDay</span> <span>AM</span>
-                                                </a>
+                                                classname = "timing unavailable";
                                             }
-                                        </li>
-                                        <li>
-                                            @foreach (var timing in Model.availabilityDates.Where(a => a.weekName == "Wednesday"))
-                                            {
-                                                var timeid = timing.availabilityDate.TimeOfDay.ToString().Replace(':', '-');
-                                                var dayid = timing.availabilityDate.DayOfWeek;
-                                                var dateid = timing.availabilityDate.Day + "-" + timing.availabilityDate.Month + "-" + timing.availabilityDate.Year;
-                                                var id = dateid + "_" + timeid + "_" + dayid;
-                                                if (timing.availability == "Available")
+                                            var endtime = timing.endTime.TimeOfDay;
+                                            var starttime = timing.startTime;
+                                            var i = 0;
+                                            <li>
+                                                @while (timing.availabilityDate.TimeOfDay <= endtime)
                                                 {
-                                                    classname = "timing available";
+                                                    var finishtime = starttime.AddHours(minHours);
+                                                    i++;
+                                                    var newid = id + i;
+                                                    <a class="@classname" id="link_@newid" href="javascript:changethis('@newid')">
+                                                        <span>@starttime.ToShortTimeString() - @finishtime.ToShortTimeString()</span><br />
+                                                        <span>£@String.Format("{0:n0}",timing.minRate)</span>
+                                                    </a>
+                                                    timing.availabilityDate = timing.availabilityDate.AddHours(minHours);
+                                                    starttime = finishtime.AddMinutes(timing.breakTimeInMins);
                                                 }
-                                                else
-                                                {
-                                                    classname = "timing unavailable";
-                                                }
-                                                <a class="@classname" id="link_@id" href="javascript:changethis('@id')">
-                                                    <span>@timing.availabilityDate.TimeOfDay</span> <span>AM</span>
-                                                </a>
-                                            }
-                                        </li>
-                                        <li>
-                                            @foreach (var timing in Model.availabilityDates.Where(a => a.weekName == "Thursday"))
-                                            {
-                                                var timeid = timing.availabilityDate.TimeOfDay.ToString().Replace(':', '-');
-                                                var dayid = timing.availabilityDate.DayOfWeek;
-                                                var dateid = timing.availabilityDate.Day + "-" + timing.availabilityDate.Month + "-" + timing.availabilityDate.Year;
-                                                var id = dateid + "_" + timeid + "_" + dayid;
-                                                if (timing.availability == "Available")
-                                                {
-                                                    classname = "timing available";
-                                                }
-                                                else
-                                                {
-                                                    classname = "timing unavailable";
-                                                }
-                                                <a class="@classname" id="link_@id" href="javascript:changethis('@id')">
-                                                    <span>@timing.availabilityDate.TimeOfDay</span> <span>AM</span>
-                                                </a>
-                                            }
-                                        </li>
-                                        <li>
-                                            @foreach (var timing in Model.availabilityDates.Where(a => a.weekName == "Friday"))
-                                            {
-                                                var timeid = timing.availabilityDate.TimeOfDay.ToString().Replace(':', '-');
-                                                var dayid = timing.availabilityDate.DayOfWeek;
-                                                var dateid = timing.availabilityDate.Day + "-" + timing.availabilityDate.Month + "-" + timing.availabilityDate.Year;
-                                                var id = dateid + "_" + timeid + "_" + dayid;
-                                                if (timing.availability == "Available")
-                                                {
-                                                    classname = "timing available";
-                                                }
-                                                else
-                                                {
-                                                    classname = "timing unavailable";
-                                                }
-                                                <a class="@classname" id="link_@id" href="javascript:changethis('@id')">
-                                                    <span>@timing.availabilityDate.TimeOfDay</span> <span>AM</span>
-                                                </a>
-                                            }
-                                        </li>
-                                        <li>
-                                            @foreach (var timing in Model.availabilityDates.Where(a => a.weekName == "Saturday"))
-                                            {
-                                                var timeid = timing.availabilityDate.TimeOfDay.ToString().Replace(':', '-');
-                                                var dayid = timing.availabilityDate.DayOfWeek;
-                                                var dateid = timing.availabilityDate.Day + "-" + timing.availabilityDate.Month + "-" + timing.availabilityDate.Year;
-                                                var id = dateid + "_" + timeid + "_" + dayid;
-                                                if (timing.availability == "Available")
-                                                {
-                                                    classname = "timing available";
-                                                }
-                                                else
-                                                {
-                                                    classname = "timing unavailable";
-                                                }
-                                                <a class="@classname" id="link_@id" href="javascript:changethis('@id')">
-                                                    <span>@timing.availabilityDate.TimeOfDay</span> <span>AM</span>
-                                                </a>
-                                            }
-                                        </li>
-                                        <li>
-                                            @foreach (var timing in Model.availabilityDates.Where(a => a.weekName == "Sunday"))
-                                            {
-                                                var timeid = timing.availabilityDate.TimeOfDay.ToString().Replace(':', '-');
-                                                var dayid = timing.availabilityDate.DayOfWeek;
-                                                var dateid = timing.availabilityDate.Day + "-" + timing.availabilityDate.Month + "-" + timing.availabilityDate.Year;
-                                                var id = dateid + "_" + timeid + "_" + dayid;
-                                                if (timing.availability == "Available")
-                                                {
-                                                    classname = "timing available";
-                                                }
-                                                else
-                                                {
-                                                    classname = "timing unavailable";
-                                                }
-                                                <a class="@classname" id="link_@id" href="javascript:changethis('@id')">
-                                                    <span>@timing.availabilityDate.TimeOfDay</span> <span>AM</span>
-                                                </a>
-                                            }
-                                        </li>
+                                            </li>
+                                        }                                        
                                     </ul>
                                 </div>
                                 <!-- /Time Slot -->
@@ -222,7 +114,8 @@
                     <!-- /Schedule Content -->
 
                     @Html.Hidden("selectedTimes")
-
+                    @Html.HiddenFor(a => a.serviceProviderId)
+                    @Html.HiddenFor(a => a.serviceId)
                 </div>
                 <!-- /Schedule Widget -->
                 <div class="clearfix"></div>
@@ -250,7 +143,7 @@
             selectedtimes = selectedtimes + "," + id;
             $("#selectedTimes").val(selectedtimes);
 
-            $('a[id^="link_"]').not("selected").removeClass("available").addClass("timing unavailable");
+            //$('a[id^="link_"]').not("selected").removeClass("available").addClass("timing unavailable");
 
            
         }

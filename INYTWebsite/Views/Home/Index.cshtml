@@ -5,8 +5,10 @@
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
     var AppSettings = appSettings.Value;
-    var ddlTrades = ViewData["Services"] as List<SelectListItem>;
+    var ddlServices = ViewData["Services"] as List<SelectListItem>;
 }
+
+
 
 <!-- Home Banner -->
 <section class="section section-search">
@@ -21,8 +23,8 @@
             <div class="search-box">
                 <form asp-action="Search" asp-controller="Home" enctype="multipart/form-data" method="post" id="searchServiceProviders" class="form-inline book-now-home">
                     <div class="form-group search-location">
-                        <select class="form-control" asp-for="selectedTrade"
-                                asp-items="ddlTrades" style="width: 200px;" required></select>
+                        <select class="form-control" asp-for="selectedService"
+                                asp-items="ddlServices" style="width: 200px;" required></select>
                     </div>
                     <div class="form-group">
                         <div class="input-group search-info">
@@ -41,88 +43,109 @@
     </div>
 </section>
 <!-- /Home Banner -->
-<!--How it works Section Start-->
-<section id="howitwork">
-    <div class="container text-center">
-        <h1 class="panel-heading">How it works</h1>
-        <div class="row">
-            <div class="col-md-4 col-xs-offset-0 step-one">
-                <img src="~/images/book_service.jpg" height="100" width="100" alt="Book" class="img-circle htw" />
-                <h4>Book</h4>
-                <p>
-                    Select the date and time like<br />
-                    you want your service provider
-                </p>
-            </div>
-            <div class="col-md-4 step-two">
-                <img src="~/images/cleaner_service.jpg" height="100" width="100" alt="Schedule" class="img-circle" />
-                <h4>Schedule</h4>
-                <p>
-                    Certified service providers come over<br />
-                    to complete your work
-                </p>
-            </div>
-            <div class="col-md-4">
-                <img src="~/images/shake-hands.jpg" height="100" width="100" alt="Relax" class="img-circle" />
-                <h4>Relax</h4>
-                <p>
-                    Your work is completed to your<br />
-                    satisfaction - guaranteed!
-                </p>
+
+
+<!--How it works Section Satrt-->
+<section id="section howitwork">
+    <div class="container-fluid">
+        <div class="container text-center">
+            <h1 class="panel-heading">How it works</h1>
+            <div class="row">
+                <div class="col-md-3 col-xs-offset-0 step-one">
+                    <img src="~/images/book_service.jpg" alt="Book" style="width:248px; height:250px" class="rounded-circle" />
+                    <h4>Book</h4>
+                    <p>
+                        Select the date and time like<br />
+                        your service provider to show up
+                    </p>
+                </div>
+                <div class="col-md-1 hidden-xs hidden-sm"> </div>
+                <div class="col-md-3 step-two">
+                    <img src="~/images/cleaner_service.jpg" alt="Schedule" style="width:248px; height:250px" class="rounded-circle" />
+                    <h4>Schedule</h4>
+                    <p>
+                        Certified service providers come over<br />
+                        to complete your work
+                    </p>
+                </div>
+                <div class="col-md-1 hidden-xs hidden-sm"> </div>
+                <div class="col-md-3">
+                    <img src="~/images/shake-hands.jpg" alt="Relax" style="width:248px; height:250px" class="rounded-circle" />
+                    <h4>Relax</h4>
+                    <p>
+                        your work is completed to your<br />
+                        satisfaction - guaranteed !
+                    </p>
+                </div>
             </div>
         </div>
     </div>
+
 </section>
 <!--How it works Section End-->
-
-<!-- Availabe Features -->
-<section class="section section-features">
+<!-- Services and Specialities -->
+<section class="section section-specialities">
     <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="section-header">
-                    <h1 class="panel-heading">Available services</h1>
-                </div>
-                <div class="features-slider slider">
+        <div class="section-header text-center">
+            <h2>Service and Specialities</h2>
+            <p class="sub-title">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-md-9">
+                <!-- Slider -->
+                <div class="specialities-slider slider">
                     <!-- Slider Item -->
-                    <div class="feature-item text-center">
-                        <img src="~/images/cleaning.png" class="img-fluid" alt="Feature">
-                        <p>Cleaning</p>
+                    <div class="speicality-item text-center">
+                        <div class="speicality-img">
+                            <img src="~/images/plumbing.png" class="img-fluid" alt="Speciality">
+                            <span><i class="fa fa-circle" aria-hidden="true"></i></span>
+                        </div>
+                        <p>Plumber</p>
                     </div>
                     <!-- /Slider Item -->
                     <!-- Slider Item -->
-                    <div class="feature-item text-center">
-                        <img src="~/images/painting.png" class="img-fluid" alt="Feature">
-                        <p>Painting</p>
+                    <div class="speicality-item text-center">
+                        <div class="speicality-img">
+                            <img src="~/images/electrical.png" class="img-fluid" alt="Speciality">
+                            <span><i class="fa fa-circle" aria-hidden="true"></i></span>
+                        </div>
+                        <p>Electrician</p>
                     </div>
                     <!-- /Slider Item -->
                     <!-- Slider Item -->
-                    <div class="feature-item text-center">
-                        <img src="~/images/carpentry.png" class="img-fluid" alt="Feature">
+                    <div class="speicality-item text-center">
+                        <div class="speicality-img">
+                            <img src="~/images/describe-1.png" class="img-fluid" alt="Speciality">
+                            <span><i class="fa fa-circle" aria-hidden="true"></i></span>
+                        </div>
+                        <p>Dog walking</p>
+                    </div>
+                    <!-- /Slider Item -->
+                    <!-- Slider Item -->
+                    <div class="speicality-item text-center">
+                        <div class="speicality-img">
+                            <img src="~/images/carpentry.png" class="img-fluid" alt="Speciality">
+                            <span><i class="fa fa-circle" aria-hidden="true"></i></span>
+                        </div>
                         <p>Carpentry</p>
                     </div>
                     <!-- /Slider Item -->
                     <!-- Slider Item -->
-                    <div class="feature-item text-center">
-                        <img src="~/images/electrical.png" class="img-fluid" alt="Feature">
-                        <p>Electrical</p>
+                    <div class="speicality-item text-center">
+                        <div class="speicality-img">
+                            <img src="~/images/cleaning.png" class="img-fluid" alt="Speciality">
+                            <span><i class="fa fa-circle" aria-hidden="true"></i></span>
+                        </div>
+                        <p>Cleaning</p>
                     </div>
                     <!-- /Slider Item -->
-                    <!-- Slider Item -->
-                    <div class="feature-item text-center">
-                        <img src="~/images/plumbing.png" class="img-fluid" alt="Feature">
-                        <p>Plumbing</p>
-                    </div>
-                    <!-- /Slider Item -->
-                    <!-- Slider Item -->
-                    <div class="feature-item text-center">
-                        <img src="~/images/appliances.png" class="img-fluid" alt="Feature">
-                        <p>Appliances</p>
-                    </div>
-                    <!-- /Slider Item -->
+
                 </div>
+                <!-- /Slider -->
+
             </div>
         </div>
     </div>
 </section>
-<!-- /Availabe Features -->
+<!-- Services and Specialities -->
+<!-- /Main Wrapper -->

@@ -1,0 +1,90 @@
+﻿@inject Microsoft.Extensions.Options.IOptions<AppSettings> appSettings
+@model INYTWebsite.CustomModels.ServiceProviderModel
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var AppSettings = appSettings.Value;
+}
+
+<!-- Breadcrumb -->
+<div class="breadcrumb-bar">
+    <div class="container-fluid">
+        <div class="row align-items-center">
+            <div class="col-md-12 col-12">
+                <nav aria-label="breadcrumb" class="page-breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Dashboard</li>
+                    </ol>
+                </nav>
+                <h2 class="breadcrumb-title">Dashboard</h2>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /Breadcrumb -->
+<!-- Page Content -->
+<div class="content">
+
+    <div class="container-fluid">
+
+        <div class="row">
+            <div class="col-md-4 col-lg-3 col-xl-3 theiaStickySidebar">
+
+                <!-- Profile Sidebar -->
+                @{
+                    await Html.RenderPartialAsync("SPSideBar", Model);
+                }
+                <!-- /Profile Sidebar -->
+
+            </div>
+
+            <div class="col-md-7 col-lg-8 col-xl-9">
+                <div class="card card-table">
+                    <div class="card-body">
+
+                        <!-- /Additional Questions Table -->
+                        <div class="table-responsive">
+                            <table class="table table-hover table-center mb-0">
+                                <thead>
+                                    <tr>
+                                        <th>Additional Question</th>
+                                        <th>AnswerOptions</th>
+                                        <th>AnswerOptionType</th>
+                                        <th>
+                                            <a class="edit-link" data-toggle="modal"
+                                               href="#add_time_slot"><i class="fa fa-plus-circle"></i>Add New Question</a>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var question in Model.additionalQuestions)
+                                    {
+                                        <tr>
+                                            <td>@question.additionalQuestion</td>
+                                            <td>@question.answerOptions</td>
+                                            <td>@question.answerOptionType</td>
+                                            <td class="text-right">
+                                                <div class="table-action">
+                                                    <a class="edit-link" data-toggle="modal"
+                                                       href="#edit_time_slot"><i class="fa fa-plus-circle"></i>Edit Question</a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- /Additional Questions Table -->
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+<!-- /Page Content -->
+<!-- Sticky Sidebar JS -->

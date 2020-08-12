@@ -11,7 +11,7 @@ namespace INYTWebsite.CustomModels
     {
         public SelectList servicesList { get; set; }
         public string postCode { get; set; }
-        public string selectedTrade { get; set; }
+        public string selectedService { get; set; }
 
         public int id { get; set; }
 

@@ -3,7 +3,7 @@
 
 @{
     ViewData["Title"] = "Index";
-    Layout = "~/Views/Shared/_LayoutServiceProvider.cshtml";
+    Layout = "~/Views/Shared/_Layout.cshtml";
     var AppSettings = appSettings.Value;
     var ddlTrades = ViewData["Services"] as List<SelectListItem>;
 }
@@ -34,70 +34,9 @@
             <div class="col-md-4 col-lg-3 col-xl-3 theiaStickySidebar">
 
                 <!-- Profile Sidebar -->
-                <div class="profile-sidebar">
-                    <div class="widget-profile pro-widget-content">
-                        <div class="profile-info-widget">
-                            <a href="#" class="booking-doc-img">
-                                <img src="~/app-assets/images/portrait/medium/avatar-m-11.png" alt="User Image">
-                            </a>
-                            <div class="profile-det-info">
-                                <h3>@Model.firstName @Model.lastName</h3>
-
-                                <div class="Customer-details">
-                                    <h5 class="mb-0">@Model.trade</h5>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="dashboard-widget">
-                        <nav class="dashboard-menu">
-                            <ul>
-                                <li>
-                                    <a href="~/index">
-                                        <i class="fa fa-columns"></i>
-                                        <span>Dashboard</span>
-                                    </a>
-                                </li>
-                                <li class="active">
-                                    <a href="~/schedules">
-                                        <i class="fa fa-hourglass-start"></i>
-                                        <span>Schedule Timings</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="~/invoices">
-                                        <i class="fa fa-file-invoice"></i>
-                                        <span>Invoices</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="~/ratings">
-                                        <i class="fa fa-star"></i>
-                                        <span>Ratings</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="~/profile">
-                                        <i class="fa fa-user-cog"></i>
-                                        <span>Profile Settings</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="~/changepassword">
-                                        <i class="fa fa-lock"></i>
-                                        <span>Change Password</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="~/logout">
-                                        <i class="fa fa-sign-out-alt"></i>
-                                        <span>Logout</span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </nav>
-                    </div>
-                </div>
+                @{
+                    await Html.RenderPartialAsync("SPSideBar", Model);
+                }
                 <!-- /Profile Sidebar -->
 
             </div>
@@ -111,22 +50,6 @@
                                 <h4 class="card-title">Schedule Timings</h4>
                                 <div class="profile-box">
                                     <div class="row">
-
-                                        <div class="col-lg-4">
-                                            <div class="form-group">
-                                                <label>Timing Slot Duration</label>
-                                                <select class="select form-control">
-                                                    <option>-</option>
-                                                    <option>15 mins</option>
-                                                    <option selected="selected">30 mins</option>
-                                                    <option>45 mins</option>
-                                                    <option>1 Hour</option>
-                                                </select>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                    <div class="row">
                                         <div class="col-md-12">
                                             <div class="card schedule-widget mb-0">
 
@@ -135,145 +58,293 @@
 
                                                     <!-- Schedule Nav -->
                                                     <div class="schedule-nav">
-            <ul class="nav nav-tabs nav-justified">
-                <li class="nav-item">
-                    <a class="nav-link" data-toggle="tab" href="#slot_sunday">Sunday</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link active" data-toggle="tab" href="#slot_monday">Monday</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" data-toggle="tab" href="#slot_tuesday">Tuesday</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" data-toggle="tab" href="#slot_wednesday">Wednesday</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" data-toggle="tab" href="#slot_thursday">Thursday</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" data-toggle="tab" href="#slot_friday">Friday</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" data-toggle="tab" href="#slot_saturday">Saturday</a>
-                </li>
-            </ul>
-        </div>
-                                                    @*<div class="tabs-container">
-                                                        <ul class="nav nav-tabs" role="tablist">
-                                                            <li><a class="nav-link" href="#slot_sunday" data-toggle="tab">Sunday</a></li>
-                                                            <li><a href="#slot_monday" class="nav-link active" data-toggle="tab">Monday</a></li>
-                                                            <li><a href="#slot_tuesday" class="nav-link" data-toggle="tab">Tuesday</a></li>
-                                                            <li><a href="#slot_wednesday" class="nav-link" data-toggle="tab">Wednesday</a></li>
-                                                            <li><a href="#slot_thursday" class="nav-link" data-toggle="tab">Thursday</a></li>
-                                                            <li><a href="#slot_friday" class="nav-link" data-toggle="tab">Friday</a></li>
-                                                            <li><a href="#slot_saturday" class="nav-link" data-toggle="tab">Saturday</a></li>
+                                                        <ul class="nav nav-tabs nav-justified">
+                                                            <li class="nav-item">
+                                                                <a class="nav-link active" data-toggle="tab" href="#slot_Sunday">Sunday</a>
+                                                            </li>
+                                                            <li class="nav-item">
+                                                                <a class="nav-link" data-toggle="tab" href="#slot_Monday">Monday</a>
+                                                            </li>
+                                                            <li class="nav-item">
+                                                                <a class="nav-link" data-toggle="tab" href="#slot_Tuesday">Tuesday</a>
+                                                            </li>
+                                                            <li class="nav-item">
+                                                                <a class="nav-link" data-toggle="tab" href="#slot_Wednesday">Wednesday</a>
+                                                            </li>
+                                                            <li class="nav-item">
+                                                                <a class="nav-link" data-toggle="tab" href="#slot_Thursday">Thursday</a>
+                                                            </li>
+                                                            <li class="nav-item">
+                                                                <a class="nav-link" data-toggle="tab" href="#slot_Friday">Friday</a>
+                                                            </li>
+                                                            <li class="nav-item">
+                                                                <a class="nav-link" data-toggle="tab" href="#slot_Saturday">Saturday</a>
+                                                            </li>
                                                         </ul>
-                                                    </div>*@
+                                                    </div>
                                                     <!-- /Schedule Nav -->
-
                                                 </div>
                                                 <!-- /Schedule Header -->
                                                 <!-- Schedule Content -->
                                                 <div class="tab-content schedule-cont">
 
-                                                    <!-- Sunday Slot -->
-                                                    <div id="slot_sunday" role="tabpanel" class="tab-pane fade">
-                                                        <h4 class="card-title d-flex justify-content-between">
-                                                            <span>Time Slots</span>
-                                                            <a class="edit-link" data-toggle="modal" href="#add_time_slot"><i class="fa fa-plus-circle"></i> Add Slot</a>
-                                                        </h4>
-                                                        <p class="text-muted mb-0">Not Available</p>
+                                                    <div id="slot_Sunday" role="tabpanel" class="tab-pane fade show active">
+                                                        <table class="table table-hover table-center mb-0">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Slot Time</th>
+                                                                    <th>Minimum hours</th>
+                                                                    <th>Minimum rate</th>
+                                                                    <th>Break time</th>
+                                                                    <th>Rate for Additional hour</th>
+                                                                    <th>
+                                                                        <a class="edit-link" data-toggle="modal" data-dayofweek="Sunday"
+                                                                           href="#add_time_slot"><i class="fa fa-plus-circle"></i>Add Slot</a>
+                                                                    </th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                @foreach (var slot in Model.slots.Where(a => a.dayOfWeek == "Sunday"))
+                                                                {
+                                                                    <tr>
+                                                                        <td>@slot.startTime.ToShortTimeString() - @slot.endTime.ToShortTimeString()</td>
+                                                                        <td>@slot.minimumHours</td>
+                                                                        <td>@slot.minimumRate</td>
+                                                                        <td>@slot.breakTimeInMins</td>
+                                                                        <td>@slot.rateForAdditionalHour</td>
+                                                                        <td>
+                                                                            <a href="#" class="edit-link" data-toggle="modal" data-url="@Url.Action("EditSchedule", "ServiceProvider", new { id = slot.id.ToString() })"><i class="fa fa-edit"></i></a>
+                                                                        </td>
+                                                                        <td>
+                                                                            <a href="#" class="edit-link" data-toggle="modal" data-url="@Url.Action("DeleteSchedule", "ServiceProvider", new { id = slot.id.ToString() })"><i class="fa fa-trash"></i></a>
+                                                                        </td>
+                                                                    </tr>
+                                                                }
+                                                            </tbody>
+                                                        </table>
                                                     </div>
-                                                    <!-- /Sunday Slot -->
-                                                    <!-- Monday Slot -->
-                                                    <div id="slot_monday" role="tabpanel" class="tab-pane fade show active">
-                                                        <h4 class="card-title d-flex justify-content-between">
-                                                            <span>Time Slots</span>
-                                                            <a class="edit-link" data-toggle="modal" href="#edit_time_slot"><i class="fa fa-edit mr-1"></i>Edit</a>
-                                                        </h4>
 
-                                                        <!-- Slot List -->
-                                                        <div class="doc-times">
-                                                            <div class="doc-slot-list">
-                                                                8:00 pm - 11:30 pm
-                                                                <a href="javascript:void(0)" class="delete_schedule">
-                                                                    <i class="fa fa-times"></i>
-                                                                </a>
-                                                            </div>
-                                                            <div class="doc-slot-list">
-                                                                11:30 pm - 1:30 pm
-                                                                <a href="javascript:void(0)" class="delete_schedule">
-                                                                    <i class="fa fa-times"></i>
-                                                                </a>
-                                                            </div>
-                                                            <div class="doc-slot-list">
-                                                                3:00 pm - 5:00 pm
-                                                                <a href="javascript:void(0)" class="delete_schedule">
-                                                                    <i class="fa fa-times"></i>
-                                                                </a>
-                                                            </div>
-                                                            <div class="doc-slot-list">
-                                                                6:00 pm - 11:00 pm
-                                                                <a href="javascript:void(0)" class="delete_schedule">
-                                                                    <i class="fa fa-times"></i>
-                                                                </a>
-                                                            </div>
-                                                        </div>
-                                                        <!-- /Slot List -->
+                                                    <div id="slot_Monday" role="tabpanel" class="tab-pane fade">
+                                                        <table class="table table-hover table-center mb-0">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Slot Time</th>
+                                                                    <th>Minimum hours</th>
+                                                                    <th>Minimum rate</th>
+                                                                    <th>Break time</th>
+                                                                    <th>Rate for Additional hour</th>
+                                                                    <th colspan="2">
+                                                                        <a class="edit-link" data-toggle="modal" data-dayofweek="Monday"
+                                                                           href="#add_time_slot"><i class="fa fa-plus-circle"></i>Add Slot</a>
+                                                                    </th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                @foreach (var slot in Model.slots.Where(a => a.dayOfWeek == "Monday"))
+                                                                {
+                                                                    <tr>
+                                                                        <td>@slot.startTime.ToShortTimeString() - @slot.endTime.ToShortTimeString()</td>
+                                                                        <td>@slot.minimumHours</td>
+                                                                        <td>@slot.minimumRate</td>
+                                                                        <td>@slot.breakTimeInMins</td>
+                                                                        <td>@slot.rateForAdditionalHour</td>
+                                                                        <td>
+                                                                            <a href="#" class="edit-link" data-target="#edit_time_slot" data-toggle="modal" data-url="@Url.Action("EditSchedule", "ServiceProvider", new { id = slot.id.ToString() })"><i class="fa fa-edit"></i></a>
+                                                                        </td>
+                                                                        <td>
+                                                                            <a href="#" class="edit-link" data-toggle="modal" data-url="@Url.Action("DeleteSchedule", "ServiceProvider", new { id = slot.id.ToString() })"><i class="fa fa-trash"></i></a>
+                                                                        </td>
+                                                                    </tr>
+                                                                }
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
 
+                                                    <div id="slot_Tuesday" role="tabpanel" class="tab-pane fade">
+                                                        <table class="table table-hover table-center mb-0">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Slot Time</th>
+                                                                    <th>Minimum hours</th>
+                                                                    <th>Minimum rate</th>
+                                                                    <th>Break time</th>
+                                                                    <th>Rate for Additional hour</th>
+                                                                    <th>
+                                                                        <a class="edit-link" data-toggle="modal" data-dayofweek="Tuesday"
+                                                                           href="#add_time_slot"><i class="fa fa-plus-circle"></i>Add Slot</a>
+                                                                    </th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                @foreach (var slot in Model.slots.Where(a => a.dayOfWeek == "Tuesday"))
+                                                                {
+                                                                    <tr>
+                                                                        <td>@slot.startTime.ToShortTimeString() - @slot.endTime.ToShortTimeString()</td>
+                                                                        <td>@slot.minimumHours</td>
+                                                                        <td>@slot.minimumRate</td>
+                                                                        <td>@slot.breakTimeInMins</td>
+                                                                        <td>@slot.rateForAdditionalHour</td>
+                                                                        <td>
+                                                                            <a href="#" class="edit-link" data-target="edit_time_slot" data-toggle="modal" data-url="@Url.Action("EditSchedule", "ServiceProvider", new { id = slot.id.ToString() })"><i class="fa fa-edit"></i></a>
+                                                                        </td>
+                                                                        <td>
+                                                                            <a href="#" class="edit-link" data-target="edit_time_slot" data-toggle="modal" data-url="@Url.Action("DeleteSchedule", "ServiceProvider", new { id = slot.id.ToString() })"><i class="fa fa-trash"></i></a>
+                                                                        </td>
+                                                                    </tr>
+                                                                }
+                                                            </tbody>
+                                                        </table>
                                                     </div>
-                                                    <!-- /Monday Slot -->
-                                                    <!-- Tuesday Slot -->
-                                                    <div id="slot_tuesday" class="tab-pane fade">
-                                                        <h4 class="card-title d-flex justify-content-between">
-                                                            <span>Time Slots</span>
-                                                            <a class="edit-link" data-toggle="modal" href="#add_time_slot"><i class="fa fa-plus-circle"></i> Add Slot</a>
-                                                        </h4>
-                                                        <p class="text-muted mb-0">Not Available</p>
+
+                                                    <div id="slot_Wednesday" role="tabpanel" class="tab-pane fade">
+                                                        <table class="table table-hover table-center mb-0">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Slot Time</th>
+                                                                    <th>Minimum hours</th>
+                                                                    <th>Minimum rate</th>
+                                                                    <th>Break time</th>
+                                                                    <th>Rate for Additional hour</th>
+                                                                    <th>
+                                                                        <a class="edit-link" data-toggle="modal" data-dayofweek="Wednesday"
+                                                                           href="#add_time_slot"><i class="fa fa-plus-circle"></i>Add Slot</a>
+                                                                    </th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                @foreach (var slot in Model.slots.Where(a => a.dayOfWeek == "Wednesday"))
+                                                                {
+                                                                    <tr>
+                                                                        <td>@slot.startTime.ToShortTimeString() - @slot.endTime.ToShortTimeString()</td>
+                                                                        <td>@slot.minimumHours</td>
+                                                                        <td>@slot.minimumRate</td>
+                                                                        <td>@slot.breakTimeInMins</td>
+                                                                        <td>@slot.rateForAdditionalHour</td>
+                                                                        <td>
+                                                                            <a href="#" class="edit-link" data-target="edit_time_slot" data-toggle="modal" data-url="@Url.Action("EditSchedule", "ServiceProvider", new { id = slot.id.ToString() })"><i class="fa fa-edit"></i></a>
+                                                                        </td>
+                                                                        <td>
+                                                                            <a href="#" class="edit-link" data-target="edit_time_slot" data-toggle="modal" data-url="@Url.Action("DeleteSchedule", "ServiceProvider", new { id = slot.id.ToString() })"><i class="fa fa-trash"></i></a>
+                                                                        </td>
+                                                                    </tr>
+                                                                }
+                                                            </tbody>
+                                                        </table>
                                                     </div>
-                                                    <!-- /Tuesday Slot -->
-                                                    <!-- Wednesday Slot -->
-                                                    <div id="slot_wednesday" class="tab-pane fade">
-                                                        <h4 class="card-title d-flex justify-content-between">
-                                                            <span>Time Slots</span>
-                                                            <a class="edit-link" data-toggle="modal" href="#add_time_slot"><i class="fa fa-plus-circle"></i> Add Slot</a>
-                                                        </h4>
-                                                        <p class="text-muted mb-0">Not Available</p>
+
+                                                    <div id="slot_Thursday" role="tabpanel" class="tab-pane fade">
+                                                        <table class="table table-hover table-center mb-0">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Slot Time</th>
+                                                                    <th>Minimum hours</th>
+                                                                    <th>Minimum rate</th>
+                                                                    <th>Break time</th>
+                                                                    <th>Rate for Additional hour</th>
+                                                                    <th>
+                                                                        <a class="edit-link" data-toggle="modal" data-dayofweek="Thursday"
+                                                                           href="#add_time_slot"><i class="fa fa-plus-circle"></i>Add Slot</a>
+                                                                    </th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                @foreach (var slot in Model.slots.Where(a => a.dayOfWeek == "Thursday"))
+                                                                {
+                                                                    <tr>
+                                                                        <td>@slot.startTime.ToShortTimeString() - @slot.endTime.ToShortTimeString()</td>
+                                                                        <td>@slot.minimumHours</td>
+                                                                        <td>@slot.minimumRate</td>
+                                                                        <td>@slot.breakTimeInMins</td>
+                                                                        <td>@slot.rateForAdditionalHour</td>
+                                                                        <td>
+                                                                            <a href="#" class="edit-link" data-target="edit_time_slot" data-toggle="modal" data-url="@Url.Action("EditSchedule", "ServiceProvider", new { id = slot.id.ToString() })"><i class="fa fa-edit"></i></a>
+                                                                        </td>
+                                                                        <td>
+                                                                            <a href="#" class="edit-link" data-target="edit_time_slot" data-toggle="modal" data-url="@Url.Action("DeleteSchedule", "ServiceProvider", new { id = slot.id.ToString() })"><i class="fa fa-trash"></i></a>
+                                                                        </td>
+                                                                    </tr>
+                                                                }
+                                                            </tbody>
+                                                        </table>
                                                     </div>
-                                                    <!-- /Wednesday Slot -->
-                                                    <!-- Thursday Slot -->
-                                                    <div id="slot_thursday" class="tab-pane fade">
-                                                        <h4 class="card-title d-flex justify-content-between">
-                                                            <span>Time Slots</span>
-                                                            <a class="edit-link" data-toggle="modal" href="#add_time_slot"><i class="fa fa-plus-circle"></i> Add Slot</a>
-                                                        </h4>
-                                                        <p class="text-muted mb-0">Not Available</p>
+
+                                                    <div id="slot_Friday" role="tabpanel" class="tab-pane fade">
+                                                        <table class="table table-hover table-center mb-0">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Slot Time</th>
+                                                                    <th>Minimum hours</th>
+                                                                    <th>Minimum rate</th>
+                                                                    <th>Break time</th>
+                                                                    <th>Rate for Additional hour</th>
+                                                                    <th valign="middle" align="center">
+                                                                        <a class="edit-link" data-toggle="modal" data-dayofweek="Friday"
+                                                                           href="#add_time_slot"><i class="fa fa-plus-circle"></i>Add Slot</a>
+                                                                    </th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                @foreach (var slot in Model.slots.Where(a => a.dayOfWeek == "Friday"))
+                                                                {
+                                                                    <tr>
+                                                                        <td>@slot.startTime.ToShortTimeString() - @slot.endTime.ToShortTimeString()</td>
+                                                                        <td>@slot.minimumHours</td>
+                                                                        <td>@slot.minimumRate</td>
+                                                                        <td>@slot.breakTimeInMins</td>
+                                                                        <td>@slot.rateForAdditionalHour</td>
+                                                                        <td>
+                                                                            <a href="#" class="edit-link" data-target="edit_time_slot" data-toggle="modal" data-url="@Url.Action("EditSchedule", "ServiceProvider", new { id = slot.id.ToString() })"><i class="fa fa-edit"></i></a>
+                                                                        </td>
+                                                                        <td>
+                                                                            <a href="#" class="edit-link" data-target="edit_time_slot" data-toggle="modal" data-url="@Url.Action("DeleteSchedule", "ServiceProvider", new { id = slot.id.ToString() })"><i class="fa fa-trash"></i></a>
+                                                                        </td>
+                                                                    </tr>
+                                                                }
+                                                            </tbody>
+                                                        </table>
                                                     </div>
-                                                    <!-- /Thursday Slot -->
-                                                    <!-- Friday Slot -->
-                                                    <div id="slot_friday" class="tab-pane fade">
-                                                        <h4 class="card-title d-flex justify-content-between">
-                                                            <span>Time Slots</span>
-                                                            <a class="edit-link" data-toggle="modal" href="#add_time_slot"><i class="fa fa-plus-circle"></i> Add Slot</a>
-                                                        </h4>
-                                                        <p class="text-muted mb-0">Not Available</p>
+
+                                                    <div id="slot_Saturday" role="tabpanel" class="tab-pane fade">
+                                                        <table class="table table-hover table-center mb-0">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Slot Time</th>
+                                                                    <th>Minimum hours</th>
+                                                                    <th>Minimum rate</th>
+                                                                    <th>Break time</th>
+                                                                    <th>Rate for Additional hour</th>
+                                                                    <th>
+                                                                        <a class="edit-link"
+                                                                           data-toggle="modal" data-dayofweek="Saturday"
+                                                                           href="#add_time_slot"><i class="fa fa-plus-circle"></i>Add Slot</a>
+                                                                    </th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                @foreach (var slot in Model.slots.Where(a => a.dayOfWeek == "Saturday"))
+                                                                {
+                                                                    <tr>
+                                                                        <td>@slot.startTime.ToShortTimeString() - @slot.endTime.ToShortTimeString()</td>
+                                                                        <td>@slot.minimumHours</td>
+                                                                        <td>@slot.minimumRate</td>
+                                                                        <td>@slot.breakTimeInMins</td>
+                                                                        <td>@slot.rateForAdditionalHour</td>
+                                                                        <td>
+                                                                            <a href="#" class="edit-link" data-target="edit_time_slot" data-toggle="modal" data-url="@Url.Action("EditSchedule", "ServiceProvider", new { id = slot.id.ToString() })"><i class="fa fa-edit"></i></a>
+                                                                        </td>
+                                                                        <td>
+                                                                            <a href="#" class="edit-link" data-target="edit_time_slot" data-toggle="modal" data-url="@Url.Action("DeleteSchedule", "ServiceProvider", new { id = slot.id.ToString() })"><i class="fa fa-trash"></i></a>
+                                                                        </td>
+                                                                    </tr>
+                                                                }
+                                                            </tbody>
+                                                        </table>
                                                     </div>
-                                                    <!-- /Friday Slot -->
-                                                    <!-- Saturday Slot -->
-                                                    <div id="slot_saturday" class="tab-pane fade">
-                                                        <h4 class="card-title d-flex justify-content-between">
-                                                            <span>Time Slots</span>
-                                                            <a class="edit-link" data-toggle="modal" href="#add_time_slot"><i class="fa fa-plus-circle"></i> Add Slot</a>
-                                                        </h4>
-                                                        <p class="text-muted mb-0">Not Available</p>
-                                                    </div>
-                                                    <!-- /Saturday Slot -->
 
                                                 </div>
                                                 <!-- /Schedule Content -->
-
                                             </div>
+
                                         </div>
                                     </div>
                                 </div>
@@ -281,12 +352,120 @@
                         </div>
                     </div>
                 </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+</div>
+
+<!-- Add Time Slot Modal -->
+<div class="modal fade custom-modal" id="add_time_slot">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add Time Slots</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form asp-action="addschedule" asp-controller="serviceprovider" method="post">
+                    <div class="hours-info">
+                        <div class="row form-row hours-cont">
+                            <div class="col-12 col-md-10">
+                                <div class="row form-row">
+                                    <div class="col-12 col-md-6">
+                                        <div class="form-group">
+                                            <label>Day of week</label>
+                                            <input id="dayofweek" name="dayofweek" type="text" class="form-control"
+                                                   placeholder="Day of week">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Minimum Hours</label>
+                                            <select asp-for="newslot.minimumHours" class="form-control">
+                                                <option>-</option>
+                                                <option>1 hr</option>
+                                                <option>2 hrs</option>
+                                                <option>0.5 day</option>
+                                                <option>1 day</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Break / Commute time (between jobs - in mins)</label>
+                                            <input asp-for="newslot.breakTimeInMins" type="text" class="form-control" placeholder="Break time" />
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Minimum rate</label>
+                                            <input asp-for="newslot.minimumRate" type="text" class="form-control" placeholder="Min rate">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Rate for every additional hour</label>
+                                            <input asp-for="newslot.rateForAdditionalHour" type="text" class="form-control" placeholder="Min rate">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Start Time</label>
+                                            <select asp-for="newslot.startTime" class="form-control">
+                                                <option>-</option>
+                                                <option>6AM</option>
+                                                <option>7AM</option>
+                                                <option>8AM</option>
+                                                <option>9AM</option>
+                                                <option>10AM</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Finish Time</label>
+                                            <select asp-for="newslot.endTime" class="form-control">
+                                                <option>-</option>
+                                                <option>5PM</option>
+                                                <option>6PM</option>
+                                                <option>7PM</option>
+                                                <option>8PM</option>
+                                                <option>9PM</option>
+                                                <option>10PM</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="submit-section text-center">
+                        <button type="submit" class="btn btn-primary submit-btn">Save Changes</button>
+                    </div>
+                    @Html.HiddenFor(a => a.id)
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /Add Time Slot Modal -->
+
+<div class="modal inmodal fade" id="edit_time_slot" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <div class="modal-dialog modal-lg">
+
+        <div class="modal-content">
+
+            <div class="sk-spinner sk-spinner-double-bounce">
+                <div class="sk-double-bounce1"></div>
+                <div class="sk-double-bounce2"></div>
+            </div>
+
+            <div class="modal-content-replace">
 
             </div>
+
         </div>
 
     </div>
 
 </div>
-<!-- /Page Content -->
-<!-- Sticky Sidebar JS -->
+
+    <!-- /Page Content -->
+    <!-- Sticky Sidebar JS -->
+    

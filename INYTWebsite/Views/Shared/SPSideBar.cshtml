@@ -1,0 +1,74 @@
+﻿@model INYTWebsite.CustomModels.ServiceProviderModel
+
+<!-- Profile Sidebar -->
+<div class="profile-sidebar">
+    <div class="widget-profile pro-widget-content">
+        <div class="profile-info-widget">
+            <a href="#" class="booking-doc-img">
+                <img src="~/app-assets/images/portrait/medium/avatar-m-11.png" alt="User Image">
+            </a>
+            <div class="profile-det-info">
+                <h3>@Model.firstName @Model.lastName</h3>
+
+                <div class="Customer-details">
+                    <h5 class="mb-0">@Model.service</h5>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="dashboard-widget">
+        <nav class="dashboard-menu">
+            <ul>
+                <li class="active">
+                    <a href="~/index">
+                        <i class="fa fa-columns"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="~/schedules">
+                        <i class="fa fa-hourglass-start"></i>
+                        <span>Schedule Timings</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="~/invoices">
+                        <i class="fa fa-file-invoice"></i>
+                        <span>Invoices</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="~/additionalquestions">
+                        <i class="fa fa-question-circle"></i>
+                        <span>Additional Questions</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="~/ratings">
+                        <i class="fa fa-star"></i>
+                        <span>Ratings</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="~/profile">
+                        <i class="fa fa-user-cog"></i>
+                        <span>Profile Settings</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="~/changepassword">
+                        <i class="fa fa-lock"></i>
+                        <span>Change Password</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="~/logout">
+                        <i class="fa fa-sign-out-alt"></i>
+                        <span>Logout</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>
+<!-- /Profile Sidebar -->

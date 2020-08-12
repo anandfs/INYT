@@ -1,43 +1,27 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
-    <meta name="description" content="Stack admin is super flexible, powerful, clean &amp; modern responsive bootstrap 4 admin template with unlimited possibilities.">
-    <meta name="keywords" content="admin template, stack admin template, dashboard template, flat admin template, responsive admin template, web app">
-    <meta name="author" content="PIXINVENT">
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
     <title>I need your time</title>
 
-
     <!-- Favicons -->
-    <link href="assets/img/favicon.png" rel="icon">
+    <link type="image/x-icon" href="~/assets/img/favicon.png" rel="icon">
 
-    <!-- Bootstrap -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
-          crossorigin="anonymous">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="~/assets/css/bootstrap.min.css">
 
-    <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
-
-
-    <!-- Select2 CSS -->
-    <link rel="stylesheet" href="~/assets/css/select2.min.css">
-
-    <!-- Service Provider CSS -->
-    <link rel="stylesheet" href="~/assets/css/serviceprovider-style.css">
-
-    <link href="~/assets/css/daterangepicker.css" rel="stylesheet" />
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="~/assets/css/style.css">
 
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
         <script src="assets/js/html5shiv.min.js"></script>
         <script src="assets/js/respond.min.js"></script>
     <![endif]-->
-
-    <!-- Place your kit's code here -->
+    <!-- Fontawesome CSS -->
     <script src="https://kit.fontawesome.com/cab76e203f.js" crossorigin="anonymous"></script>
-
 
 </head>
 
@@ -63,10 +47,10 @@
                 <div class="main-menu-wrapper">
                     <div class="menu-header">
                         <a href="index.html" class="menu-logo">
-                            <img src="assets/img/logo.png" class="img-fluid" alt="Logo">
+                            <img src="~/images/logo.png" class="img-fluid" alt="Logo">
                         </a>
                         <a id="menu_close" class="menu-close" href="javascript:void(0);">
-                            <i class="fa fa-times"></i>
+                            <i class="fas fa-times"></i>
                         </a>
                     </div>
                     <ul class="main-nav">
@@ -78,21 +62,21 @@
                         </li>
 
                         <li class="has-submenu">
-                            <a href="">Service Providers <i class="fa fa-chevron-down"></i></a>
+                            <a href="#">Service Providers <i class="fa fa-chevron-down"></i></a>
 
                             <ul class="submenu">
                                 <li>
-                                    <a asp-area="ServiceProviderArea" asp-controller="ServiceProvider"
-                                       asp-action="Index">Sign up</a>
+                                    <a asp-area="ServiceProviderArea" asp-controller="Signup"
+                                       asp-action="Signup">Sign up</a>
                                 </li>
                                 <li>
-                                    <a asp-area="ServiceProviderArea" asp-controller="ServiceProvider"
+                                    <a asp-area="ServiceProviderArea" asp-controller="Signup"
                                        asp-action="Login">Login</a>
                                 </li>
                             </ul>
                         </li>
-                        <li class="has-submenu active">
-                            <a href="">Customers <i class="fa fa-chevron-down"></i></a>
+                        <li class="has-submenu">
+                            <a href="#">Customers <i class="fa fa-chevron-down"></i></a>
                             <ul class="submenu">
                                 <li>
                                     <a asp-area="Customer" asp-controller="Customer"
@@ -109,7 +93,7 @@
                 <ul class="nav header-navbar-rht">
                     <li class="nav-item contact-item">
                         <div class="header-contact-img">
-                            <i class="fa fa-hospital"></i>
+                            <i class="far fa-hospital"></i>
                         </div>
                         <div class="header-contact-detail">
                             <p class="contact-header">Contact</p>
@@ -135,7 +119,7 @@
                             <!-- Footer Widget -->
                             <div class="footer-widget footer-about">
                                 <div class="footer-logo">
-                                    <img src="assets/img/footer-logo.png" alt="logo">
+                                    <img src="~/images/logo.png" alt="logo">
                                 </div>
                                 <div class="footer-about-content">
                                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p>
@@ -166,20 +150,34 @@
 
                         <div class="col-lg-3 col-md-6">
 
-                            <h4>Services</h4>
-                            <ul>
-                                <li><a href="#"><i class="fa fa-caret-right" aria-hidden="true"></i>Cleaning</a></li>
-                                <li><a href="#"><i class="fa fa-caret-right" aria-hidden="true"></i>Electrical</a></li>
-                                <li><a href="#"><i class="fa fa-caret-right" aria-hidden="true"></i>Plumbing</a></li>
-                                <li><a href="#"><i class="fa fa-caret-right" aria-hidden="true"></i>Appliances</a></li>
-                                <li><a href="#"><i class="fa fa-caret-right" aria-hidden="true"></i>Carpentry</a></li>
-                            </ul>
-                            <ul>
-                                <li><a href="#"><i class="fa fa-caret-right" aria-hidden="true"></i>Geyser Service</a></li>
-                                <li><a href="#"><i class="fa fa-caret-right" aria-hidden="true"></i>Vehicle Care</a></li>
-                                <li><a href="#"><i class="fa fa-caret-right" aria-hidden="true"></i>Pest Control</a></li>
-                                <li><a href="#"><i class="fa fa-caret-right" aria-hidden="true"></i>Panting</a></li>
-                            </ul>
+                            <!-- Footer Widget -->
+                            <div class="footer-widget footer-menu">
+                                <h2 class="footer-title">For Customers</h2>
+                                <ul>
+                                    <li><a href="search.html">Search for Service Providers</a></li>
+                                    <li><a href="login.html">Login</a></li>
+                                    <li><a href="register.html">Register</a></li>
+                                    <li><a href="booking.html">Booking</a></li>
+                                    <li><a href="patient-dashboard.html">Customer Dashboard</a></li>
+                                </ul>
+                            </div>
+                            <!-- /Footer Widget -->
+
+                        </div>
+
+                        <div class="col-lg-3 col-md-6">
+
+                            <!-- Footer Widget -->
+                            <div class="footer-widget footer-menu">
+                                <h2 class="footer-title">For Service Providers</h2>
+                                <ul>
+                                    <li><a href="appointments.html">Appointments</a></li>
+                                    <li><a href="login.html">Login</a></li>
+                                    <li><a href="doctor-register.html">Register</a></li>
+                                    <li><a href="doctor-dashboard.html">Service Provider Dashboard</a></li>
+                                </ul>
+                            </div>
+                            <!-- /Footer Widget -->
 
                         </div>
 
@@ -190,15 +188,15 @@
                                 <h2 class="footer-title">Contact Us</h2>
                                 <div class="footer-contact-info">
                                     <div class="footer-address">
-                                        <span><i class="fa fa-map-marker-alt"></i></span>
-                                        <p> 3, Somewhere Street, Ealing, London W5 </p>
+                                        <span><i class="fas fa-map-marker-alt"></i></span>
+                                        <p> 1  Oxford Street, London,<br> WC1 1AA </p>
                                     </div>
                                     <p>
-                                        <i class="fa fa-phone-alt"></i>
-                                        +44 123 4567
+                                        <i class="fas fa-phone-alt"></i>
+                                        +1 315 369 5943
                                     </p>
                                     <p class="mb-0">
-                                        <i class="fa fa-envelope"></i>
+                                        <i class="fas fa-envelope"></i>
                                         admin@inyt.com
                                     </p>
                                 </div>
@@ -220,7 +218,7 @@
                         <div class="row">
                             <div class="col-md-6 col-lg-6">
                                 <div class="copyright-text">
-                                    <p class="mb-0">&copy; 2020 INEEDYOURTIME. All rights reserved.</p>
+                                    <p class="mb-0">&copy; 2020 INYT. All rights reserved.</p>
                                 </div>
                             </div>
                             <div class="col-md-6 col-lg-6">
@@ -245,32 +243,50 @@
 
         </footer>
         <!-- /Footer -->
+
     </div>
     @RenderSection("Scripts", required: false)
 
     <!-- jQuery -->
-    <script src="assets/js/jquery.min.js"></script>
+    <script src="~/assets/js/jquery.min.js"></script>
 
     <!-- Bootstrap Core JS -->
-    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <script src="~/assets/js/popper.min.js"></script>
+    <script src="~/assets/js/bootstrap.min.js"></script>
 
-    <!-- Sticky Sidebar JS -->
-    <script src="assets/js/Resizesensor.js"></script>
-    <script src="assets/js/theia-sticky-sidebar.js"></script>
-
-    <!-- Select2 JS -->
-    <script src="assets/js/select2.min.js"></script>
-
-    <!--Date Range picker-->
-    <script src="~/js/moment.min.js"></script>
-    <script src="~/js/daterangepicker.js"></script>
+    <!-- Slick JS -->
+    <script src="~/assets/js/slick.js"></script>
 
     <!-- Custom JS -->
-    <script src="~/assets/js/serviceprovider-script.js"></script>
+    <script src="~/assets/js/script.js"></script>
 
-    <script src="~/js/slick.js"></script>
+    <script>
+        $('#add_time_slot').on('show.bs.modal', function (event) {
+            var myVal = $(event.relatedTarget).data('dayofweek');
+            $(".modal-body #dayofweek").val(myVal);
+        });
+
+        $('#edit_time_slot').on('show.bs.modal', function (event) {
+            var element = $(event.relatedTarget);
+            var modal = $(this);
+
+            modal.find('.modal-content-replace').html("");
+            modal.find('.sk-spinner').show();
+
+            $.ajax({
+                type: "GET",
+                url: element.data("url"),
+                success: function (data) {
+                    modal.find('.sk-spinner').hide();
+
+                    data = data.replace(/&#xD;&#xA;&#x2022;/g, "<br>&#x2022;");
+
+                    modal.find('.modal-content-replace').html(data);
+                }
+            });
+        });
+    </script>
+
 
 </body>
 </html>

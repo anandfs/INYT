@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
@@ -31,6 +34,23 @@ namespace INYTWebsite.Models
         public virtual DbSet<Services> Services { get; set; }
         public virtual DbSet<UnavailableDates> UnavailableDates { get; set; }
         public virtual DbSet<AvailabilityDates> AvailabilityDates { get; set; }
+
+        //public override int SaveChanges()
+        //{
+        //    var entities = (from entry in ChangeTracker.Entries()
+        //                    where entry.State == EntityState.Modified || entry.State == EntityState.Added
+        //                    select entry.Entity);
+
+        //    var validationResults = new List<ValidationResult>();
+        //    foreach (var entity in entities)
+        //    {
+        //        if (!Validator.TryValidateObject(entity, new ValidationContext(entity), validationResults))
+        //        {
+        //            // throw new ValidationException() or do whatever you want
+        //        }
+        //    }
+        //    return base.SaveChanges();
+        //}
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -76,6 +96,10 @@ namespace INYTWebsite.Models
                     .IsUnicode(false);
 
                 entity.Property(e => e.EndTime).HasColumnType("datetime");
+
+                entity.Property(e => e.MinimumRate).HasColumnType("money");
+
+                entity.Property(e => e.RateForAdditionalHour).HasColumnType("money");
 
                 entity.Property(e => e.StartTime).HasColumnType("datetime");
             });
@@ -241,6 +265,10 @@ namespace INYTWebsite.Models
                     .IsUnicode(false);
 
                 entity.Property(e => e.LastName)
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Picture)
                     .HasMaxLength(100)
                     .IsUnicode(false);
 

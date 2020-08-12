@@ -24,5 +24,6 @@ namespace INYTWebsite.Models
         public bool? IsActive { get; set; }
         public string DeactivationReason { get; set; }
         public string Website { get; set; }
+        public string Picture { get; set; }
     }
 }

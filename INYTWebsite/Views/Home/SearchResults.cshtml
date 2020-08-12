@@ -16,7 +16,7 @@
                         <li class="breadcrumb-item active" aria-current="page">Search</li>
                     </ol>
                 </nav>
-                <h2 class="breadcrumb-title">You searched for <u>@ViewData["trade"]</u> in <u>@ViewData["postcode"]</u>. We found @ViewData["spCount"] matching search results</h2>
+                <h2 class="breadcrumb-title">You searched for <u>@ViewData["service"]</u> in <u>@ViewData["postcode"]</u>. We found @ViewData["spCount"] matching search results</h2>
             </div>
             <div class="col-md-4 col-12 d-md-block d-none">
                 <div class="sort-by">
@@ -41,50 +41,110 @@
 <div class="content">
     <div class="container-fluid">
         <div class="row">
-            @foreach (var sp in Model)
-            {
-                <div class="col-md-4 col-md-4 col-md-4">
+            <div class="col-md-12 col-lg-4 col-xl-3 theiaStickySidebar">
+
+                <!-- Search Filter -->
+                <div class="card search-filter">
+                    <div class="card-header">
+                        <h4 class="card-title mb-0">Search Filter</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="filter-widget">
+                            <div class="cal-icon">
+                                <input type="text" class="form-control datetimepicker" placeholder="Select Date">
+                            </div>
+                        </div>
+                        <div class="filter-widget">
+                            <h4>Select Service</h4>
+                            <div>
+                                <label class="custom_check">
+                                    <input type="checkbox" name="select_specialist" checked>
+                                    <span class="checkmark"></span> Plumbing
+                                </label>
+                            </div>
+                            <div>
+                                <label class="custom_check">
+                                    <input type="checkbox" name="select_specialist" checked>
+                                    <span class="checkmark"></span> Carpentry
+                                </label>
+                            </div>
+                            <div>
+                                <label class="custom_check">
+                                    <input type="checkbox" name="select_specialist">
+                                    <span class="checkmark"></span> Electrical
+                                </label>
+                            </div>
+                            <div>
+                                <label class="custom_check">
+                                    <input type="checkbox" name="select_specialist">
+                                    <span class="checkmark"></span> Dog walking
+                                </label>
+                            </div>
+                            <div>
+                                <label class="custom_check">
+                                    <input type="checkbox" name="select_specialist">
+                                    <span class="checkmark"></span> Cleaning
+                                </label>
+                            </div>
+                        </div>
+                        <div class="btn-search">
+                            <button type="button" class="btn btn-block">Search</button>
+                        </div>
+                    </div>
+                </div>
+                <!-- /Search Filter -->
+
+            </div>
+
+            <div class="col-md-12 col-lg-8 col-xl-9">
+                @foreach (var sp in Model)
+                {
                     <!-- Service Provider Widget -->
                     <div class="card">
                         <div class="card-body">
-                            <div class="doctor-img">
-                                <a href="doctor-profile.html">
-                                    <img src="~/images/testicon.svg" class="img-fluid" alt="User Image">
-                                </a>
-                            </div>
-                            <div class="doc-info-cont">
-                                <h4 class="doc-name"><a href="doctor-profile.html">@sp.firstName @sp.lastName</a></h4>
-                                <p class="doc-speciality">@sp.trade</p>
-                                <div class="rating">
-                                    <i class="fa fa-star filled"></i>
-                                    <i class="fa fa-star filled"></i>
-                                    <i class="fa fa-star filled"></i>
-                                    <i class="fa fa-star filled"></i>
-                                    <i class="fa fa-star"></i>
-                                    <span class="d-inline-block average-rating">(17)</span>
+                            <div class="doctor-widget">
+                                <div class="doc-info-left">
+                                    <div class="doctor-img">
+                                        <a href="doctor-profile.html">
+                                            <img src="~/images/testicon.svg" class="img-fluid" alt="User Image">
+                                        </a>
+                                    </div>
+                                    <div class="doc-info-cont">
+                                        <h4 class="doc-name"><a href="doctor-profile.html">@sp.firstName @sp.lastName</a></h4>
+                                        <p class="doc-speciality">@sp.service</p>
+                                        <div class="rating">
+                                            <i class="fa fa-star filled"></i>
+                                            <i class="fa fa-star filled"></i>
+                                            <i class="fa fa-star filled"></i>
+                                            <i class="fa fa-star filled"></i>
+                                            <i class="fa fa-star"></i>
+                                            <span class="d-inline-block average-rating">(17)</span>
+                                        </div>
+                                        <div class="clinic-details">
+                                            <p class="doc-location"><i class="fa fa-map-marker-alt"></i> @sp.postcode</p>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="clinic-details">
-                                    <p class="doc-location"><i class="fa fa-map-marker-alt"></i> @sp.postcode</p>
+                                <div class="doc-info-right">
+                                    <div class="clini-infos">
+                                        <ul>
+                                            <li><i class="fa fa-thumbs-up"></i> 98%</li>
+                                            <li><i class="fa fa-comment"></i> 17 Feedback</li>
+                                            <li><i class="fa fa-map"></i> @sp.postcode</li>
+                                            <li><i class="fa fa-location"></i><p>@sp.distanceinmiles away</p> <i class="fa fa-info-circle" data-toggle="tooltip" title="Lorem Ipsum"></i> </li>
+                                        </ul>
+                                    </div>
+                                    <div class="clinic-booking">
+                                        @Html.ActionLink("View Profile", "Profile", "Services", new { id = sp.id }, new { @class = "view-pro-btn" })
+                                        @Html.ActionLink("Book", "Index", "BookService", new { id = sp.id, postcode = ViewData["postcode"] }, new { @class = "apt-btn" })
+                                    </div>
                                 </div>
                             </div>
-                            <div class="clini-infos">
-                                <ul>
-                                    <li><i class="fa fa-thumbs-up"></i> 98%</li>
-                                    <li><i class="fa fa-comment"></i> 17 Feedback</li>
-                                    <li><i class="fa fa-map"></i> @sp.postcode</li>
-                                    <li><p>This service provider lives @sp.distanceinmiles away</p> <i class="fa fa-info-circle" data-toggle="tooltip" title="Lorem Ipsum"></i> </li>
-                                </ul>
-                            </div>
-                            <div class="clinic-booking">
-                                @Html.ActionLink("View Profile", "Profile", "Trades", new { id = sp.id }, new { @class = "view-pro-btn" })
-                                @Html.ActionLink("Book", "Index", "BookService", new { id = sp.id, postcode = ViewData["postcode"] }, new { @class = "apt-btn" })
-                            </div>
+                            <!-- /Service Provider Widget -->
                         </div>
                     </div>
-                    <!-- /Service Provider Widget -->
-                </div>
-
-            }
+                }
+            </div>
         </div>        
     </div>
 </div>

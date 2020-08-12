@@ -51,17 +51,17 @@ namespace INYTWebsite.Controllers
 
             var services = TheRepository.GetServices();
 
-            ServiceModel serviceModel = services.Where(a => a.id == Convert.ToInt32(model.selectedTrade)).FirstOrDefault();
+            ServiceModel serviceModel = services.Where(a => a.id == Convert.ToInt32(model.selectedService)).FirstOrDefault();
 
 
             ViewData["postcode"] = model.postCode;
-            ViewData["trade"] = serviceModel.Service;
+            ViewData["service"] = serviceModel.Service;
 
             List<ServiceProviderModel> spList = new List<ServiceProviderModel>();
             int miles = 10; //TEMPORARY TO SAVE ON LICENSE
             int spCount = 0;
 
-            var serviceProviders = TheRepository.GetServiceProvidersByService(Convert.ToInt32(model.selectedTrade)).ToList();
+            var serviceProviders = TheRepository.GetServiceProvidersByService(Convert.ToInt32(model.selectedService)).ToList();
             spCount = serviceProviders.Count();
             ViewData["spCount"] = spCount;
 
@@ -74,7 +74,7 @@ namespace INYTWebsite.Controllers
                 //sp.distanceinmiles = Distance.BetweenTwoUKPostCodes(model.postCode, tradesperson.Postcode, apikey);
                 sp.distanceinmiles = String.Format("{0}",miles); miles+=10; //TEMPORARILY TO SAVE ON LICENSE
                 sp.rating = 4;
-                sp.tradeId = Convert.ToInt32(serviceperson.TradeId);
+                sp.serviceId = Convert.ToInt32(serviceperson.TradeId);
                 spList.Add(sp);
             }
 

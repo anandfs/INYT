@@ -47,7 +47,7 @@ namespace INYTWebsite.Controllers
             model.customer = customer;
             model.serviceProviderId = serviceProvider.id;
             model.serviceProvider = serviceProvider;
-            model.serviceId = serviceProvider.tradeId;
+            model.serviceId = serviceProvider.serviceId;
             model.bookingDate = DateTime.Now;
             model.bookingTime = DateTime.Now;
             return View(model);
@@ -90,8 +90,13 @@ namespace INYTWebsite.Controllers
             int interval = 1;
             availabilityDates = TheRepository.GetAvailabilityDates(model.serviceProviderId, sow, eow, interval);
 
-            availabilityDates = availabilityDates.Where(a => a.availabilityDate.TimeOfDay >= new DateTime(a.availabilityDate.Year, a.availabilityDate.Month, a.availabilityDate.Day, 09, 00, 00).TimeOfDay
-                                                                && a.availabilityDate.TimeOfDay <= new DateTime(a.availabilityDate.Year, a.availabilityDate.Month, a.availabilityDate.Day, 20, 00, 00).TimeOfDay).ToList();
+            var sortedList = availabilityDates.ToList().OrderBy(a => a.availabilityDate.TimeOfDay);
+
+            var minstarttime = sortedList.First().startTime;
+            var maxstarttime = sortedList.Last().endTime;
+
+            availabilityDates = availabilityDates.Where(a => a.availabilityDate.TimeOfDay >= minstarttime.TimeOfDay
+                                                                && a.availabilityDate.TimeOfDay <= maxstarttime.TimeOfDay).ToList();
 
             model.availabilityDates = availabilityDates;
 
@@ -148,18 +153,21 @@ namespace INYTWebsite.Controllers
             {
                 if (!String.IsNullOrEmpty(selectedTime))
                 {
-                    var requestedDate = Convert.ToDateTime(selectedTime.Split('_')[0].ToString());
-                    var requestedTime = Convert.ToDateTime(selectedTime.Split('_')[1].ToString().Replace('-',':'));
+                    var bookingAmount = Convert.ToInt32(selectedTime.Split('_')[0].ToString());
+                    var requestedDate = Convert.ToDateTime(selectedTime.Split('_')[1].ToString());
+                    var requestedTime = Convert.ToDateTime(selectedTime.Split('_')[2].ToString().Replace('-',':'));
                     var requestedDay = selectedTime.Split('_')[2].ToString();
 
                     model.bookingDate = new DateTime(requestedDate.Year, requestedDate.Month, requestedDate.Day, requestedTime.Hour, requestedTime.Minute, requestedTime.Second);
                     model.bookingTime = new DateTime(requestedDate.Year, requestedDate.Month, requestedDate.Day, requestedTime.Hour, requestedTime.Minute, requestedTime.Second);
+                    model.bookingAmount = bookingAmount;
+                    model.serviceProviderId = Convert.ToInt32(Request.Form["serviceProviderId"]);
+                    model.serviceId = Convert.ToInt32(Request.Form["serviceId"]);
                     var newBooking = TheRepository.CreateBooking(model);
                     model.id = newBooking.id;
                 }
-
             }
-
+            
             return View("ConfirmPayment", model);
         }
     }

@@ -11,8 +11,8 @@ namespace INYTWebsite.CustomModels
         public string firstName { get; set; }
         public string lastName { get; set; }
         public string emailAddress { get; set; }
-        public int tradeId { get; set; }
-        public string trade { get; set; }
+        public int serviceId { get; set; }
+        public string service { get; set; }
         public string description { get; set; }
         public string companyName { get; set; }
         public string companyNumber { get; set; }
@@ -39,5 +39,12 @@ namespace INYTWebsite.CustomModels
         public List<SlotsModel> slots { get; set; }
         public List<AdditionalQuestionsModel> questionsList { get; set; }
         public List<BookingModel> bookings { get; set; }
+        public string selectedService { get; set; }
+        public int totalCustomers { get; set; }
+        public int totalCustomersToday { get; set; }
+        public int totalNewBookings { get; set; }
+
+        public SlotsModel newslot { get; set; }
+        public List<ServiceProviderAdditionalQuestionsModel> additionalQuestions { get; set; }
     }
 }

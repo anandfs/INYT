@@ -34,9 +34,25 @@ namespace INYTWebsite.Code
                 isActive = Convert.ToBoolean(serviceprovider.IsActive),
                 lastName = serviceprovider.LastName,
                 postcode = serviceprovider.Postcode,
-                tradeId = Convert.ToInt32(serviceprovider.TradeId),
+                serviceId = Convert.ToInt32(serviceprovider.TradeId),
                 website = serviceprovider.Website
             };
+        }
+
+        public LoginModel Create(Login login)
+        {
+            if (login == null)
+                return null;
+
+            LoginModel loginModel = new LoginModel()
+            {
+                id = login.Id,
+                createdDate = Convert.ToDateTime(login.CreatedDate),
+                password = login.Password,
+                userName = login.Username
+            };
+
+            return loginModel;
         }
 
         public BookingModel Create(Booking booking)
@@ -53,7 +69,8 @@ namespace INYTWebsite.Code
                 bookingPaymentType = booking.BookingPaymentType,
                 bookingAccepted = Convert.ToBoolean(booking.BookingAccepted),
                 bookingTime = Convert.ToDateTime(booking.BookingTime),
-                serviceProviderId = Convert.ToInt32(booking.ServiceId),
+                serviceProviderId = Convert.ToInt32(booking.ServiceProviderId),
+                serviceId = Convert.ToInt32(booking.ServiceId),
                 customerId = Convert.ToInt32(booking.CustomerId)
             };
 
@@ -89,7 +106,11 @@ namespace INYTWebsite.Code
             return new SlotsModel()
             {
                 dayOfWeek = slot.DayOfWeek,
+                minimumHours = Convert.ToInt32(slot.MinimumHours),
+                minimumRate = Convert.ToInt32(slot.MinimumRate),
+                rateForAdditionalHour = slot.RateForAdditionalHour,                
                 endTime = Convert.ToDateTime(slot.EndTime),
+                breakTimeInMins = Convert.ToInt32(slot.BreakTimeInMins),
                 id = slot.Id,
                 maxBookingsPerDay = Convert.ToInt32(slot.MaxBookingsPerDay),
                 startTime = Convert.ToDateTime(slot.StartTime),
@@ -167,7 +188,7 @@ namespace INYTWebsite.Code
                 IsActive = Convert.ToBoolean(serviceprovider.isActive),
                 LastName = serviceprovider.lastName,
                 Postcode = serviceprovider.postcode,
-                TradeId = Convert.ToInt32(serviceprovider.tradeId),
+                TradeId = Convert.ToInt32(serviceprovider.serviceId),
                 Website = serviceprovider.website
             };
         }
@@ -185,7 +206,8 @@ namespace INYTWebsite.Code
                 BookingPaymentType = bookingModel.bookingPaymentType,
                 BookingTime = Convert.ToDateTime(bookingModel.bookingTime),
                 BookingAccepted = bookingModel.bookingAccepted,
-                ServiceId = Convert.ToInt32(bookingModel.serviceProviderId),
+                ServiceId = Convert.ToInt32(bookingModel.serviceId),
+                ServiceProviderId = Convert.ToInt32(bookingModel.serviceProviderId),
                 CustomerId = Convert.ToInt32(bookingModel.customerId)
             };
         }
@@ -218,6 +240,10 @@ namespace INYTWebsite.Code
             return new AvailabilitySlots()
             {
                 DayOfWeek = slotModel.dayOfWeek,
+                MinimumHours = slotModel.minimumHours,
+                MinimumRate = slotModel.minimumRate,
+                RateForAdditionalHour = slotModel.rateForAdditionalHour,
+                BreakTimeInMins = slotModel.breakTimeInMins,
                 EndTime = Convert.ToDateTime(slotModel.endTime),
                 Id = slotModel.id,
                 MaxBookingsPerDay = Convert.ToInt32(slotModel.maxBookingsPerDay),
@@ -236,7 +262,13 @@ namespace INYTWebsite.Code
                 availability = date.Availability,
                 availabilityDate = date.Dates,
                 serviceProviderId = date.ServiceProviderId,
-                weekName = date.WeekName
+                weekName = date.WeekName,
+                additionalRate = date.additionalRate,
+                id = date.ID,
+                minHours = date.minHours,
+                minRate = date.minRate,
+                startTime = date.startTime,
+                endTime = date.endTime
             };
         }
 
@@ -282,6 +314,22 @@ namespace INYTWebsite.Code
                 Id = answers.id,
                 ServiceId = answers.serviceId
             };
+        }
+
+        internal Login Parse(LoginModel login)
+        {
+            if (login == null)
+                return null;
+
+            Login loginModel = new Login()
+            {
+                Id = login.id,
+                CreatedDate = Convert.ToDateTime(login.createdDate),
+                Password = login.password,
+                Username = login.userName                
+            };
+
+            return loginModel;
         }
 
         internal AvailabilityDates Parse(AvailabilityDatesModel date)

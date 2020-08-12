@@ -1,0 +1,55 @@
+﻿@model INYTWebsite.CustomModels.SlotsModel
+
+<div class="modal-header">
+    <h5 class="modal-title">Edit Time Slots</h5>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <form asp-action="updateschedule" asp-controller="serviceprovider" method="post">
+        <div class="hours-info">
+            <div class="row form-row hours-cont">
+                <div class="col-12 col-md-10">
+                    <div class="row form-row">
+                        <div class="col-12 col-md-6">
+                            <div class="form-group">
+                                <label>Day of week</label>
+                                <input asp-for="@Model.dayOfWeek" type="text" class="form-control" placeholder="Day of week" />
+                            </div>
+                            <div class="form-group">
+                                <label>Minimum Hours</label>
+                                @Html.DropDownListFor(m => m.minimumHours, Model.minHoursList)
+                            </div>
+                            <div class="form-group">
+                                <label>Break / Commute time (between jobs - in mins)</label>
+                                <input asp-for="@Model.breakTimeInMins" type="text" class="form-control" placeholder="Break time" />
+                            </div>
+                            <div class="form-group">
+                                <label>Minimum rate</label>
+                                <input asp-for="@Model.minimumRate" type="text" class="form-control" placeholder="Min rate">
+                            </div>
+                            <div class="form-group">
+                                <label>Rate for every additional hour</label>
+                                <input asp-for="@Model.rateForAdditionalHour" type="text" class="form-control" placeholder="Min rate">
+                            </div>
+                            <div class="form-group">
+                                <label>Start Time</label>
+                                @Html.DropDownListFor(m => m.startTime, Model.startTimeList)
+                            </div>
+                            <div class="form-group">
+                                <label>Finish Time</label>
+                                @Html.DropDownListFor(m => m.endTime, Model.endTimeList)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @Html.HiddenFor(m => m.id)
+            @Html.HiddenFor(m => m.serviceproviderId)
+        </div>
+        <div class="submit-section text-center">
+            <button type="submit" class="btn btn-primary submit-btn">Save Changes</button>
+        </div>
+    </form>
+</div>
