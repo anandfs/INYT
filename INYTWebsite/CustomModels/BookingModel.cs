@@ -53,4 +53,10 @@ namespace INYTWebsite.CustomModels
         public string additionalQuestion { get; set; }
         public string answer { get; set; }
     }
+
+    public class BookingsListModel
+    {
+        public List<BookingModel> bookings { get; set; }
+        public ServiceProviderModel serviceProvider { get; set; }
+    }
 }

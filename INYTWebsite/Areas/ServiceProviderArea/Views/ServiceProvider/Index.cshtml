@@ -105,53 +105,56 @@
                         <h4><strong>Upcoming Customer Bookings</strong></h4>
                         <div class="appointment-tab">
 
-
-                            <!-- Upcoming Customer Bookings Table -->
-                            <div class="table-responsive table-primary">
-                                <table class="table table-hover table-center mb-0">
-                                    <thead>
-                                        <tr>
-                                            <th>Customer Name</th>
-                                            <th>Booking Date</th>
-                                            <th>Purpose</th>
-                                            <th>Type</th>
-                                            <th class="text-center">Paid Amount</th>
-                                            <th></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach (var booking in Model.bookings)
-                                        {
+                            @if (Model.bookings != null)
+                            {
+                                <!-- Upcoming Customer Bookings Table -->
+                                <div class="table-responsive table-primary">
+                                    <table class="table table-hover table-center mb-0">
+                                        <thead>
                                             <tr>
-                                                <td>
-                                                    <h2 class="table-avatar">
-                                                        <a href="Customer-profile.html">@booking.customer.firstName @booking.customer.lastName <span>#C100 @booking.customer.id</span></a>
-                                                    </h2>
-                                                </td>
-                                                <td>@booking.bookingDate.ToLongDateString() <span class="d-block text-info">@booking.bookingTime.ToShortTimeString() </span></td>
-                                                <td>@booking.selectedService</td>
-                                                <td>New Customer</td>
-                                                <td class="text-center">£@booking.bookingAmount</td>
-                                                <td class="text-right">
-                                                    <div class="table-action">
-                                                        <a href="javascript:void(0);" class="btn btn-sm bg-info-light">
-                                                            <i class="fa fa-eye"></i> View
-                                                        </a>
-
-                                                        <a href="javascript:void(0);" class="btn btn-sm bg-success-light">
-                                                            <i class="fa fa-check"></i> Accept
-                                                        </a>
-                                                        <a href="javascript:void(0);" class="btn btn-sm bg-danger-light">
-                                                            <i class="fa fa-times"></i> Cancel
-                                                        </a>
-                                                    </div>
-                                                </td>
+                                                <th>Customer Name</th>
+                                                <th>Booking Date</th>
+                                                <th>Purpose</th>
+                                                <th>Type</th>
+                                                <th class="text-center">Paid Amount</th>
+                                                <th></th>
                                             </tr>
-                                        }
-                                    </tbody>
-                                </table>
-                            </div>
-                            <!-- /Upcoming Appointment Tab -->
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var booking in Model.bookings)
+                                            {
+                                                <tr>
+                                                    <td>
+                                                        <h2 class="table-avatar">
+                                                            <a href="Customer-profile.html">@booking.customer.firstName @booking.customer.lastName <span>#C100 @booking.customer.id</span></a>
+                                                        </h2>
+                                                    </td>
+                                                    <td>@booking.bookingDate.ToLongDateString() <span class="d-block text-info">@booking.bookingTime.ToShortTimeString() </span></td>
+                                                    <td>@booking.selectedService</td>
+                                                    <td>New Customer</td>
+                                                    <td class="text-center">£@booking.bookingAmount</td>
+                                                    <td class="text-right">
+                                                        <div class="table-action">
+                                                            <a href="javascript:void(0);" class="btn btn-sm bg-info-light">
+                                                                <i class="fa fa-eye"></i> View
+                                                            </a>
+
+                                                            <a href="javascript:void(0);" class="btn btn-sm bg-success-light">
+                                                                <i class="fa fa-check"></i> Accept
+                                                            </a>
+                                                            <a href="javascript:void(0);" class="btn btn-sm bg-danger-light">
+                                                                <i class="fa fa-times"></i> Cancel
+                                                            </a>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!-- /Upcoming Appointment Tab -->
+                            }
+
                         </div>
                     </div>
                 </div>

@@ -91,20 +91,20 @@
                                             var starttime = timing.startTime;
                                             var i = 0;
                                             <li>
-                                                @while (timing.availabilityDate.TimeOfDay <= endtime)
+                                                @while (timing.availabilityDate.TimeOfDay < endtime)
                                                 {
                                                     var finishtime = starttime.AddHours(minHours);
                                                     i++;
                                                     var newid = id + i;
                                                     <a class="@classname" id="link_@newid" href="javascript:changethis('@newid')">
                                                         <span>@starttime.ToShortTimeString() - @finishtime.ToShortTimeString()</span><br />
-                                                        <span>£@String.Format("{0:n0}",timing.minRate)</span>
+                                                        <span>£@String.Format("{0:n0}", timing.minRate)</span>
                                                     </a>
                                                     timing.availabilityDate = timing.availabilityDate.AddHours(minHours);
                                                     starttime = finishtime.AddMinutes(timing.breakTimeInMins);
                                                 }
                                             </li>
-                                        }                                        
+                                        }
                                     </ul>
                                 </div>
                                 <!-- /Time Slot -->
@@ -116,6 +116,19 @@
                     @Html.Hidden("selectedTimes")
                     @Html.HiddenFor(a => a.serviceProviderId)
                     @Html.HiddenFor(a => a.serviceId)
+
+                    @Html.HiddenFor(a => a.customer.emailAddress)
+                    @Html.HiddenFor(a => a.customer.addressLine1)
+                    @Html.HiddenFor(a => a.customer.addressLine2)
+                    @Html.HiddenFor(a => a.customer.city)
+                    @Html.HiddenFor(a => a.customer.contactNumber)
+                    @Html.HiddenFor(a => a.customer.country)
+                    @Html.HiddenFor(a => a.customer.firstName)
+                    @Html.HiddenFor(a => a.customer.lastName)
+                    @Html.HiddenFor(a => a.customer.postcode)
+
+                    @Html.HiddenFor(a => a.additionalQuestionsList)
+
                 </div>
                 <!-- /Schedule Widget -->
                 <div class="clearfix"></div>

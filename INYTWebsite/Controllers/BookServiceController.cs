@@ -117,37 +117,15 @@ namespace INYTWebsite.Controllers
             model.calendar = calendar;
 
             HttpContext.Session.SetObject("bookingmodel", model);
-
-
-            //int customerid = 0;
-
-            //if (TheRepository.GetCustomerByEmail(model.customer.emailAddress) != null)
-            //{
-            //    var cust = TheRepository.CreateCustomer(model.customer);
-            //    customerid = cust.id;
-            //}
-            //else
-            //{
-            //    customerid = TheRepository.GetCustomerByEmail(model.customer.emailAddress).id;
-            //}
-
-            //var newBooking = TheRepository.CreateBooking(model);
-            //int newBookingId = newBooking.id;
-            //if (newBooking != null)
-            //{
-            //    foreach (var answer in model.questionsList)
-            //    {
-            //        TheRepository.CreateAdditionalQuestions(answer);
-            //    }
-            //}
-
-            //ViewData["newBookingId"] = newBookingId;
+            
             return View(model);
         }
 
         public ActionResult BookStep2(BookingModel model)
         {
             var selectedTimes = Request.Form["selectedTimes"].ToString();
+
+            BookingsListModel bookingsList = new BookingsListModel();
 
             foreach(var selectedTime in selectedTimes.Split(','))
             {
@@ -163,12 +141,42 @@ namespace INYTWebsite.Controllers
                     model.bookingAmount = bookingAmount;
                     model.serviceProviderId = Convert.ToInt32(Request.Form["serviceProviderId"]);
                     model.serviceId = Convert.ToInt32(Request.Form["serviceId"]);
+
+                    int customerid = 0;
+
+                    if (TheRepository.GetCustomerByEmail(model.customer.emailAddress) == null)
+                    {
+                        var cust = TheRepository.CreateCustomer(model.customer);
+                        customerid = cust.id;
+                    }
+                    else
+                    {
+                        customerid = TheRepository.GetCustomerByEmail(model.customer.emailAddress).id;
+                    }
+
+                    model.customerId = customerid;
                     var newBooking = TheRepository.CreateBooking(model);
+                    int newBookingId = newBooking.id;
+                    if (newBooking != null)
+                    {
+                        foreach (var answer in model.additionalQuestionsList)
+                        {
+                            answer.customerId = customerid;
+                            answer.serviceId = model.serviceId;
+                            TheRepository.CreateAdditionalQuestions(answer);
+                        }
+                    }
+
                     model.id = newBooking.id;
                 }
             }
-            
-            return View("ConfirmPayment", model);
+
+            List<BookingModel> bookings = new List<BookingModel>();
+            bookings = TheRepository.GetAllBookings(model.serviceProviderId);
+            bookingsList.bookings = bookings;
+            bookingsList.serviceProvider = TheRepository.GetServiceProvider(model.serviceProviderId);
+
+            return View("ConfirmPayment", bookingsList);
         }
     }
 }

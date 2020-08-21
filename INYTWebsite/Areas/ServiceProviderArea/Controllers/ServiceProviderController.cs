@@ -136,10 +136,10 @@ namespace INYTWebsite.Areas.ServiceProvider.Controllers
         private IEnumerable<SelectListItem> GetMinHoursList(int minimumHours)
         {
             List<SelectListItem> minHours = new List<SelectListItem>();
-            minHours.Add(new SelectListItem { Text = "1 hr", Value = "1 hr" });
-            minHours.Add(new SelectListItem { Text = "2 hrs", Value = "2 hrs" });
-            minHours.Add(new SelectListItem { Text = "0.5 day", Value = "0.5 day" });
-            minHours.Add(new SelectListItem { Text = "1 day", Value = "1 day" });
+            minHours.Add(new SelectListItem { Text = "1 hr", Value = "1" });
+            minHours.Add(new SelectListItem { Text = "2 hrs", Value = "2" });
+            minHours.Add(new SelectListItem { Text = "0.5 day", Value = "4" });
+            minHours.Add(new SelectListItem { Text = "1 day", Value = "8" });
             return minHours;
         }
 

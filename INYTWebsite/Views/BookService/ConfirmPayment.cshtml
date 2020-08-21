@@ -1,4 +1,4 @@
-﻿@model INYTWebsite.CustomModels.BookingModel
+﻿@model INYTWebsite.CustomModels.BookingsListModel
 
 @{
     ViewData["Title"] = "ConfirmPayment";
@@ -99,7 +99,7 @@
                                 <img src="assets/img/doctors/doctor-thumb-02.jpg" alt="User Image">
                             </a>
                             <div class="booking-info">
-                                <h4><a href="doctor-profile.html">Darren Plumber</a></h4>
+                                <h4><a href="doctor-profile.html">@Model.serviceProvider.firstName @Model.serviceProvider.lastName</a></h4>
                                 <div class="rating">
                                     <i class="fas fa-star filled"></i>
                                     <i class="fas fa-star filled"></i>
@@ -109,30 +109,38 @@
                                     <span class="d-inline-block average-rating">35</span>
                                 </div>
                                 <div class="clinic-details">
-                                    <p class="doc-location"><i class="fas fa-map-marker-alt"></i> London, UK</p>
+                                    <p class="doc-location"><i class="fas fa-map-marker-alt"></i> @Model.serviceProvider.city, @Model.serviceProvider.country</p>
                                 </div>
                             </div>
                         </div>
                         <!-- Booking Doctor Info -->
+                        @{ 
+                            double totalAmount = 0;
+                        }    
 
-                        <div class="booking-summary">
-                            <div class="booking-item-wrap">
-                                <ul class="booking-date">
-                                    <li>Date <span>16 Nov 2019</span></li>
-                                    <li>Time <span>10:00 AM</span></li>
-                                </ul>
-                                <ul class="booking-fee">
-                                    <li>Charge <span>£100</span></li>
-                                </ul>
-                                <div class="booking-total">
-                                    <ul class="booking-total-list">
-                                        <li>
-                                            <span>Total</span>
-                                            <span class="total-cost">£100</span>
-                                        </li>
+                        @foreach (var booking in Model.bookings)
+                        {
+                            totalAmount = totalAmount + booking.bookingAmount;
+                            <div class="booking-summary">
+                                <div class="booking-item-wrap">
+                                    <ul class="booking-date">
+                                        <li>Date <span>@booking.bookingDate.ToShortDateString()</span></li>
+                                        <li>Time <span>@booking.bookingTime.ToShortTimeString()</span></li>
+                                    </ul>
+                                    <ul class="booking-fee">
+                                        <li>Charge <span><strong>£@booking.bookingAmount</strong></span></li>
                                     </ul>
                                 </div>
                             </div>
+                            
+                        }
+                        <div class="booking-total">
+                            <ul class="booking-total-list">
+                                <li>
+                                    <span>Total</span>
+                                    <span class="total-cost">£@totalAmount</span>
+                                </li>
+                            </ul>
                         </div>
                     </div>
                 </div>
