@@ -17,6 +17,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Areas\CustomerArea\Data\" />
+    <Folder Include="Areas\CustomerArea\Models\" />
     <Folder Include="Areas\ServiceProviderArea\Data\" />
     <Folder Include="Areas\ServiceProviderArea\Models\" />
   </ItemGroup>

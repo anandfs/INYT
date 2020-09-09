@@ -35,7 +35,8 @@ namespace INYTWebsite.Code
                 lastName = serviceprovider.LastName,
                 postcode = serviceprovider.Postcode,
                 serviceId = Convert.ToInt32(serviceprovider.TradeId),
-                website = serviceprovider.Website
+                website = serviceprovider.Website,
+                membershipId = Convert.ToInt32(serviceprovider.MembershipId)
             };
         }
 
@@ -48,11 +49,49 @@ namespace INYTWebsite.Code
             {
                 id = login.Id,
                 createdDate = Convert.ToDateTime(login.CreatedDate),
+                userid = Convert.ToInt32(login.UserId),
                 password = login.Password,
                 userName = login.Username
             };
 
             return loginModel;
+        }
+
+        public RatingModel Create(Ratings rating)
+        {
+            if (rating == null)
+                return null;
+
+            RatingModel ratingModel = new RatingModel()
+            {
+                bookingId = Convert.ToInt32(rating.BookingId),
+                createdBy = Convert.ToInt32(rating.CreatedBy),
+                createdDate = Convert.ToDateTime(rating.CreatedDate),
+                customerId = Convert.ToInt32(rating.CustomerId),
+                display = Convert.ToBoolean(rating.Display),
+                id = rating.Id,
+                ratingComments = rating.RatingComments,
+                ratings = Convert.ToInt32(rating.Ratings1)
+            };
+
+            return ratingModel;
+        }
+
+        public MembershipModel Create(Membership membership)
+        {
+            if (membership == null)
+                return null;
+
+            MembershipModel membershipModel = new MembershipModel()
+            {
+                id = membership.Id,
+                basicSubscriptionFee = Convert.ToDouble(membership.BasicSubscriptionFee),
+                commission = Convert.ToDouble(membership.Commission),
+                description = membership.Description,
+                name = membership.Name
+            };
+
+            return membershipModel;
         }
 
         public BookingModel Create(Booking booking)
@@ -94,7 +133,26 @@ namespace INYTWebsite.Code
                 id = customer.Id,
                 lastName = customer.LastName,
                 postcode = customer.Postcode,
-                region = customer.Region
+                region = customer.Region,
+                isActive = Convert.ToBoolean(customer.IsActive),
+                hasAgreedTC = Convert.ToBoolean(customer.HasAgreedTc)                
+            };
+        }
+
+        public InvoiceModel Create(Invoices invoice)
+        {
+            if (invoice == null)
+                return null;
+
+            return new InvoiceModel()
+            {
+                id = invoice.Id,
+                amount = Convert.ToDouble(invoice.Amount),
+                bookingId = Convert.ToInt32(invoice.BookingId),
+                customerId = Convert.ToInt32(invoice.CustomerId),
+                invoiceNumber = Convert.ToInt32(invoice.InvoiceNumber),
+                paidDate = Convert.ToDateTime(invoice.PaidDate),
+                serviceProviderId = Convert.ToInt32(invoice.ServiceProviderId)
             };
         }
 
@@ -189,7 +247,8 @@ namespace INYTWebsite.Code
                 LastName = serviceprovider.lastName,
                 Postcode = serviceprovider.postcode,
                 TradeId = Convert.ToInt32(serviceprovider.serviceId),
-                Website = serviceprovider.website
+                Website = serviceprovider.website,
+                MembershipId = Convert.ToInt32(serviceprovider.membershipId)
             };
         }
 
@@ -228,7 +287,9 @@ namespace INYTWebsite.Code
                 FirstName = customerModel.firstName,
                 LastName = customerModel.lastName,
                 Postcode = customerModel.postcode,
-                Region = customerModel.region
+                Region = customerModel.region,
+                HasAgreedTc = customerModel.hasAgreedTC,
+                IsActive = customerModel.isActive
             };
         }
 
@@ -300,6 +361,26 @@ namespace INYTWebsite.Code
             };
         }
 
+        public Ratings Parse(RatingModel ratingModel)
+        {
+            if (ratingModel == null)
+                return null;
+
+            Ratings rating = new Ratings()
+            {
+                BookingId = Convert.ToInt32(ratingModel.bookingId),
+                CreatedBy = Convert.ToInt32(ratingModel.createdBy),
+                CreatedDate = Convert.ToDateTime(ratingModel.createdDate),
+                CustomerId = Convert.ToInt32(ratingModel.customerId),
+                Display = Convert.ToBoolean(ratingModel.display),
+                Id = ratingModel.id,
+                RatingComments = ratingModel.ratingComments,
+                Ratings1 = Convert.ToInt32(ratingModel.ratings)
+            };
+
+            return rating;
+        }
+
         public AdditionalQuestionAnswers Parse(AdditionalQuestionsModel answers)
         {
             if (answers == null)
@@ -325,6 +406,7 @@ namespace INYTWebsite.Code
             {
                 Id = login.id,
                 CreatedDate = Convert.ToDateTime(login.createdDate),
+                UserId = login.userid,
                 Password = login.password,
                 Username = login.userName                
             };
@@ -344,6 +426,23 @@ namespace INYTWebsite.Code
                 ServiceProviderId = date.serviceProviderId,
                 WeekName = date.weekName
             };
+        }
+
+        internal Membership Parse(MembershipModel membershipModel)
+        {
+            if (membershipModel == null)
+                return null;
+
+            Membership membership = new Membership()
+            {
+                Id = membershipModel.id,
+                BasicSubscriptionFee = Convert.ToDecimal(membershipModel.basicSubscriptionFee),
+                Commission = Convert.ToDouble(membershipModel.commission),
+                Description = membershipModel.description,
+                Name = membershipModel.name
+            };
+
+            return membership;
         }
 
         #endregion

@@ -112,28 +112,23 @@
                                     <div class="doc-info-cont">
                                         <h4 class="doc-name"><a href="doctor-profile.html">@sp.firstName @sp.lastName</a></h4>
                                         <p class="doc-speciality">@sp.service</p>
-                                        <div class="rating">
-                                            <i class="fa fa-star filled"></i>
-                                            <i class="fa fa-star filled"></i>
-                                            <i class="fa fa-star filled"></i>
-                                            <i class="fa fa-star filled"></i>
-                                            <i class="fa fa-star"></i>
-                                            <span class="d-inline-block average-rating">(17)</span>
-                                        </div>
-                                        <div class="clinic-details">
-                                            <p class="doc-location"><i class="fa fa-map-marker-alt"></i> @sp.postcode</p>
-                                        </div>
+                                        @if (sp.ratings.Count > 0)
+                                        {
+                                            <div class="rating">
+                                                @for (int i = 0; i < Math.Round(sp.rating, 0); i++)
+                                                {
+                                                    <i class="fa fa-star filled"></i>
+                                                }
+                                                <span class="d-inline-block average-rating">(@sp.ratings.Count())</span>
+                                            </div>
+                                        }
+                                            <div class="clinic-details">
+                                                <p class="doc-location"><i class="fa fa-map-marker-alt"></i> @sp.postcode</p>
+                                                <p>@sp.distanceinmiles away</p>
+                                            </div>
                                     </div>
                                 </div>
                                 <div class="doc-info-right">
-                                    <div class="clini-infos">
-                                        <ul>
-                                            <li><i class="fa fa-thumbs-up"></i> 98%</li>
-                                            <li><i class="fa fa-comment"></i> 17 Feedback</li>
-                                            <li><i class="fa fa-map"></i> @sp.postcode</li>
-                                            <li><i class="fa fa-location"></i><p>@sp.distanceinmiles away</p> <i class="fa fa-info-circle" data-toggle="tooltip" title="Lorem Ipsum"></i> </li>
-                                        </ul>
-                                    </div>
                                     <div class="clinic-booking">
                                         @Html.ActionLink("View Profile", "Profile", "Services", new { id = sp.id }, new { @class = "view-pro-btn" })
                                         @Html.ActionLink("Book", "Index", "BookService", new { id = sp.id, postcode = ViewData["postcode"] }, new { @class = "apt-btn" })

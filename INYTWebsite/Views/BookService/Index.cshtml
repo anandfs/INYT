@@ -57,9 +57,13 @@
     }
 </style>
 
+
+
 <!--Booking Information Start-->
 <section id="contact_information">
+
     <div class="container">
+        
         <div class="row">
             <!--Form Part-->
             <div class="col-md-12 col-sm-12 col-xs-12">
@@ -70,7 +74,7 @@
                     <!-- HTML Form (wrapped in a .bootstrap-iso div) -->
                     <div class="booking_form">
                         <div class="container-fluid">
-                            <div class="row">
+                            <div class="row" style="border-bottom: dotted;">
                                 <form id="regForm" asp-controller="BookService" asp-action="BookStep1" method="post">
 
                                     <!-- Additional Questions-->
@@ -136,6 +140,13 @@
                                         </div>
                                     </div>
                                     <!-- /Additional Questions-->
+
+                                    <!--Existing login-->
+                                    <div class="exist-customer">Existing Customer? <a href="#">Click here to login</a></div>
+                                    <!-- /Existing login-->
+
+                                    <br />
+                                    
                                     <!-- Contact information-->
                                     <h2>Contact Information</h2>
                                     <p>This information will be used to contact you about your service</p>

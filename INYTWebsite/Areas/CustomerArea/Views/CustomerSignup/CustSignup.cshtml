@@ -1,5 +1,5 @@
 ﻿@inject Microsoft.Extensions.Options.IOptions<AppSettings> appSettings
-@model INYTWebsite.CustomModels.ServiceProviderModel
+@model INYTWebsite.CustomModels.CustomerModel
 
 @{
     ViewData["Title"] = "Index";
@@ -12,41 +12,37 @@
     <div class="container-fluid">
 
         <div class="row">
-            <div class="col-md-8 offset-md-2">
+            <div class="col-md-12">
 
                 <!-- Register Content -->
-                <div class="content">
-                    <div class="row">
-                        <div class="col-md-12">
+                <div class="account-content">
+                    <div class="row align-items-center justify-content-center">
+                        <div class="col-md-12 col-lg-6 login-right">
                             <div class="login-header">
-                                <h3>Service Provider Registration</h3>
+                                <h3>Customer Registration</h3>
                             </div>
-                            <form asp-action="signupprocess" asp-controller="signup" method="post">
+
+                            <form asp-action="custsignupprocess" asp-controller="customersignup" method="post">
                                 <!-- Basic Information -->
-                                <div class="card" style="background-color: aliceblue">
+                                <div class="card">
                                     <div class="card-body">
-                                        <h4 class="card-title">Membership Information</h4>
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label>Select Membership<span class="text-danger">*</span></label>
-                                                    @Html.DropDownListFor(a => a.membershipId, Model.memberships, new { @class = "form-control" })
-                                                </div>
-                                            </div>
-                                        </div>
                                         <h4 class="card-title">Basic Information</h4>
-                                        <div class="row">
+                                        <div class="row form-row">
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label>First Name <span class="text-danger">*</span></label>
                                                     <input asp-for="firstName" type="text" required class="form-control floating"
                                                            placeholder="Enter first name...">
                                                 </div>
+                                            </div>
+                                            <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label>Last Name <span class="text-danger">*</span></label>
                                                     <input asp-for="lastName" type="text" required class="form-control floating"
                                                            placeholder="Enter last name...">
                                                 </div>
+                                            </div>
+                                            <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label>Email <span class="text-danger">*</span></label>
                                                     <input asp-for="emailAddress" type="email" required class="form-control floating"
@@ -59,11 +55,15 @@
                                                     <input asp-for="contactNumber" type="text" class="form-control floating"
                                                            placeholder="Enter contact number...">
                                                 </div>
+                                            </div>
+                                            <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label>Password <span class="text-danger">*</span></label>
                                                     <input asp-for="password" type="password" required class="form-control floating"
                                                            placeholder="Enter password...">
                                                 </div>
+                                            </div>
+                                            <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label>Confirm Password<span class="text-danger">*</span></label>
                                                     <input asp-for="repeatPassword" type="password" class="form-control floating"
@@ -71,34 +71,29 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <h4 class="card-title">Service Information</h4>
-                                        <div class="row">
+                                    </div>
+                                </div>
+                                <!-- /Basic Information -->
+                                <!-- Contact Details -->
+                                <div class="card contact-card">
+                                    <div class="card-body">
+                                        <h4 class="card-title">Contact Details</h4>
+                                        <div class="row form-row">
                                             <div class="col-md-6">
                                                 <div class="form-group">
-                                                    <label>Service Name<span class="text-danger">*</span></label>
-                                                    @Html.DropDownListFor(a => a.serviceId, Model.services, new { @class = "form-control" })
+                                                    <label>Address Line 1</label>
+                                                    <input asp-for="addressLine1" type="text" class="form-control floating"
+                                                           placeholder="Enter 1st line of address...">
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-group">
-                                                    <label>Service Description</label>
-                                                    <textarea asp-for="description" class="form-control" cols="4" rows="5"></textarea>
+                                                    <label class="control-label">Address Line 2</label>
+                                                    <input asp-for="addressLine2" type="text" class="form-control floating"
+                                                           placeholder="Enter 2nd line of address...">
                                                 </div>
                                             </div>
-                                        </div>
-                                        <h4 class="card-title">Company Information</h4>
-                                        <div class="row">
                                             <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label>Company Number</label>
-                                                    <input asp-for="companyNumber" type="text" class="form-control floating"
-                                                           placeholder="Enter company number...">
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>Company Name<span class="text-danger">*</span></label>
-                                                    <input asp-for="companyName" required type="text" class="form-control floating"
-                                                           placeholder="Enter company name...">
-                                                </div>
                                                 <div class="form-group">
                                                     <label class="control-label">City</label>
                                                     <input asp-for="city" type="text" class="form-control floating"
@@ -106,16 +101,6 @@
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label>Address Line 1</label>
-                                                    <input asp-for="addressLine1" type="text" class="form-control floating"
-                                                           placeholder="Enter 1st line of address...">
-                                                </div>
-                                                <div class="form-group">
-                                                    <label class="control-label">Address Line 2</label>
-                                                    <input asp-for="addressLine2" type="text" class="form-control floating"
-                                                           placeholder="Enter 2nd line of address...">
-                                                </div>
                                                 <div class="form-group">
                                                     <label class="control-label">Postal Code</label>
                                                     <input asp-for="postcode" type="text" class="form-control floating"
@@ -125,9 +110,10 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="text-right">
-                                        <button type="submit" class="btn btn-primary">Submit</button>
-                                    </div>
+                                </div>
+                                <!-- /Contact Details -->
+                                <div class="submit-section submit-btn-bottom">
+                                    <button type="submit" class="btn btn-primary submit-btn">Submit</button>
                                 </div>
                             </form>
                         </div>

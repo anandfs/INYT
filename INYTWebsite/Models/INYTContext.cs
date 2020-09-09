@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
@@ -23,8 +20,10 @@ namespace INYTWebsite.Models
         public virtual DbSet<AvailabilitySlots> AvailabilitySlots { get; set; }
         public virtual DbSet<Booking> Booking { get; set; }
         public virtual DbSet<CustomerRegistration> CustomerRegistration { get; set; }
+        public virtual DbSet<Invoices> Invoices { get; set; }
         public virtual DbSet<Login> Login { get; set; }
         public virtual DbSet<LookupTable> LookupTable { get; set; }
+        public virtual DbSet<Membership> Membership { get; set; }
         public virtual DbSet<Message> Message { get; set; }
         public virtual DbSet<Ratings> Ratings { get; set; }
         public virtual DbSet<ServiceProvider> ServiceProvider { get; set; }
@@ -33,24 +32,8 @@ namespace INYTWebsite.Models
         public virtual DbSet<ServiceProviderBooking> ServiceProviderBooking { get; set; }
         public virtual DbSet<Services> Services { get; set; }
         public virtual DbSet<UnavailableDates> UnavailableDates { get; set; }
+
         public virtual DbSet<AvailabilityDates> AvailabilityDates { get; set; }
-
-        //public override int SaveChanges()
-        //{
-        //    var entities = (from entry in ChangeTracker.Entries()
-        //                    where entry.State == EntityState.Modified || entry.State == EntityState.Added
-        //                    select entry.Entity);
-
-        //    var validationResults = new List<ValidationResult>();
-        //    foreach (var entity in entities)
-        //    {
-        //        if (!Validator.TryValidateObject(entity, new ValidationContext(entity), validationResults))
-        //        {
-        //            // throw new ValidationException() or do whatever you want
-        //        }
-        //    }
-        //    return base.SaveChanges();
-        //}
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -149,6 +132,8 @@ namespace INYTWebsite.Models
 
                 entity.Property(e => e.HasAgreedTc).HasColumnName("HasAgreedTC");
 
+                entity.Property(e => e.IsActive).HasColumnName("isActive");
+
                 entity.Property(e => e.LastName)
                     .HasMaxLength(50)
                     .IsUnicode(false);
@@ -160,6 +145,13 @@ namespace INYTWebsite.Models
                 entity.Property(e => e.Region)
                     .HasMaxLength(50)
                     .IsUnicode(false);
+            });
+
+            modelBuilder.Entity<Invoices>(entity =>
+            {
+                entity.Property(e => e.Amount).HasColumnType("money");
+
+                entity.Property(e => e.PaidDate).HasColumnType("datetime");
             });
 
             modelBuilder.Entity<Login>(entity =>
@@ -184,6 +176,19 @@ namespace INYTWebsite.Models
                     .IsUnicode(false);
 
                 entity.Property(e => e.LookupValue)
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+            });
+
+            modelBuilder.Entity<Membership>(entity =>
+            {
+                entity.Property(e => e.BasicSubscriptionFee).HasColumnType("money");
+
+                entity.Property(e => e.Description)
+                    .HasMaxLength(2000)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Name)
                     .HasMaxLength(100)
                     .IsUnicode(false);
             });

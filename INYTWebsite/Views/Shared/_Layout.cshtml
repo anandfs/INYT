@@ -26,7 +26,7 @@
 </head>
 
 <!-- BEGIN: Body-->
-<body style="background-color: aliceblue">
+<body style="background-color: white">
     <div class="main-wrapper">
 
         <!-- Header -->
@@ -55,10 +55,10 @@
                     </div>
                     <ul class="main-nav">
                         <li>
-                            <a href="index.html">Home</a>
+                            <a href="/">Home</a>
                         </li>
                         <li>
-                            <a href="index.html">How it works</a>
+                            <a href="#howitworks">How it works</a>
                         </li>
 
                         <li class="has-submenu">
@@ -79,12 +79,12 @@
                             <a href="#">Customers <i class="fa fa-chevron-down"></i></a>
                             <ul class="submenu">
                                 <li>
-                                    <a asp-area="Customer" asp-controller="Customer"
-                                       asp-action="Index">Sign up</a>
+                                    <a asp-area="CustomerArea" asp-controller="CustomerSignup"
+                                       asp-action="CustSignup">Sign up</a>
                                 </li>
                                 <li>
-                                    <a asp-area="Customer" asp-controller="Customer"
-                                       asp-action="Index">Login</a>
+                                    <a asp-area="CustomerArea" asp-controller="CustomerSignup"
+                                       asp-action="CustLogin">Login</a>
                                 </li>
                             </ul>
                         </li>

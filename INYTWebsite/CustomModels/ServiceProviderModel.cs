@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace INYTWebsite.CustomModels
 {
@@ -32,7 +33,9 @@ namespace INYTWebsite.CustomModels
         
         public string password { get; set; }
         public string repeatPassword { get; set; }
-        public int rating { get; set; }
+        public double rating { get; set; }
+
+        public List<RatingModel> ratings { get; set; }
         public bool isEmailVerified { get; set; }
         public bool isRegistrationApproved { get; set; }
         public DateTime createdDate { get; set; }
@@ -45,6 +48,11 @@ namespace INYTWebsite.CustomModels
         public int totalNewBookings { get; set; }
 
         public SlotsModel newslot { get; set; }
+        public ServiceProviderAdditionalQuestionsModel additionalQuestion { get; set;  }
         public List<ServiceProviderAdditionalQuestionsModel> additionalQuestions { get; set; }
+        public List<SelectListItem> memberships { get; set; }
+        public List<SelectListItem> services { get; set; }
+
+        public int membershipId { get; set; }
     }
 }

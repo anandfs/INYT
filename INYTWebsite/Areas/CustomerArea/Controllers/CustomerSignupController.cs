@@ -15,10 +15,10 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Options;
 
 
-namespace INYTWebsite.Areas.ServiceProviderArea.Controllers
+namespace INYTWebsite.Areas.CustomerArea.Controllers
 {
-    [Area("ServiceProviderArea")]
-    public class SignupController : BaseController
+    [Area("CustomerArea")]
+    public class CustomerSignupController : BaseController
     {
         Repository _repo = null;
         private readonly IEmailManager _emailManager;
@@ -27,7 +27,7 @@ namespace INYTWebsite.Areas.ServiceProviderArea.Controllers
         /// Constructor for controller
         /// </summary>
         /// <param name="repo"></param>
-        public SignupController(Repository repo, IOptions<AppSettings> settings, 
+        public CustomerSignupController(Repository repo, IOptions<AppSettings> settings,
             IEmailManager emailManager)
             : base(repo)
         {
@@ -40,10 +40,10 @@ namespace INYTWebsite.Areas.ServiceProviderArea.Controllers
             return View();
         }
 
-        [Route("Signup")]
-        public IActionResult Signup()
+        [Route("CustSignup")]
+        public IActionResult CustSignup()
         {
-            ServiceProviderModel model = new ServiceProviderModel();
+            CustomerModel model = new CustomerModel();
 
             List<ServiceModel> services = TheRepository.GetServices().ToList();
 
@@ -53,41 +53,23 @@ namespace INYTWebsite.Areas.ServiceProviderArea.Controllers
                 Value = x.id.ToString()
             }).ToList();
 
-            List<MembershipModel> memberships = TheRepository.GetMemberships().ToList();
-
-            var membershipList = memberships.Select(x => new SelectListItem
-            {
-                Text = String.Format("{0} - £{1} pm (+ {2}% commission on sales)", x.name.ToString(), 
-                    x.basicSubscriptionFee.ToString(), x.commission),
-                Value = x.id.ToString()
-            }).ToList();
-
             ViewData["Services"] = servicesList;
-            ViewData["Memberships"] = membershipList;
-
-            model.memberships = membershipList;
-            model.services = servicesList;
-
             return View(model);
         }
 
-        [Route("Login")]
-        public IActionResult Login()
+        [Route("CustLogin")]
+        public IActionResult CustLogin()
         {
             return View();
         }
 
-        [Route("LoginProcess")]
-        public IActionResult LoginProcess(LoginModel login, string returnUrl = "")
+        [Route("CustLoginProcess")]
+        public IActionResult CustLoginProcess(LoginModel login, string returnUrl = "")
         {
             if (IsValid(login) != null)
             {
-                ServiceProviderModel model = new ServiceProviderModel();
-                model = TheRepository.GetServiceProviderByEmail(login.userName);
-
-                ServiceModel services = new ServiceModel();
-                services = TheRepository.GetServiceById(model.serviceId);
-                model.service = services.Service;
+                CustomerModel model = new CustomerModel();
+                model = TheRepository.GetCustomerByEmail(login.userName);
 
                 //if user is inactive or locked out, do not proceed any further
                 if (Convert.ToBoolean(model.isActive) == false)
@@ -105,19 +87,20 @@ namespace INYTWebsite.Areas.ServiceProviderArea.Controllers
                     return Redirect(returnUrl);
                 }
 
-                return RedirectToAction("Index","ServiceProvider");
+                return RedirectToAction("CustIndex", "Customer");
             }
 
             return View("Login");
         }
 
-        [Route("SignupProcess")]        
-        public IActionResult SignupProcess(ServiceProviderModel model)
+        [Route("CustSignupProcess")]
+        [HttpPost]
+        public IActionResult CustSignupProcess(CustomerModel model)
         {
             model.isActive = true; // should be after user has validated their email. but temp for now
-            var serviceprovider = TheRepository.CreateServiceProvider(model);
+            var customer = TheRepository.CreateCustomer(model);
 
-            model.id = serviceprovider.id;
+            model.id = customer.id;
             model.isEmailVerified = false;
             model.isRegistrationApproved = false;
             model.createdDate = DateTime.Now;
@@ -127,7 +110,7 @@ namespace INYTWebsite.Areas.ServiceProviderArea.Controllers
             {
                 userName = model.emailAddress,
                 password = model.password,
-                userid = serviceprovider.id,
+                userid = customer.id,
                 createdDate = DateTime.Now
             };
 
@@ -136,7 +119,7 @@ namespace INYTWebsite.Areas.ServiceProviderArea.Controllers
             //On successful creation of record, send an authorisation email to the servieprovider
             EmailInfo email_sp = new EmailInfo
             {
-                emailType = "ServiceProvider_AuthorisationEmail",
+                emailType = "Customer_AuthorisationEmail",
                 FromAddress = "donotreply@inyt.com",
                 ToAddress = model.emailAddress,
                 IsBodyHtml = true,
@@ -152,7 +135,7 @@ namespace INYTWebsite.Areas.ServiceProviderArea.Controllers
                 FromAddress = "donotreply@inyt.com",
                 ToAddress = "anand@futuresolutionsltd.com",
                 IsBodyHtml = true,
-                Subject = "New service provider on INYT website"
+                Subject = "New customer on INYT website"
             };
 
             _emailManager.SendEmail(email_admin);
@@ -165,8 +148,6 @@ namespace INYTWebsite.Areas.ServiceProviderArea.Controllers
         {
             return View();
         }
-
-
 
         private LoginModel IsValid(LoginModel user)
         {
@@ -189,7 +170,7 @@ namespace INYTWebsite.Areas.ServiceProviderArea.Controllers
             return null;
         }
 
-        private async void SetSessionValuesAsync(ServiceProviderModel model)
+        private async void SetSessionValuesAsync(CustomerModel model)
         {
 
             var claims = new List<Claim>
@@ -199,9 +180,7 @@ namespace INYTWebsite.Areas.ServiceProviderArea.Controllers
                 new Claim("LastName", model.lastName.ToString().Trim(), ClaimValueTypes.String),
                 new Claim("FullName", string.Format("{0} {1}", model.firstName.Trim(), model.lastName.Trim()), ClaimValueTypes.String),
                 new Claim("Email", model.emailAddress.ToString().Trim(), ClaimValueTypes.String),
-                new Claim("CompanyName", model.companyName.ToString().Trim(), ClaimValueTypes.String),
-                new Claim("CompanyPostcode", model.postcode.ToString().Trim(), ClaimValueTypes.String),
-                new Claim("Trade", model.service.ToString().Trim(), ClaimValueTypes.String),
+                new Claim("Postcode", model.postcode.ToString().Trim(), ClaimValueTypes.String),
                 new Claim("ContactNumber", model.contactNumber.ToString().Trim(), ClaimValueTypes.String),
             };
 

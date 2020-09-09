@@ -25,5 +25,6 @@ namespace INYTWebsite.Models
         public string DeactivationReason { get; set; }
         public string Website { get; set; }
         public string Picture { get; set; }
+        public int? MembershipId { get; set; }
     }
 }

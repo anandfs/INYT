@@ -64,6 +64,7 @@ namespace INYTWebsite
             services.AddAuthorization(options =>
             {
                 options.AddPolicy("ServiceProviderOnly", policy => policy.RequireClaim("UserId"));
+                options.AddPolicy("CustomerOnly", policy => policy.RequireClaim("UserId"));
             });
 
             services.AddTransient<INYTContext, INYTContext>();

@@ -106,19 +106,19 @@
                                                             <tbody>
                                                                 @foreach (var slot in Model.slots.Where(a => a.dayOfWeek == "Sunday"))
                                                                 {
-                                                                    <tr>
-                                                                        <td>@slot.startTime.ToShortTimeString() - @slot.endTime.ToShortTimeString()</td>
-                                                                        <td>@slot.minimumHours</td>
-                                                                        <td>@slot.minimumRate</td>
-                                                                        <td>@slot.breakTimeInMins</td>
-                                                                        <td>@slot.rateForAdditionalHour</td>
-                                                                        <td>
-                                                                            <a href="#" class="edit-link" data-toggle="modal" data-url="@Url.Action("EditSchedule", "ServiceProvider", new { id = slot.id.ToString() })"><i class="fa fa-edit"></i></a>
-                                                                        </td>
-                                                                        <td>
-                                                                            <a href="#" class="edit-link" data-toggle="modal" data-url="@Url.Action("DeleteSchedule", "ServiceProvider", new { id = slot.id.ToString() })"><i class="fa fa-trash"></i></a>
-                                                                        </td>
-                                                                    </tr>
+                                                                <tr>
+                                                                    <td>@slot.startTime.ToShortTimeString() - @slot.endTime.ToShortTimeString()</td>
+                                                                    <td>@slot.minimumHours</td>
+                                                                    <td>@slot.minimumRate</td>
+                                                                    <td>@slot.breakTimeInMins</td>
+                                                                    <td>@slot.rateForAdditionalHour</td>
+                                                                    <td>
+                                                                        <a href="#" class="edit-link" data-target="#edit_time_slot" data-toggle="modal" data-url="@Url.Action("EditSchedule", "ServiceProvider", new { id = slot.id.ToString() })"><i class="fa fa-edit"></i></a>
+                                                                    </td>
+                                                                    <td>
+                                                                        <a href="#" class="edit-link" data-toggle="modal" data-url="@Url.Action("DeleteSchedule", "ServiceProvider", new { id = slot.id.ToString() })"><i class="fa fa-trash"></i></a>
+                                                                    </td>
+                                                                </tr>
                                                                 }
                                                             </tbody>
                                                         </table>
@@ -178,19 +178,19 @@
                                                             <tbody>
                                                                 @foreach (var slot in Model.slots.Where(a => a.dayOfWeek == "Tuesday"))
                                                                 {
-                                                                    <tr>
-                                                                        <td>@slot.startTime.ToShortTimeString() - @slot.endTime.ToShortTimeString()</td>
-                                                                        <td>@slot.minimumHours</td>
-                                                                        <td>@slot.minimumRate</td>
-                                                                        <td>@slot.breakTimeInMins</td>
-                                                                        <td>@slot.rateForAdditionalHour</td>
-                                                                        <td>
-                                                                            <a href="#" class="edit-link" data-target="edit_time_slot" data-toggle="modal" data-url="@Url.Action("EditSchedule", "ServiceProvider", new { id = slot.id.ToString() })"><i class="fa fa-edit"></i></a>
-                                                                        </td>
-                                                                        <td>
-                                                                            <a href="#" class="edit-link" data-target="edit_time_slot" data-toggle="modal" data-url="@Url.Action("DeleteSchedule", "ServiceProvider", new { id = slot.id.ToString() })"><i class="fa fa-trash"></i></a>
-                                                                        </td>
-                                                                    </tr>
+                                                                <tr>
+                                                                    <td>@slot.startTime.ToShortTimeString() - @slot.endTime.ToShortTimeString()</td>
+                                                                    <td>@slot.minimumHours</td>
+                                                                    <td>@slot.minimumRate</td>
+                                                                    <td>@slot.breakTimeInMins</td>
+                                                                    <td>@slot.rateForAdditionalHour</td>
+                                                                    <td>
+                                                                        <a href="#" class="edit-link" data-target="#edit_time_slot" data-toggle="modal" data-url="@Url.Action("EditSchedule", "ServiceProvider", new { id = slot.id.ToString() })"><i class="fa fa-edit"></i></a>
+                                                                    </td>
+                                                                    <td>
+                                                                        <a href="#" class="edit-link" data-toggle="modal" data-url="@Url.Action("DeleteSchedule", "ServiceProvider", new { id = slot.id.ToString() })"><i class="fa fa-trash"></i></a>
+                                                                    </td>
+                                                                </tr>
                                                                 }
                                                             </tbody>
                                                         </table>
@@ -214,19 +214,19 @@
                                                             <tbody>
                                                                 @foreach (var slot in Model.slots.Where(a => a.dayOfWeek == "Wednesday"))
                                                                 {
-                                                                    <tr>
-                                                                        <td>@slot.startTime.ToShortTimeString() - @slot.endTime.ToShortTimeString()</td>
-                                                                        <td>@slot.minimumHours</td>
-                                                                        <td>@slot.minimumRate</td>
-                                                                        <td>@slot.breakTimeInMins</td>
-                                                                        <td>@slot.rateForAdditionalHour</td>
-                                                                        <td>
-                                                                            <a href="#" class="edit-link" data-target="edit_time_slot" data-toggle="modal" data-url="@Url.Action("EditSchedule", "ServiceProvider", new { id = slot.id.ToString() })"><i class="fa fa-edit"></i></a>
-                                                                        </td>
-                                                                        <td>
-                                                                            <a href="#" class="edit-link" data-target="edit_time_slot" data-toggle="modal" data-url="@Url.Action("DeleteSchedule", "ServiceProvider", new { id = slot.id.ToString() })"><i class="fa fa-trash"></i></a>
-                                                                        </td>
-                                                                    </tr>
+                                                                <tr>
+                                                                    <td>@slot.startTime.ToShortTimeString() - @slot.endTime.ToShortTimeString()</td>
+                                                                    <td>@slot.minimumHours</td>
+                                                                    <td>@slot.minimumRate</td>
+                                                                    <td>@slot.breakTimeInMins</td>
+                                                                    <td>@slot.rateForAdditionalHour</td>
+                                                                    <td>
+                                                                        <a href="#" class="edit-link" data-target="#edit_time_slot" data-toggle="modal" data-url="@Url.Action("EditSchedule", "ServiceProvider", new { id = slot.id.ToString() })"><i class="fa fa-edit"></i></a>
+                                                                    </td>
+                                                                    <td>
+                                                                        <a href="#" class="edit-link" data-toggle="modal" data-url="@Url.Action("DeleteSchedule", "ServiceProvider", new { id = slot.id.ToString() })"><i class="fa fa-trash"></i></a>
+                                                                    </td>
+                                                                </tr>
                                                                 }
                                                             </tbody>
                                                         </table>
@@ -250,19 +250,19 @@
                                                             <tbody>
                                                                 @foreach (var slot in Model.slots.Where(a => a.dayOfWeek == "Thursday"))
                                                                 {
-                                                                    <tr>
-                                                                        <td>@slot.startTime.ToShortTimeString() - @slot.endTime.ToShortTimeString()</td>
-                                                                        <td>@slot.minimumHours</td>
-                                                                        <td>@slot.minimumRate</td>
-                                                                        <td>@slot.breakTimeInMins</td>
-                                                                        <td>@slot.rateForAdditionalHour</td>
-                                                                        <td>
-                                                                            <a href="#" class="edit-link" data-target="edit_time_slot" data-toggle="modal" data-url="@Url.Action("EditSchedule", "ServiceProvider", new { id = slot.id.ToString() })"><i class="fa fa-edit"></i></a>
-                                                                        </td>
-                                                                        <td>
-                                                                            <a href="#" class="edit-link" data-target="edit_time_slot" data-toggle="modal" data-url="@Url.Action("DeleteSchedule", "ServiceProvider", new { id = slot.id.ToString() })"><i class="fa fa-trash"></i></a>
-                                                                        </td>
-                                                                    </tr>
+                                                                <tr>
+                                                                    <td>@slot.startTime.ToShortTimeString() - @slot.endTime.ToShortTimeString()</td>
+                                                                    <td>@slot.minimumHours</td>
+                                                                    <td>@slot.minimumRate</td>
+                                                                    <td>@slot.breakTimeInMins</td>
+                                                                    <td>@slot.rateForAdditionalHour</td>
+                                                                    <td>
+                                                                        <a href="#" class="edit-link" data-target="#edit_time_slot" data-toggle="modal" data-url="@Url.Action("EditSchedule", "ServiceProvider", new { id = slot.id.ToString() })"><i class="fa fa-edit"></i></a>
+                                                                    </td>
+                                                                    <td>
+                                                                        <a href="#" class="edit-link" data-toggle="modal" data-url="@Url.Action("DeleteSchedule", "ServiceProvider", new { id = slot.id.ToString() })"><i class="fa fa-trash"></i></a>
+                                                                    </td>
+                                                                </tr>
                                                                 }
                                                             </tbody>
                                                         </table>
@@ -286,19 +286,19 @@
                                                             <tbody>
                                                                 @foreach (var slot in Model.slots.Where(a => a.dayOfWeek == "Friday"))
                                                                 {
-                                                                    <tr>
-                                                                        <td>@slot.startTime.ToShortTimeString() - @slot.endTime.ToShortTimeString()</td>
-                                                                        <td>@slot.minimumHours</td>
-                                                                        <td>@slot.minimumRate</td>
-                                                                        <td>@slot.breakTimeInMins</td>
-                                                                        <td>@slot.rateForAdditionalHour</td>
-                                                                        <td>
-                                                                            <a href="#" class="edit-link" data-target="edit_time_slot" data-toggle="modal" data-url="@Url.Action("EditSchedule", "ServiceProvider", new { id = slot.id.ToString() })"><i class="fa fa-edit"></i></a>
-                                                                        </td>
-                                                                        <td>
-                                                                            <a href="#" class="edit-link" data-target="edit_time_slot" data-toggle="modal" data-url="@Url.Action("DeleteSchedule", "ServiceProvider", new { id = slot.id.ToString() })"><i class="fa fa-trash"></i></a>
-                                                                        </td>
-                                                                    </tr>
+                                                                <tr>
+                                                                    <td>@slot.startTime.ToShortTimeString() - @slot.endTime.ToShortTimeString()</td>
+                                                                    <td>@slot.minimumHours</td>
+                                                                    <td>@slot.minimumRate</td>
+                                                                    <td>@slot.breakTimeInMins</td>
+                                                                    <td>@slot.rateForAdditionalHour</td>
+                                                                    <td>
+                                                                        <a href="#" class="edit-link" data-target="#edit_time_slot" data-toggle="modal" data-url="@Url.Action("EditSchedule", "ServiceProvider", new { id = slot.id.ToString() })"><i class="fa fa-edit"></i></a>
+                                                                    </td>
+                                                                    <td>
+                                                                        <a href="#" class="edit-link" data-toggle="modal" data-url="@Url.Action("DeleteSchedule", "ServiceProvider", new { id = slot.id.ToString() })"><i class="fa fa-trash"></i></a>
+                                                                    </td>
+                                                                </tr>
                                                                 }
                                                             </tbody>
                                                         </table>
@@ -323,19 +323,19 @@
                                                             <tbody>
                                                                 @foreach (var slot in Model.slots.Where(a => a.dayOfWeek == "Saturday"))
                                                                 {
-                                                                    <tr>
-                                                                        <td>@slot.startTime.ToShortTimeString() - @slot.endTime.ToShortTimeString()</td>
-                                                                        <td>@slot.minimumHours</td>
-                                                                        <td>@slot.minimumRate</td>
-                                                                        <td>@slot.breakTimeInMins</td>
-                                                                        <td>@slot.rateForAdditionalHour</td>
-                                                                        <td>
-                                                                            <a href="#" class="edit-link" data-target="edit_time_slot" data-toggle="modal" data-url="@Url.Action("EditSchedule", "ServiceProvider", new { id = slot.id.ToString() })"><i class="fa fa-edit"></i></a>
-                                                                        </td>
-                                                                        <td>
-                                                                            <a href="#" class="edit-link" data-target="edit_time_slot" data-toggle="modal" data-url="@Url.Action("DeleteSchedule", "ServiceProvider", new { id = slot.id.ToString() })"><i class="fa fa-trash"></i></a>
-                                                                        </td>
-                                                                    </tr>
+                                                                <tr>
+                                                                    <td>@slot.startTime.ToShortTimeString() - @slot.endTime.ToShortTimeString()</td>
+                                                                    <td>@slot.minimumHours</td>
+                                                                    <td>@slot.minimumRate</td>
+                                                                    <td>@slot.breakTimeInMins</td>
+                                                                    <td>@slot.rateForAdditionalHour</td>
+                                                                    <td>
+                                                                        <a href="#" class="edit-link" data-target="#edit_time_slot" data-toggle="modal" data-url="@Url.Action("EditSchedule", "ServiceProvider", new { id = slot.id.ToString() })"><i class="fa fa-edit"></i></a>
+                                                                    </td>
+                                                                    <td>
+                                                                        <a href="#" class="edit-link" data-toggle="modal" data-url="@Url.Action("DeleteSchedule", "ServiceProvider", new { id = slot.id.ToString() })"><i class="fa fa-trash"></i></a>
+                                                                    </td>
+                                                                </tr>
                                                                 }
                                                             </tbody>
                                                         </table>

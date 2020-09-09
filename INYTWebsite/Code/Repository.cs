@@ -104,13 +104,38 @@ namespace INYTWebsite.Code
             }
         }
 
-        internal List<ServiceProvider> GetServiceProvidersByService(int serviceid)
+        internal List<BookingModel> GetAllBookingsByCustomer(int customerId)
+        {
+            try
+            {
+                var bookings = _db.Booking.Where(a => a.CustomerId == customerId).ToList();
+
+                List<BookingModel> bookingmodels = new List<BookingModel>();
+
+                bookings.ForEach(booking => bookingmodels.Add(_modelFactory.Create(booking)));
+
+                bookingmodels.ForEach(booking => booking.serviceProvider = GetServiceProvider(booking.serviceProviderId));
+
+                return bookingmodels;
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        internal List<ServiceProviderModel> GetServiceProvidersByService(int serviceid)
         {
             try
             {
                 var serviceproviders = _db.ServiceProvider.Where(a => a.TradeId == Convert.ToInt32(serviceid)).ToList();
 
-                return serviceproviders;
+                List<ServiceProviderModel> spmodels = new List<ServiceProviderModel>();
+
+                serviceproviders.ForEach(serviceprovider => spmodels.Add(_modelFactory.Create(serviceprovider)));
+
+                return spmodels;
             }
             catch (Exception ex)
             {
@@ -139,6 +164,60 @@ namespace INYTWebsite.Code
             }
         }
 
+        internal List<MembershipModel> GetMemberships()
+        {
+            try
+            {
+                var memberships = _db.Membership.ToList();
+
+                List<MembershipModel> membershipmodels = new List<MembershipModel>();
+
+                memberships.ForEach(membership => membershipmodels.Add(_modelFactory.Create(membership)));
+
+                return membershipmodels;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        internal MembershipModel GetMembershipById(int id)
+        {
+            try
+            {
+                var membership = _db.Membership.Find(id);
+                return _modelFactory.Create(membership);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        internal List<RatingModel> GetRatings(int serviceproviderid)
+        {
+            try
+            {
+                List<RatingModel> ratingmodels = new List<RatingModel>();
+
+                var ratings = (from r in _db.Ratings
+                        join bk in _db.Booking on r.BookingId equals bk.Id
+                        join s in _db.ServiceProvider on bk.ServiceProviderId equals s.Id
+                        where s.Id == serviceproviderid
+                        select r).ToList();
+
+                ratings.ForEach(rating => ratingmodels.Add(_modelFactory.Create(rating)));
+
+                return ratingmodels;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+
+        }
+
         internal bool DeleteSlot(int id)
         {
             try
@@ -160,11 +239,55 @@ namespace INYTWebsite.Code
             }
         }
 
+        internal bool UpdateQuestions(ServiceProviderAdditionalQuestionsModel originalQuestions, 
+            ServiceProviderAdditionalQuestionsModel updatedQuestions)
+        {
+            try
+            {
+                var question = _db.ServiceProviderAdditionalQuestions.Find(updatedQuestions.id);
+                question.AdditionalQuestion = updatedQuestions.additionalQuestion;
+                question.AnswerOptions = updatedQuestions.answerOptions;
+                question.AnswerOptionType = updatedQuestions.answerOptionType;
+                question.ServiceProviderId = updatedQuestions.serviceProviderId;
+                _db.SaveChanges(true);
+                return true;
+            }
+            catch (DbUpdateException ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        internal bool DeleteQuestion(int id)
+        {
+            try
+            {
+                var question = _db.ServiceProviderAdditionalQuestions.Where(a => a.Id == Convert.ToInt32(id)).FirstOrDefault();
+                if (question != null)
+                {
+                    _db.ServiceProviderAdditionalQuestions.Remove(question);
+                    return (_db.SaveChanges() > 0);
+                }
+                else
+                {
+                    throw new Exception("The question was not present in the database");
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
         internal bool UpdateSlot(SlotsModel originalSlots, SlotsModel updatedSlots)
         {
             try
             {
-                var slot = _db.AvailabilitySlots.First();
+                var slot = _db.AvailabilitySlots.Find(updatedSlots.id);
                 slot.BreakTimeInMins = updatedSlots.breakTimeInMins;
                 slot.DayOfWeek = updatedSlots.dayOfWeek;
                 slot.EndTime = updatedSlots.endTime;
@@ -247,12 +370,14 @@ namespace INYTWebsite.Code
 
         internal CustomerModel CreateCustomer(CustomerModel customer)
         {
-            _db.CustomerRegistration.Add(_modelFactory.Parse(customer));
+            var cust = _modelFactory.Parse(customer);
+
+            _db.CustomerRegistration.Add(cust);
 
             try
             {
                 _db.SaveChanges();
-                return customer;
+                return _modelFactory.Create(cust);
             }
             catch (DbUpdateException ex)
             {
@@ -338,12 +463,13 @@ namespace INYTWebsite.Code
 
         internal ServiceProviderModel CreateServiceProvider(ServiceProviderModel model)
         {
-            _db.ServiceProvider.Add(_modelFactory.Parse(model));
+            var sp = _modelFactory.Parse(model);
+            _db.ServiceProvider.Add(sp);
 
             try
             {
                 _db.SaveChanges();
-                return model;
+                return _modelFactory.Create(sp);
             }
             catch (DbUpdateException ex)
             {
@@ -432,6 +558,45 @@ namespace INYTWebsite.Code
                 return true;
             }
             catch (DbUpdateException ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        internal List<InvoiceModel> GetInvoicesByCustomer(int customerId)
+        {
+            try
+            {
+                var invoices = _db.Invoices.Where(a => a.CustomerId == customerId).ToList();
+                List<InvoiceModel> invoicesList = new List<InvoiceModel>();
+                foreach(var inv in invoices)
+                {
+                    invoicesList.Add(_modelFactory.Create(inv));
+                }
+
+                return invoicesList;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+
+        internal List<InvoiceModel> GetInvoicesByServiceProvider(int serviceProviderId)
+        {
+            try
+            {
+                var invoices = _db.Invoices.Where(a => a.ServiceProviderId == serviceProviderId).ToList();
+                List<InvoiceModel> invoicesList = new List<InvoiceModel>();
+                foreach (var inv in invoices)
+                {
+                    invoicesList.Add(_modelFactory.Create(inv));
+                }
+
+                return invoicesList;
+            }
+            catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }

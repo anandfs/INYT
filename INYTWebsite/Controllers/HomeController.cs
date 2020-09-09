@@ -57,28 +57,27 @@ namespace INYTWebsite.Controllers
             ViewData["postcode"] = model.postCode;
             ViewData["service"] = serviceModel.Service;
 
-            List<ServiceProviderModel> spList = new List<ServiceProviderModel>();
-            int miles = 10; //TEMPORARY TO SAVE ON LICENSE
             int spCount = 0;
-
             var serviceProviders = TheRepository.GetServiceProvidersByService(Convert.ToInt32(model.selectedService)).ToList();
             spCount = serviceProviders.Count();
             ViewData["spCount"] = spCount;
 
             foreach (var serviceperson in serviceProviders)
             {
-                ServiceProviderModel sp = new ServiceProviderModel();
-                sp.firstName = serviceperson.FirstName;
-                sp.lastName = serviceperson.LastName;
-                sp.id = serviceperson.Id;                
-                //sp.distanceinmiles = Distance.BetweenTwoUKPostCodes(model.postCode, tradesperson.Postcode, apikey);
-                sp.distanceinmiles = String.Format("{0}",miles); miles+=10; //TEMPORARILY TO SAVE ON LICENSE
-                sp.rating = 4;
-                sp.serviceId = Convert.ToInt32(serviceperson.TradeId);
-                spList.Add(sp);
+                serviceperson.distanceinmiles = Distance.BetweenTwoUKPostCodes(model.postCode, serviceperson.postcode, apikey);
+
+                var ratings = TheRepository.GetRatings(serviceperson.id);
+
+                if ((ratings != null) && (ratings.Count > 0))
+                {
+                    serviceperson.rating = ratings.Average(a => a.ratings);
+                }
+
+                serviceperson.ratings = ratings;
+                serviceperson.service = TheRepository.GetServiceById(serviceperson.serviceId).Service;
             }
 
-            return View("SearchResults", spList);
+            return View("SearchResults", serviceProviders);
         }
 
 

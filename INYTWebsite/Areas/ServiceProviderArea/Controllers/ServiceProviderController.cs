@@ -41,7 +41,7 @@ namespace INYTWebsite.Areas.ServiceProvider.Controllers
 
                 if (model != null)
                 {
-                    model.bookings = TheRepository.GetAllBookings(id);
+                    model.bookings = TheRepository.GetAllBookings(id);                    
                 }
 
                 List<BookingModel> bookingModels = new List<BookingModel>();
@@ -77,6 +77,16 @@ namespace INYTWebsite.Areas.ServiceProvider.Controllers
             return View();
         }
 
+        [Route("addquestion")]
+        public IActionResult addquestion(ServiceProviderModel model)
+        {
+            ServiceProviderAdditionalQuestionsModel questionsmodel = new ServiceProviderAdditionalQuestionsModel();
+            questionsmodel = model.additionalQuestion;
+            questionsmodel.serviceProviderId = model.id;
+            TheRepository.CreateAdditionalQuestions(questionsmodel);
+            return RedirectToAction("additionalquestions");
+        }
+
         [Route("schedules")]
         [Authorize (Policy = "ServiceProviderOnly")]
         public IActionResult Schedules()
@@ -109,6 +119,35 @@ namespace INYTWebsite.Areas.ServiceProvider.Controllers
             model.startTimeList = GetStartTimeList(model.startTime);
             model.endTimeList = GetEndTimeList(model.endTime);
             return PartialView("_ScheduleEditModal", model);
+        }
+
+        [Route("editquestion/{id}")]
+        [Authorize(Policy = "ServiceProviderOnly")]
+        public IActionResult EditQuestion(int id)
+        {
+            ServiceProviderAdditionalQuestionsModel model = new ServiceProviderAdditionalQuestionsModel();
+            model = TheRepository.GetServiceProviderQuestion(id);            
+            return PartialView("_QuestionEditModal", model);
+        }
+
+        [Route("UpdateQuestion")]
+        [HttpPost]
+        [Authorize(Policy = "ServiceProviderOnly")]
+        public IActionResult UpdateQuestion(ServiceProviderAdditionalQuestionsModel updatedQuestions)
+        {
+            ServiceProviderAdditionalQuestionsModel originalQuestions = new ServiceProviderAdditionalQuestionsModel();
+            originalQuestions = TheRepository.GetServiceProviderQuestion(updatedQuestions.id);
+            TheRepository.UpdateQuestions(originalQuestions, updatedQuestions);
+            return RedirectToAction("additionalquestions");
+        }
+
+        [Route("DeleteQuestion")]
+        [Authorize(Policy = "ServiceProviderOnly")]
+        public IActionResult DeleteQuestion(int id)
+        {
+            ServiceProviderAdditionalQuestionsModel model = new ServiceProviderAdditionalQuestionsModel();
+            TheRepository.DeleteQuestion(id);
+            return RedirectToAction("Schedules");
         }
 
         private IEnumerable<SelectListItem> GetEndTimeList(DateTime endTime)

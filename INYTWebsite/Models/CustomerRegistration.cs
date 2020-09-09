@@ -17,5 +17,6 @@ namespace INYTWebsite.Models
         public string Region { get; set; }
         public string Country { get; set; }
         public string Postcode { get; set; }
+        public bool? IsActive { get; set; }
     }
 }
