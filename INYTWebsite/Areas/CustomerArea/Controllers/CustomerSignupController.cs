@@ -76,7 +76,7 @@ namespace INYTWebsite.Areas.CustomerArea.Controllers
                 {
                     ModelState.AddModelError("", "Your account is currently inactive. Please " +
                         "contact admin@inyt.com to activate yor account");
-                    return View(model);
+                    return View("Login");
                 }
 
                 //If valid, then set the session values
@@ -85,6 +85,13 @@ namespace INYTWebsite.Areas.CustomerArea.Controllers
                 if (!string.IsNullOrEmpty(returnUrl))
                 {
                     return Redirect(returnUrl);
+                }
+
+                if (Request.Form["frompage"].ToString() != null)
+                {
+                    string spid = Request.Form["id"].ToString();
+                    string custpostcode = Request.Form["postcode"].ToString();
+                    return RedirectToAction("Index", "BookService", new { id = spid, postcode = custpostcode, customerid = model.id.ToString() });
                 }
 
                 return RedirectToAction("CustIndex", "Customer");

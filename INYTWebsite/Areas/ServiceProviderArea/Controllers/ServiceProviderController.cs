@@ -58,6 +58,14 @@ namespace INYTWebsite.Areas.ServiceProvider.Controllers
             return View();
         }
 
+        [Route("Membership")]
+        public IActionResult Membership()
+        {
+            var memberships = TheRepository.GetMemberships();
+            return View(memberships);
+        }
+
+
         [Route("additionalquestions")]
         [Authorize(Policy = "ServiceProviderOnly")]
         public IActionResult additionalquestions()

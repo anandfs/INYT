@@ -3,7 +3,7 @@
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    
+
 
 }
 
@@ -58,12 +58,11 @@
 </style>
 
 
-
 <!--Booking Information Start-->
 <section id="contact_information">
 
     <div class="container">
-        
+
         <div class="row">
             <!--Form Part-->
             <div class="col-md-12 col-sm-12 col-xs-12">
@@ -76,6 +75,16 @@
                         <div class="container-fluid">
                             <div class="row" style="border-bottom: dotted;">
                                 <form id="regForm" asp-controller="BookService" asp-action="BookStep1" method="post">
+                                    @if ((Model.customer == null) || (Model.customer.id == 0))
+                                    {
+                                        <!--Existing login-->
+                                        <div class="exist-customer" align="center">
+                                            <h3>Existing Customer?</h3>
+                                            <a class="edit-link" data-toggle="modal"
+                                               href="#add_time_slot"><i class="far fa-sign-in"></i>Click here to login</a>
+                                        </div>
+                                        <!-- /Existing login-->
+                                    }
 
                                     <!-- Additional Questions-->
                                     <h2>Additional Questions</h2>
@@ -140,13 +149,6 @@
                                         </div>
                                     </div>
                                     <!-- /Additional Questions-->
-
-                                    <!--Existing login-->
-                                    <div class="exist-customer">Existing Customer? <a href="#">Click here to login</a></div>
-                                    <!-- /Existing login-->
-
-                                    <br />
-                                    
                                     <!-- Contact information-->
                                     <h2>Contact Information</h2>
                                     <p>This information will be used to contact you about your service</p>
@@ -234,12 +236,47 @@
                             </div>
                         </div>
                     </div>
-
                 </div>
                 <!--Booking Information-->
             </div>
         </div>
     </div>
+    </div>
+    <!-- Add Time Slot Modal -->
+    <div class="modal fade custom-modal" id="add_time_slot">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Login</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form asp-action="custloginprocess" asp-controller="customersignup" asp-area="CustomerArea" method="post">
+                        <div class="form-group form-focus">
+                            <input name="userName" type="email" class="form-control floating" placeholder="Enter email address...">
+                            <label class="focus-label">Email</label>
+                        </div>
+                        <div class="form-group form-focus">
+                            <input name="password" type="password" class="form-control floating" placeholder="Enter password...">
+                            <label class="focus-label">Password</label>
+                        </div>
+                        <div class="text-right">
+                            <a class="forgot-link" href="forgot-password.html">Forgot Password ?</a>
+                        </div>
+                        <button class="btn btn-primary btn-block btn-lg login-btn" type="submit">Login</button>
+
+                        <input type="hidden" name="frompage" value="booking" />
+                        <input type="hidden" name="id" value="@Model.serviceProviderId" />
+                        <input type="hidden" name="postcode" value="@Model.postCode" />
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /Add Time Slot Modal -->
+
 </section>
 <!--Booking Information End-->
 
@@ -319,7 +356,25 @@
             x[n].className += " active";
         }
 
+        $("#basicModal_View").on('show.bs.modal', function (event) {
+            var element = $(event.relatedTarget);
+            var modal = $(this);
 
+            modal.find('.modal-content-replace').html("");
+            modal.find('.sk-spinner').show();
+
+            $.ajax({
+                type: "GET",
+                url: element.data("url"),
+                success: function (data) {
+                    modal.find('.sk-spinner').hide();
+
+                    data = data.replace(/&#xD;&#xA;&#x2022;/g, "<br>&#x2022;");
+
+                    modal.find('.modal-content-replace').html(data);
+                }
+            });
+        });
 
     </script>
 }

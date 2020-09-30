@@ -10,6 +10,7 @@ using INYTWebsite.Model;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using INYTWebsite.CustomModels;
 using INYTWebsite.Areas.ServiceProviderArea.Controllers;
+using System.Net.Http;
 
 namespace INYTWebsite.Controllers
 {
@@ -25,6 +26,7 @@ namespace INYTWebsite.Controllers
             _AppSettings = settings.Value;
         }
 
+        
 
         public IActionResult Index()
         {
@@ -47,12 +49,27 @@ namespace INYTWebsite.Controllers
         public ActionResult Search(BookingModel model)
         {
             string apikey = string.Empty;
-            apikey = _AppSettings.apikey;
+            apikey = _AppSettings.GoogleAPI.distanceAPI;
 
             var services = TheRepository.GetServices();
 
             ServiceModel serviceModel = services.Where(a => a.id == Convert.ToInt32(model.selectedService)).FirstOrDefault();
 
+            model.postCode = Request.Form["postal_code"];
+            CustomerAddress custaddress = new CustomerAddress()
+            {
+                country = Request.Form["country"],
+                housenumber = Request.Form["street_number"],
+                postcode = Request.Form["postal_code"],
+                state = Request.Form["administrative_area_level_1"],
+                streetname = Request.Form["route"]
+            };
+
+            Response.Cookies.Append("country", custaddress.country);
+            Response.Cookies.Append("housenumber", custaddress.housenumber);
+            Response.Cookies.Append("postcode", custaddress.postcode);
+            Response.Cookies.Append("state", custaddress.state);
+            Response.Cookies.Append("streetname", custaddress.streetname);
 
             ViewData["postcode"] = model.postCode;
             ViewData["service"] = serviceModel.Service;
@@ -113,5 +130,7 @@ namespace INYTWebsite.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+        
     }
 }

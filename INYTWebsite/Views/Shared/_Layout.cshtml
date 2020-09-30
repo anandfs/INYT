@@ -58,13 +58,17 @@
                             <a href="/">Home</a>
                         </li>
                         <li>
-                            <a href="#howitworks">How it works</a>
+                            <a href="#howitwork">How it works</a>
                         </li>
 
                         <li class="has-submenu">
                             <a href="#">Service Providers <i class="fa fa-chevron-down"></i></a>
 
                             <ul class="submenu">
+                                <li>
+                                    <a asp-area="ServiceProviderArea" asp-controller="Serviceprovider"
+                                       asp-action="Membership">Membership</a>
+                                </li>
                                 <li>
                                     <a asp-area="ServiceProviderArea" asp-controller="Signup"
                                        asp-action="Signup">Sign up</a>

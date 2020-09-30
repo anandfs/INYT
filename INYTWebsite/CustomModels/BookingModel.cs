@@ -59,4 +59,13 @@ namespace INYTWebsite.CustomModels
         public List<BookingModel> bookings { get; set; }
         public ServiceProviderModel serviceProvider { get; set; }
     }
+
+    public class CustomerAddress
+    {
+        public string housenumber { get; set; }
+        public string streetname { get; set; }
+        public string state { get; set; }
+        public string postcode { get; set; }
+        public string country { get; set; }
+    }
 }

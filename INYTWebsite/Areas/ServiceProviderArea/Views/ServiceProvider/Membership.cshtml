@@ -1,0 +1,36 @@
+﻿@model List<INYTWebsite.CustomModels.MembershipModel>
+
+@{
+    ViewData["Title"] = "Memberships";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section class="comp-section comp-cards">
+    <div class="section-header">
+        <h3 class="section-title">Membership Options</h3>
+        <div class="line"></div>
+    </div>
+
+    <div class="row">
+        @foreach (var membership in Model)
+        {
+            <div class="col-12 col-md-4 col-lg-4 d-flex">
+                <div class="card flex-fill" style="background-color: aliceblue">
+                    <div class="card-header" style="background-color: lightgreen">
+                        <h5 class="card-title mb-0">@membership.name</h5>
+                        <h3>£ @membership.basicSubscriptionFee / month</h3>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">@membership.description</p>
+                        <p class="card-text">@membership.commission % on sales</p>
+
+                        <a class="btn btn-rounded btn-primary" asp-area="ServiceProviderArea" asp-controller="Signup"
+                           asp-action="Signup">Sign up</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+
+</section>

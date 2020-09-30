@@ -52,6 +52,7 @@ namespace INYTWebsite.CustomModels
         public List<ServiceProviderAdditionalQuestionsModel> additionalQuestions { get; set; }
         public List<SelectListItem> memberships { get; set; }
         public List<SelectListItem> services { get; set; }
+        
 
         public int membershipId { get; set; }
     }

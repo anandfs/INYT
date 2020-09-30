@@ -1,6 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
 using System.Linq;
+using System.Net;
+using System.Text;
 using System.Threading.Tasks;
 using INYTWebsite.Areas.ServiceProviderArea.Controllers;
 using INYTWebsite.Code;
@@ -9,6 +13,8 @@ using INYTWebsite.Extensions;
 using INYTWebsite.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using PayPal;
+using PayPal.OpenIdConnect;
 
 namespace INYTWebsite.Controllers
 {
@@ -17,6 +23,10 @@ namespace INYTWebsite.Controllers
     {
         Repository _repo = null;
         private AppSettings _AppSettings;
+
+        private Tokeninfo info;
+        private bool UseSandbox;
+        private readonly object _env;
 
         public BookServiceController(Repository repo, IOptions<AppSettings> settings)
              : base(repo)
@@ -32,16 +42,40 @@ namespace INYTWebsite.Controllers
         }
 
         [HttpGet ("BookService/{id}")]
-        public IActionResult Index(string id, string postcode)
+        public IActionResult Index(string id, string postcode, int? customerid)
         {
             ServiceProviderModel serviceProvider = new ServiceProviderModel();
             serviceProvider = TheRepository.GetServiceProvider(Convert.ToInt32(id));
             var questionsModel = TheRepository.GetAdditionalQuestions(serviceProvider.id);
 
-            //Get the customer address from the postcode here
+            CustomerAddress custaddress = new CustomerAddress();
             CustomerModel customer = new CustomerModel();
-            customer.postcode = postcode;
-            
+
+            if (customerid != null)
+            {
+                customer = TheRepository.GetCustomer(Convert.ToInt32(customerid));
+                custaddress.housenumber = customer.addressLine1;
+                custaddress.streetname = customer.addressLine2;
+                custaddress.country = customer.country;
+                custaddress.state = customer.region;
+                custaddress.postcode = customer.postcode;
+            }
+            else
+            {
+                custaddress.country = Request.Cookies["country"];
+                custaddress.housenumber = Request.Cookies["housenumber"];
+                custaddress.postcode = Request.Cookies["postcode"];
+                custaddress.state = Request.Cookies["state"];
+                custaddress.streetname = Request.Cookies["streetname"];
+
+
+                //Get the customer address from the postcode here
+                customer.postcode = postcode;
+                customer.addressLine1 = String.Format("{0}, {1}", custaddress.housenumber, custaddress.streetname);
+                customer.country = custaddress.country;
+                customer.region = custaddress.state;
+            }
+
             BookingModel model = new BookingModel();
             model.questionsList = questionsModel;
             model.customer = customer;
@@ -121,6 +155,7 @@ namespace INYTWebsite.Controllers
             return View(model);
         }
 
+
         public ActionResult BookStep2(BookingModel model)
         {
             var selectedTimes = Request.Form["selectedTimes"].ToString();
@@ -177,6 +212,11 @@ namespace INYTWebsite.Controllers
             bookingsList.serviceProvider = TheRepository.GetServiceProvider(model.serviceProviderId);
 
             return View("ConfirmPayment", bookingsList);
+        }
+
+        public ActionResult CompleteBooking(BookingsListModel model)
+        {
+            return View(model);
         }
     }
 }

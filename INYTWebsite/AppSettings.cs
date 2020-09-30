@@ -7,10 +7,13 @@ namespace INYTWebsite
 {
     public class AppSettings
     {
-        public string apikey { get; set; }
         public PostcodesAPI PostcodesAPI { get; set; }
 
         public SendGridAPI SendGridAPI { get; set; }
+
+        public GoogleAPI GoogleAPI { get; set; }
+
+        public PayPalAPI PayPalAPI { get; set; }
 
         public string SendErrorMessage { get; set; }
     }
@@ -25,5 +28,17 @@ namespace INYTWebsite
     public class PostcodesAPI
     {
         public string apiKey { get; set; }
+    }
+
+    public class GoogleAPI
+    {
+        public string distanceAPI { get; set; }
+        public string placesAPI { get; set; }
+    }
+
+    public class PayPalAPI
+    {
+        public string PAYPAL_SANDBOX_CLIENT { get; set; }
+        public string PAYPAL_SANDBOX_SECRET { get; set; }
     }
 }

@@ -32,7 +32,6 @@ namespace INYTWebsite.Models
         public virtual DbSet<ServiceProviderBooking> ServiceProviderBooking { get; set; }
         public virtual DbSet<Services> Services { get; set; }
         public virtual DbSet<UnavailableDates> UnavailableDates { get; set; }
-
         public virtual DbSet<AvailabilityDates> AvailabilityDates { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

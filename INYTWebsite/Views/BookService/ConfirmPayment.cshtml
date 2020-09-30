@@ -3,8 +3,14 @@
 @{
     ViewData["Title"] = "ConfirmPayment";
     Layout = "~/Views/Shared/_Layout.cshtml";
-}
 
+    double totalamount = 0;
+
+    foreach (var booking in Model.bookings)
+    {
+        totalamount = totalamount + booking.bookingAmount;
+    }
+}
 
 <!-- Page Content -->
 <div class="content">
@@ -20,55 +26,8 @@
                                 <p>Enter your card information below. </p><br />
                                 <strong>Please note. INeedYourTime will hold the charges and pay the service provider <u>after</u> the service has been rendered.</strong>
 
-                                <!-- Credit Card Payment -->
-                                <div class="payment-list">
-                                    <label class="payment-radio credit-card-option">
-                                        <input type="radio" name="radio" checked>
-                                        <span class="checkmark"></span>
-                                        Credit card
-                                    </label>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="form-group card-label">
-                                                <label for="card_name">Name on Card</label>
-                                                <input class="form-control" id="card_name" type="text">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group card-label">
-                                                <label for="card_number">Card Number</label>
-                                                <input class="form-control" id="card_number" placeholder="1234  5678  9876  5432" type="text">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="form-group card-label">
-                                                <label for="expiry_month">Expiry Month</label>
-                                                <input class="form-control" id="expiry_month" placeholder="MM" type="text">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="form-group card-label">
-                                                <label for="expiry_year">Expiry Year</label>
-                                                <input class="form-control" id="expiry_year" placeholder="YY" type="text">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="form-group card-label">
-                                                <label for="cvv">CVV</label>
-                                                <input class="form-control" id="cvv" type="text">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- /Credit Card Payment -->
                                 <!-- Paypal Payment -->
-                                <div class="payment-list">
-                                    <label class="payment-radio paypal-option">
-                                        <input type="radio" name="radio">
-                                        <span class="checkmark"></span>
-                                        Paypal
-                                    </label>
-                                </div>
+                                <div id="paypal-button-container"></div>
                                 <!-- /Paypal Payment -->
                                 <!-- Terms Accept -->
                                 <div class="terms-accept">
@@ -78,6 +37,8 @@
                                     </div>
                                 </div>
                                 <!-- /Terms Accept -->
+
+                                <input type="submit" />
                             </div>
                         </form>
                     </div>
@@ -114,9 +75,9 @@
                             </div>
                         </div>
                         <!-- Booking Doctor Info -->
-                        @{ 
+                        @{
                             double totalAmount = 0;
-                        }    
+                        }
 
                         @foreach (var booking in Model.bookings)
                         {
@@ -132,7 +93,7 @@
                                     </ul>
                                 </div>
                             </div>
-                            
+
                         }
                         <div class="booking-total">
                             <ul class="booking-total-list">
@@ -151,5 +112,36 @@
 
     </div>
 </div>
+@section Scripts {
+    <script src="https://www.paypal.com/sdk/js?client-id=AYVD_uPWS6woa_5TRSFol92tn9jamHQrho5YFJletAtGdg6T7tkpAr-7IDEcNanFOJ3mqFyvYDcMu6Ns&currency=GBP"></script>
+    <script>
+    // Render the PayPal button into #paypal-button-container
+    paypal.Buttons({
 
-                        
+        // Set up the transaction
+        createOrder: function (data, actions) {
+            return actions.order.create({
+                purchase_units: [{
+                    amount: {
+                        value: '@totalamount',
+                        currency_code: "GBP"
+                    }
+                }]
+            });
+        },
+
+        // Finalize the transaction
+        onApprove: function (data, actions) {
+            return actions.order.capture().then(function (details) {
+                // Show a success message to the buyer
+                alert('Transaction completed by ' + details.payer.name.given_name + '!'); 
+            });
+        }
+
+    }).render('#paypal-button-container');
+    </script>
+
+
+}
+
+
