@@ -25,7 +25,8 @@ namespace INYTWebsite.Code
         {
             try
             {
-                string apikey = _appSettings.SendGridAPI.apiKey;
+                //string apikey = _appSettings.SendGridAPI.apiKey;
+                string apikey = Environment.GetEnvironmentVariable("SENDGRID_API_KEY");
                 var client = new SendGridClient(apikey, _appSettings.SendGridAPI.clientURL);
                 var msg = new SendGridMessage();
                 msg.SetFrom(new EmailAddress(Email.FromAddress, (!String.IsNullOrEmpty(Email.FromDisplayName)) ? Email.FromDisplayName : null));
@@ -42,22 +43,22 @@ namespace INYTWebsite.Code
                 };
                 msg.SetTemplateData(dynamicTemplateData);
 
-                //if (Email.emailType == "MessageCentreEmail")
-                //{
-                //    msg.SetTemplateId("d-03bd715e0602430f82840fccf132bc3a");
-                //    var dynamicTemplateData = new MessageCenterTemplate
-                //    {
-                //        firstName = Email.FromDisplayFirstName,
-                //        lastName = Email.FromDisplayLastName,
-                //        companyName = Email.FromDisplayCompanyName,
-                //        job_position = Email.FromDisplayJobPosition,
-                //        message_count = 1,
-                //        message_text = Email.Body,
-                //        reply_link = Email.emailReplyLink,
-                //        subject = Email.Subject
-                //    };
-                //    msg.SetTemplateData(dynamicTemplateData);
-                //}
+                if (Email.emailType == "INYT_WelcomeCustomerEmail")
+                {
+                    msg.SetTemplateId("d-2c3fef273b5546d5b0166f4184f86b92");
+                    dynamicTemplateData = new MessageCenterTemplate
+                    {
+                        firstName = Email.FromDisplayFirstName,
+                        lastName = Email.FromDisplayLastName,
+                        companyName = Email.FromDisplayCompanyName,
+                        job_position = Email.FromDisplayJobPosition,
+                        message_count = 1,
+                        message_text = Email.Body,
+                        reply_link = Email.emailReplyLink,
+                        subject = Email.Subject
+                    };
+                    msg.SetTemplateData(dynamicTemplateData);
+                }
                 //else
                 //{
                 //    msg.SetTemplateId("d-33203bde393c4a1bad54ccb476fab339");

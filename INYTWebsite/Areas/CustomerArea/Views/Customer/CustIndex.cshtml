@@ -7,6 +7,9 @@
     var AppSettings = appSettings.Value;
 }
 
+<!-- AddEvent script -->
+<script type="text/javascript" src="https://addevent.com/libs/atc/1.6.1/atc.min.js" async defer></script>
+
 <!-- Breadcrumb -->
 <div class="breadcrumb-bar">
     <div class="container-fluid">
@@ -58,8 +61,8 @@
                                                 <th>Service Provider Name</th>
                                                 <th>Booking Date</th>
                                                 <th>Purpose</th>
-                                                <th>Type</th>
                                                 <th class="text-center">Paid Amount</th>
+                                                <th>Add to calendar</th>
                                                 <th></th>
                                             </tr>
                                         </thead>
@@ -73,8 +76,29 @@
                                                         </h2>
                                                     </td>
                                                     <td>@booking.bookingDate.ToLongDateString() <span class="d-block text-info">@booking.bookingTime.ToShortTimeString() </span></td>
-                                                    <td>@booking.selectedService</td>
+                                                    <td>@booking.serviceName</td>
                                                     <td class="text-center">£@booking.bookingAmount</td>
+                                                    <td>
+                                                        <!-- Button code -->
+                                                        <div title="Add to Calendar" class="addeventatc">
+                                                            Add to Calendar
+                                                            <span class="start">@booking.bookingTime.ToString("dd-MM-yyyy")</span>
+                                                            <span class="end">@booking.bookingTime.ToString("dd-MM-yyyy")</span>
+                                                            <span class="title">@booking.serviceProvider.firstName</span>
+                                                            <span class="timezone">UK/London</span>
+                                                            <span class="description">@booking.serviceName</span>
+                                                            <span class="location">@Model.firstName</span>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        @if (booking.bookingTime < DateTime.Now)
+                                                        {
+                                                            <div class="clinic-booking">
+                                                                @Html.ActionLink("Task complete", "TaskComplete", "Customer", new {bookingid = booking.id }, new { @class = "apt-btn" })
+                                                            </div>
+
+                                                        }
+                                                    </td>
                                                 </tr>
                                             }
                                         </tbody>

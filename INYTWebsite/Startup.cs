@@ -15,6 +15,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json.Serialization;
+using Rotativa.AspNetCore;
 
 namespace INYTWebsite
 {
@@ -95,7 +96,10 @@ namespace INYTWebsite
             app.UseStaticFiles();
             app.UseSession();
             app.UseAuthentication();
-//            app.UseCookiePolicy();
+            //            app.UseCookiePolicy();
+
+            RotativaConfiguration.Setup(env, "Rotativa");
+
 
             app.UseMvc(routes =>
             {

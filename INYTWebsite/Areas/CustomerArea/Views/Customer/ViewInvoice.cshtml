@@ -1,0 +1,117 @@
+﻿@model INYTWebsite.CustomModels.InvoiceModel
+@{
+    ViewData["Title"] = "ViewInvoice";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    double totalamount = 0;
+}
+
+<!-- Page Content -->
+<div class="content">
+    <div class="container-fluid">
+
+        <div class="row">
+            <div class="col-lg-8 offset-lg-2">
+                <div class="invoice-content">
+                    <div class="invoice-item">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="invoice-logo">
+                                    <img src="assets/img/logo.png" alt="logo">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <p class="invoice-details">
+                                    <strong>Order:</strong> #@Model.invoiceNumber <br>
+                                    <strong>Issued:</strong> @Model.paidDate.ToShortDateString()
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Invoice Item -->
+                    <div class="invoice-item">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="invoice-info">
+                                    <strong class="customer-text">Invoice From</strong>
+                                    <p class="invoice-details invoice-details-two">
+                                        @Model.serviceprovider.firstName @Model.serviceprovider.lastName <br>
+                                        @Model.serviceprovider.addressLine1, @Model.serviceprovider.addressLine2<br>
+                                        @Model.serviceprovider.city, @Model.serviceprovider.postcode <br>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="invoice-info invoice-info2">
+                                    <strong class="customer-text">Invoice To</strong>
+                                    <p class="invoice-details">
+                                        @Model.customer.firstName @Model.customer.lastName <br>
+                                        @Model.customer.addressLine1, @Model.customer.addressLine2<br>
+                                        @Model.customer.city, @Model.customer.postcode <br>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /Invoice Item -->
+                    <!-- Invoice Item -->
+                    <div class="invoice-item invoice-table-wrap">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="table-responsive">
+                                    <table class="invoice-table table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th>Description</th>
+                                                <th>Booking Date & Time</th>
+                                                <th class="text-right">Booking Amount</th>
+                                            </tr>
+                                        </thead>
+                                        @foreach (var booking in Model.bookings)
+                                        {
+                                            <tbody>
+                                                <tr>
+                                                    <td>@booking.serviceName</td>
+                                                    <td class="text-center">@booking.bookingDate</td>
+                                                    <td class="text-center">£@booking.bookingAmount</td>
+                                                </tr>
+                                            </tbody>
+                                            totalamount += booking.bookingAmount;
+                                        }
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-xl-4 ml-auto">
+                                <div class="table-responsive">
+                                    <table class="invoice-table-two table">
+                                        <tbody>
+                                            <tr>
+                                                <th>Total Amount:</th>
+                                                <td><span>£@totalamount</span></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /Invoice Item -->
+                    <form id="invoicePrintForm" asp-controller="Customer" asp-action="PrintInvoice" method="post">
+                        <!-- Invoice Information -->
+                        <div class="other-info">
+                            <span>
+                                <button id="print" type="submit">Print invoice</button>
+                            </span>
+                        </div>
+                        <!-- /Invoice Information -->
+                        @Html.Hidden("id", Model.id)
+
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+<!-- /Page Content -->

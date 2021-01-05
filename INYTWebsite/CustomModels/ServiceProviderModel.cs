@@ -36,7 +36,7 @@ namespace INYTWebsite.CustomModels
         public double rating { get; set; }
 
         public List<RatingModel> ratings { get; set; }
-        public bool isEmailVerified { get; set; }
+        public bool emailConfirmed { get; set; }
         public bool isRegistrationApproved { get; set; }
         public DateTime createdDate { get; set; }
         public List<SlotsModel> slots { get; set; }

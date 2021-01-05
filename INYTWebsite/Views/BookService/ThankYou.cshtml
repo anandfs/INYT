@@ -1,0 +1,46 @@
+﻿@model INYTWebsite.CustomModels.BookingsListModel
+
+@{
+    ViewData["Title"] = "ThankYou";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+
+<!-- Page Content -->
+<div class="content success-page-cont">
+    <div class="container-fluid">
+
+        <div class="row justify-content-center">
+            <div class="col-lg-6">
+
+                <!-- Success Card -->
+                <div class="card success-card">
+                    <div class="card-body">
+                        <div class="success-cont">
+                            <i class="fas fa-check"></i>
+                            <h3>Service provider booked Successfully!</h3>
+                            <p>
+                                Appointment booked with <strong>@Model.serviceProvider.firstName @Model.serviceProvider.lastName</strong><br> for the following date/times
+                                @foreach (var booking in Model.bookings.Distinct())
+                                {
+                                    <strong>@booking.bookingDate.ToShortDateString() @booking.bookingTime.ToShortTimeString() </strong>
+                                }
+                            </p>
+                            <form id="invoiceForm" asp-controller="BookService" asp-action="CreateInvoice" method="post">
+                                <button id="submitform" type="submit">View Invoice</button>
+                                @Html.Hidden("reference", Model.bookings[0].bookingReference)
+                                @Html.Hidden("customerId", Model.customer.id)
+                                @Html.Hidden("serviceproviderid", Model.serviceProvider.id)
+                                @Html.Hidden("totalamount", Model.bookings.Sum(a => a.bookingAmount))
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <!-- /Success Card -->
+
+            </div>
+        </div>
+
+    </div>
+</div>
+<!-- /Page Content -->

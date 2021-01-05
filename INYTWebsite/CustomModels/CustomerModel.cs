@@ -20,12 +20,13 @@ namespace INYTWebsite.CustomModels
         public string contactNumber { get; set; }
         public List<BookingModel> bookings { get; set; }
         public bool isActive { get; set; }
-        public bool isEmailVerified { get; set; }
+        public bool emailConfirmed { get; set; }
         public bool isRegistrationApproved { get; set; }
         public DateTime createdDate { get; set; }
         public string password { get; set; }
         public string repeatPassword { get; set; }
         public List<InvoiceModel> invoices { get; set; }
         public bool hasAgreedTC { get; set; }
+        public List<String> calendars { get; set; }
     }
 }

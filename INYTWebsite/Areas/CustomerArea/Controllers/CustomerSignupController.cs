@@ -13,6 +13,9 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Options;
+using System.IO;
+using RestSharp;
+using RestSharp.Authenticators;
 
 
 namespace INYTWebsite.Areas.CustomerArea.Controllers
@@ -87,7 +90,7 @@ namespace INYTWebsite.Areas.CustomerArea.Controllers
                     return Redirect(returnUrl);
                 }
 
-                if (Request.Form["frompage"].ToString() != null)
+                if (!String.IsNullOrEmpty(Request.Form["frompage"].ToString()))
                 {
                     string spid = Request.Form["id"].ToString();
                     string custpostcode = Request.Form["postcode"].ToString();
@@ -108,7 +111,7 @@ namespace INYTWebsite.Areas.CustomerArea.Controllers
             var customer = TheRepository.CreateCustomer(model);
 
             model.id = customer.id;
-            model.isEmailVerified = false;
+            model.emailConfirmed = false;
             model.isRegistrationApproved = false;
             model.createdDate = DateTime.Now;
             model.password = PasswordHash.PasswordHash.CreateHash(model.password).Replace("1000:", String.Empty);
@@ -123,29 +126,29 @@ namespace INYTWebsite.Areas.CustomerArea.Controllers
 
             var createdLogin = TheRepository.CreateLogin(login);
 
-            //On successful creation of record, send an authorisation email to the servieprovider
-            EmailInfo email_sp = new EmailInfo
-            {
-                emailType = "Customer_AuthorisationEmail",
-                FromAddress = "donotreply@inyt.com",
-                ToAddress = model.emailAddress,
-                IsBodyHtml = true,
-                Subject = "Welcome from I NEED YOUR TIME"
-            };
+            var encryptedid = EncryptionUtility.Encrypt(createdLogin.id.ToString());
 
-            _emailManager.SendEmail(email_sp);
+            //Send an authorisation email to the customer
+            EmailInfo emailInfo = new EmailInfo();
+            emailInfo.Body = "Welcome from I NEED YOUR TIME. Click <a href='CustomerSignup/ConfirmEmail/{0}'>here</a> to confirm your email";
+            emailInfo.emailType = "WelcomeEmail";
+            emailInfo.IsBodyHtml = true;
+            emailInfo.Subject = "Welcome to INYT";
+            emailInfo.ToAddress = model.emailAddress;
+            _emailManager.SendEmail(emailInfo);
 
-            //Also send an email to the Administrator with the tradesperson details
-            EmailInfo email_admin = new EmailInfo
-            {
-                emailType = "Admin_NewServiceProvider",
-                FromAddress = "donotreply@inyt.com",
-                ToAddress = "anand@futuresolutionsltd.com",
-                IsBodyHtml = true,
-                Subject = "New customer on INYT website"
-            };
+            //SendSimpleMessage(String.Format("<strong>Welcome from I NEED YOUR TIME. Click <a href='CustomerSignup/ConfirmEmail/{0}'>here</a> to confirm your email", "anand@futuresolutionsltd.com"),encryptedid).Content.ToString();
 
-            _emailManager.SendEmail(email_admin);
+            //Send an email to the Administrator with the customer details
+            //EmailInfo emailInfo = new EmailInfo();
+            emailInfo.Body = "New customer on INYT website";
+            emailInfo.emailType = "NewCustomerEmail";
+            emailInfo.IsBodyHtml = true;
+            emailInfo.Subject = "New customer";
+            emailInfo.ToAddress = "anandkuppa@gmail.com";
+            _emailManager.SendEmail(emailInfo);
+
+            //SendSimpleMessage("New customer on INYT website", "anandkuppa@gmail.com").Content.ToString();
 
             return View(model);
         }
@@ -205,5 +208,22 @@ namespace INYTWebsite.Areas.CustomerArea.Controllers
                 }
             );
         }
+
+        //private IRestResponse SendSimpleMessage(string content, string toaddress)
+        //{
+        //    RestClient client = new RestClient();
+        //    client.BaseUrl = new Uri("https://api.mailgun.net/v3");
+        //    client.Authenticator = new HttpBasicAuthenticator("api", "key-e9cc99f3383397d70dc90da27c7d138b");
+        //    RestRequest request = new RestRequest();
+        //    request.AddParameter("domain", "sandboxaf49e6982a794654beb9ad6e8e82acf6.mailgun.org", ParameterType.UrlSegment);
+        //    request.Resource = "sandboxaf49e6982a794654beb9ad6e8e82acf6.mailgun.org/messages";
+        //    request.AddParameter("from", "Welcome from INYT <hello@mailgun.org>");
+        //    request.AddParameter("to", toaddress);
+        //    request.AddParameter("to", "YOU@YOUR_DOMAIN_NAME");
+        //    request.AddParameter("subject", "Hello");
+        //    request.AddParameter("text", content);
+        //    request.Method = Method.POST;
+        //    return client.Execute(request);
+        //}
     }
 }

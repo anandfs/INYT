@@ -42,6 +42,7 @@ namespace INYTWebsite.CustomModels
 
         public List<CalendarDates> calendar { get; set; }
         public string serviceName { get; set; }
+        public string bookingReference { get; set; }
     }
 
     public class AdditionalQuestionsModel
@@ -58,6 +59,7 @@ namespace INYTWebsite.CustomModels
     {
         public List<BookingModel> bookings { get; set; }
         public ServiceProviderModel serviceProvider { get; set; }
+        public CustomerModel customer { get; set; }
     }
 
     public class CustomerAddress

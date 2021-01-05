@@ -1,0 +1,207 @@
+﻿@model INYTWebsite.CustomModels.RatingModel
+
+@{
+    ViewData["Title"] = "Rate";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    <!--
+    /* STAR RATINGS */
+
+    .ratings div > span:first-of-type {
+        display: inline-block;
+        vertical-align: middle;
+        width: 150px;
+    }
+
+    .ratings textarea {
+        width: 100%;
+        max-width: 400px;
+        min-height: 175px;
+    }
+
+    .ratings .stars {
+        margin-bottom: 40px;
+    }
+
+    .starRating:not(old) {
+        display: inline-block;
+        width: 280px;
+        height: 47px;
+        overflow: hidden;
+        vertical-align: middle;
+    }
+
+        .starRating:not(old) > input {
+            margin-right: -100%;
+            opacity: 0;
+        }
+
+        .starRating:not(old) > label {
+            display: block;
+            float: right;
+            position: relative;
+            background: url('../images/star-off2.svg');
+            background-size: contain;
+            clear: none;
+            font-size: 16px;
+            width: 50px;
+            margin-right: 6px;
+        }
+
+            .starRating:not(old) > label:before {
+                content: '';
+                display: block;
+                width: 50px;
+                height: 50px;
+                background: url('../images/star-on2.svg');
+                background-size: contain;
+                opacity: 0;
+                -webkit-transition: opacity 0.2s linear;
+                -o-transition: opacity 0.2s linear;
+                transition: opacity 0.2s linear;
+            }
+
+            .starRating:not(old) > label:hover:before,
+            .starRating:not(old) > label:hover ~ label:before,
+            .starRating:not(:hover) > :checked ~ label:before {
+                opacity: 1;
+            }
+
+    /*.modal form{ max-height: 55vh; overflow: scroll; }
+.modal form button{ margin-top: 25px; }*/
+
+    .modal .ratings .stars {
+        margin-bottom: 20px;
+    }
+
+    .modal .starRating:not(old) {
+        width: 230px;
+        height: 38px;
+    }
+
+        .modal .starRating:not(old) > label {
+            width: 40px;
+        }
+
+            .modal .starRating:not(old) > label:before {
+                width: 40px;
+                height: 40px;
+            }
+
+    .modal .ratings textarea {
+        min-height: 125px;
+    }
+
+
+    td.rating {
+        padding: 14px 2px !important;
+        min-width: 69px;
+        font-size: 0;
+    }
+
+    .rating img {
+        display: inline-block;
+        width: 13px;
+        vertical-align: top;
+    }
+
+    label.checkbox input {
+        width: auto;
+        margin: 0 5px 0 0;
+        display: inline-block;
+    }
+
+    label[for='companySize'] + .select {
+        width: 110px;
+    }
+
+    .modal#closeJobModal p {
+        margin-top: 0;
+    }
+
+    .modal#closeJobModal .btn {
+        width: 155px;
+        height: 50px;
+        padding: 0 !important;
+        margin: 10px 5px;
+        display: inline-block !important;
+    }
+
+        .modal#closeJobModal .btn.green-bg {
+            line-height: 50px;
+        }
+
+        .modal#closeJobModal .btn.green {
+            line-height: 46px;
+        }
+
+    #uploadedFilenameContainer, #uploadedJobFilenameContainer, #uploadedCompanyFilenameContainer {
+        background: white;
+        padding: 5px;
+    }
+
+    #uploadedFilename, #uploadedJobFilename, #uploadedCompanyFilename {
+        word-break: break-all;
+        display: block;
+        font-weight: bold;
+    }
+
+
+    -->
+</style>
+
+<!-- Page Content -->
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-8 offset-lg-2">
+                <p>
+                    Please rate the sevices provided by your service provider.
+                    By providing these ratings, we will be able to better serve you......
+                </p>
+                <br />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-8 offset-lg-2">
+                <div class="app-content ratings">                    
+                    <form class="ratings" asp-controller="Customer" asp-action="SubmitRatings"
+                          id="closeRateServiceProviders">
+                        <input type="hidden" asp-for="customerId" />
+                        <div class="stars">
+                            <span>Rate your service provider:</span>
+                            <span class="starRating">
+                                <input id="ratingScoreCommunication5" type="radio" asp-for="ratings" value="5">
+                                <label for="ratingScoreCommunication5">5</label>
+                                <input id="ratingScoreCommunication4" type="radio" asp-for="ratings" value="4">
+                                <label for="ratingScoreCommunication4">4</label>
+                                <input id="ratingScoreCommunication3" type="radio" asp-for="ratings" value="3">
+                                <label for="ratingScoreCommunication3">3</label>
+                                <input id="ratingScoreCommunication2" type="radio" asp-for="ratings" value="2">
+                                <label for="ratingScoreCommunication2">2</label>
+                                <input id="ratingScoreCommunication1" type="radio" asp-for="ratings" value="1">
+                                <label for="ratingScoreCommunication1">1</label>
+                            </span>
+                        </div>
+                        <div class="tac">
+                            <span>Please provide any other feedback (optional):</span>
+                            @Html.TextAreaFor(a => a.ratingComments)
+                        </div>
+                        <br />
+                        <div class="tac">
+                            <button type="submit">Submit review</button>
+                        </div>
+                        @Html.HiddenFor(a => a.customerId)
+                        @Html.HiddenFor(a => a.bookingId)
+                    </form>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+<!-- /Page Content -->

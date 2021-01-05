@@ -19,6 +19,7 @@ namespace INYTWebsite.Models
         public virtual DbSet<AuditLog> AuditLog { get; set; }
         public virtual DbSet<AvailabilitySlots> AvailabilitySlots { get; set; }
         public virtual DbSet<Booking> Booking { get; set; }
+        public virtual DbSet<Configuration> Configuration { get; set; }
         public virtual DbSet<CustomerRegistration> CustomerRegistration { get; set; }
         public virtual DbSet<Invoices> Invoices { get; set; }
         public virtual DbSet<Login> Login { get; set; }
@@ -32,6 +33,7 @@ namespace INYTWebsite.Models
         public virtual DbSet<ServiceProviderBooking> ServiceProviderBooking { get; set; }
         public virtual DbSet<Services> Services { get; set; }
         public virtual DbSet<UnavailableDates> UnavailableDates { get; set; }
+
         public virtual DbSet<AvailabilityDates> AvailabilityDates { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -97,6 +99,25 @@ namespace INYTWebsite.Models
                     .IsUnicode(false);
 
                 entity.Property(e => e.BookingTime).HasColumnType("datetime");
+
+                entity.Property(e => e.PaypalBookingReference)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+            });
+
+            modelBuilder.Entity<Configuration>(entity =>
+            {
+                entity.Property(e => e.KeyName)
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.KeyValue)
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Provider)
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
             });
 
             modelBuilder.Entity<CustomerRegistration>(entity =>
@@ -150,7 +171,15 @@ namespace INYTWebsite.Models
             {
                 entity.Property(e => e.Amount).HasColumnType("money");
 
+                entity.Property(e => e.InvoiceNumber)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
                 entity.Property(e => e.PaidDate).HasColumnType("datetime");
+
+                entity.Property(e => e.PaypalBookingReference)
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
             });
 
             modelBuilder.Entity<Login>(entity =>

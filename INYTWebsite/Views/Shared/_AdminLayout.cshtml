@@ -1,0 +1,89 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+    <title>I need your time</title>
+
+    <!-- Favicons -->
+    <link type="image/x-icon" href="~/assets/img/favicon.png" rel="icon">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="~/assets/css/bootstrap.min.css">
+
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="~/assets/css/adminstyle.css">
+
+    <!-- Feathericon CSS -->
+    <link rel="stylesheet" href="~/assets/css/feathericon.min.css">
+
+    <!-- Morris js -->
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css">
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
+
+    <!-- Custom JS -->
+    <script src="~/assets/js/adminscript.js"></script>
+
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+        <script src="assets/js/html5shiv.min.js"></script>
+        <script src="assets/js/respond.min.js"></script>
+    <![endif]-->
+    <!-- Fontawesome CSS -->
+    <script src="https://kit.fontawesome.com/cab76e203f.js" crossorigin="anonymous"></script>
+
+</head>
+
+<!-- BEGIN: Body-->
+<body style="background-color: white">
+    <div class="main-wrapper">
+
+        <!-- Header -->
+        <header class="header">
+            <nav class="navbar navbar-expand-lg header-nav">
+                <div class="navbar-header">
+                    <a id="mobile_btn" href="javascript:void(0);">
+                        <span class="bar-icon">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </span>
+                    </a>
+                    <a href="index.html" class="navbar-brand logo">
+                        <img src="~/images/logo.png" class="img-fluid" alt="Logo">
+                    </a>
+                </div>
+
+            </nav>
+        </header>
+        <!-- /Header -->
+
+        @RenderBody()
+
+
+
+    </div>
+    @RenderSection("Scripts", required: false)
+
+    <!-- Bootstrap Core JS -->
+    <script src="~/assets/js/popper.min.js"></script>
+    <script src="~/assets/js/bootstrap.min.js"></script>
+
+    <!-- Slick JS -->
+    <script src="~/assets/js/slick.js"></script>
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
+
+    <script src="~/assets/js/chart.morris.js"></script>
+
+
+
+
+</body>
+</html>

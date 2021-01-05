@@ -229,13 +229,6 @@ namespace INYTWebsite.Areas.ServiceProvider.Controllers
             return View();
         }
 
-        [Route("ratings")]
-        public IActionResult Ratings()
-        {
-            int id = this.GetCurrentUserId();
-            return View();
-        }
-
         [Route("profile")]
         public IActionResult Profile()
         {

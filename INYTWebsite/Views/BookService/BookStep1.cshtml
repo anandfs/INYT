@@ -29,106 +29,8 @@
             <form id="regForm" asp-controller="BookService" asp-action="BookStep2" method="post">
 
                 <!-- Schedule Widget -->
-                <div class="card booking-schedule schedule-widget">
-
-                    <!-- Schedule Header -->
-                    <div class="schedule-header">
-                        <div class="row">
-                            <div class="col-md-12">
-
-                                <!-- Day Slot -->
-                                <div class="day-slot">
-                                    <ul>
-                                        <li class="left-arrow">
-                                            <a id="prevDates">
-                                                <i class="fa fa-chevron-left"></i>
-                                            </a>
-                                        </li>
-                                        @foreach (var weekday in Model.calendar)
-                                        {
-                                            <li>
-                                                <span>@weekday.weekname</span>
-                                                <span class="slot-date">@weekday.weekdate.ToShortDateString() <small class="slot-year">@weekday.weekdate.Year</small></span>
-                                            </li>
-                                        }
-                                        <li class="right-arrow">
-                                            <a href="">
-                                                <i class="fa fa-chevron-right"></i>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
-                                <!-- /Day Slot -->
-
-                            </div>
-                        </div>
-                    </div>
-                    <!-- /Schedule Header -->
-                    <!-- Schedule Content -->
-                    <div class="schedule-cont">
-                        <div class="row">
-                            <div class="col-md-12">
-
-                                <!-- Time Slot -->
-                                <div class="time-slot">
-                                    <ul class="clearfix">
-                                        @foreach (var timing in Model.availabilityDates)
-                                        {
-                                            var timeid = timing.availabilityDate.TimeOfDay.ToString().Replace(':', '-');
-                                            var dayid = timing.availabilityDate.DayOfWeek;
-                                            var dateid = timing.availabilityDate.Day + "-" + timing.availabilityDate.Month + "-" + timing.availabilityDate.Year;
-                                            var id = String.Format("{0:n0}", timing.minRate) + "_" + dateid + "_" + timeid + "_" + dayid;
-                                            var minHours = timing.minHours;
-                                            if (timing.availability == "Available")
-                                            {
-                                                classname = "timing available";
-                                            }
-                                            else
-                                            {
-                                                classname = "timing unavailable";
-                                            }
-                                            var endtime = timing.endTime.TimeOfDay;
-                                            var starttime = timing.startTime;
-                                            var i = 0;
-                                            <li>
-                                                @while (timing.availabilityDate.TimeOfDay < endtime)
-                                                {
-                                                    var finishtime = starttime.AddHours(minHours);
-                                                    i++;
-                                                    var newid = id + i;
-                                                    <a class="@classname" id="link_@newid" href="javascript:changethis('@newid')">
-                                                        <span>@starttime.ToShortTimeString() - @finishtime.ToShortTimeString()</span><br />
-                                                        <span>£@String.Format("{0:n0}", timing.minRate)</span>
-                                                    </a>
-                                                    timing.availabilityDate = timing.availabilityDate.AddHours(minHours);
-                                                    starttime = finishtime.AddMinutes(timing.breakTimeInMins);
-                                                }
-                                            </li>
-                                        }
-                                    </ul>
-                                </div>
-                                <!-- /Time Slot -->
-                            </div>
-                        </div>
-                    </div>
-                    <!-- /Schedule Content -->
-
-                    @Html.Hidden("selectedTimes")
-                    @Html.HiddenFor(a => a.serviceProviderId)
-                    @Html.HiddenFor(a => a.serviceId)
-
-                    @Html.HiddenFor(a => a.customer.emailAddress)
-                    @Html.HiddenFor(a => a.customer.addressLine1)
-                    @Html.HiddenFor(a => a.customer.addressLine2)
-                    @Html.HiddenFor(a => a.customer.city)
-                    @Html.HiddenFor(a => a.customer.contactNumber)
-                    @Html.HiddenFor(a => a.customer.country)
-                    @Html.HiddenFor(a => a.customer.firstName)
-                    @Html.HiddenFor(a => a.customer.lastName)
-                    @Html.HiddenFor(a => a.customer.postcode)
-
-                    @Html.HiddenFor(a => a.additionalQuestionsList)
-
+                <div id="calendar" class="card booking-schedule schedule-widget">
+                    <partial name="_Calendar" model="Model" />
                 </div>
                 <!-- /Schedule Widget -->
                 <div class="clearfix"></div>
@@ -157,8 +59,17 @@
             $("#selectedTimes").val(selectedtimes);
 
             //$('a[id^="link_"]').not("selected").removeClass("available").addClass("timing unavailable");
-
-           
         }
+
+        function movenext(startdate) {
+            var url = "/BookService/GetCalendar/@Model.serviceProviderId/" + startdate + "?handler=Partial";
+            $("#calendar").load(url);
+        }
+
+        function moveprev(startdate) {
+            var url = "/BookService/GetCalendar/@Model.serviceProviderId/" + startdate + "?handler=Partial";
+            $("#calendar").load(url);
+        }
+
     </script>
 }

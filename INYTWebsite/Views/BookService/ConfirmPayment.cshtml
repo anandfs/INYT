@@ -5,10 +5,12 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 
     double totalamount = 0;
+    List<string> bookingids = new List<string>();
 
     foreach (var booking in Model.bookings)
     {
         totalamount = totalamount + booking.bookingAmount;
+        bookingids.Add(booking.id.ToString());
     }
 }
 
@@ -25,20 +27,9 @@
                                 <h4 class="card-title">Payment Method</h4>
                                 <p>Enter your card information below. </p><br />
                                 <strong>Please note. INeedYourTime will hold the charges and pay the service provider <u>after</u> the service has been rendered.</strong>
-
                                 <!-- Paypal Payment -->
                                 <div id="paypal-button-container"></div>
                                 <!-- /Paypal Payment -->
-                                <!-- Terms Accept -->
-                                <div class="terms-accept">
-                                    <div class="custom-checkbox">
-                                        <input type="checkbox" id="terms_accept">
-                                        <label for="terms_accept">I have read and accept <a href="#">Terms &amp; Conditions</a></label>
-                                    </div>
-                                </div>
-                                <!-- /Terms Accept -->
-
-                                <input type="submit" />
                             </div>
                         </form>
                     </div>
@@ -103,6 +94,7 @@
                                 </li>
                             </ul>
                         </div>
+
                     </div>
                 </div>
                 <!-- /Booking Summary -->
@@ -113,11 +105,11 @@
     </div>
 </div>
 @section Scripts {
+
     <script src="https://www.paypal.com/sdk/js?client-id=AYVD_uPWS6woa_5TRSFol92tn9jamHQrho5YFJletAtGdg6T7tkpAr-7IDEcNanFOJ3mqFyvYDcMu6Ns&currency=GBP"></script>
     <script>
     // Render the PayPal button into #paypal-button-container
     paypal.Buttons({
-
         // Set up the transaction
         createOrder: function (data, actions) {
             return actions.order.create({
@@ -132,16 +124,34 @@
 
         // Finalize the transaction
         onApprove: function (data, actions) {
+            // This function captures the funds from the transaction.
             return actions.order.capture().then(function (details) {
-                // Show a success message to the buyer
-                alert('Transaction completed by ' + details.payer.name.given_name + '!'); 
+                // This function shows a transaction success message to your buyer.
+                var id = details.id;
+                if (id != "") {
+                    alert("Transaction Successful....Press OK to continue");    
+                    updateBooking(id);
+                }
+
             });
         }
-
     }).render('#paypal-button-container');
     </script>
 
-
+    <script>
+        function updateBooking(id) {            
+            $.ajax({
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+                url: "/BookService/CompleteBooking?refid=" + id + "&customerid=" + @Model.bookings[0].customerId,
+                success: function (response) {
+                    if (response.result == 'Redirect') {
+                        window.location = response.url;
+                    }   
+                }
+            });
+        }
+    </script>
 }
 
 

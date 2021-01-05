@@ -1,0 +1,110 @@
+﻿@model INYTWebsite.CustomModels.BookingModel
+
+@{
+    string classname = string.Empty;
+}
+
+<!-- Schedule Header -->
+<div class="schedule-header">
+    <div class="row">
+        <div class="col-md-12">
+            <!-- Day Slot -->
+            <div class="day-slot">
+                <ul>
+                    <li class="left-arrow">
+                        @if (Model.calendar[0].weekdate != DateTime.Now.Date)
+                        {
+                        <a id="prevDates" hprevref="javascript:moveprev('@Model.calendar[0].weekdate.ToString("dd-MMM-yyyy")')">
+                            <span><<</span>
+                        </a>
+                        }
+                    </li>
+                    @foreach (var weekday in Model.calendar)
+                    {
+                        <li>
+                            <span>@weekday.weekname</span>
+                            <span class="slot-date">@weekday.weekdate.ToShortDateString() <small class="slot-year">@weekday.weekdate.Year</small></span>
+                        </li>
+                    }
+                    <li class="right-arrow">
+                        <a id="nextDates" href="javascript:movenext('@Model.calendar[Model.calendar.Count - 1].weekdate.ToString("dd-MMM-yyyy")')">
+                            <span>>></span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <!-- /Day Slot -->
+
+        </div>
+    </div>
+</div>
+<!-- /Schedule Header -->
+<!-- Schedule Content -->
+<div class="schedule-cont">
+    <div class="row">
+        <div class="col-md-12">
+
+            <!-- Time Slot -->
+            <div class="time-slot" id="calendar">
+                <ul class="clearfix">
+                    @foreach (var timing in Model.availabilityDates)
+                    {
+                        var timeid = timing.availabilityDate.TimeOfDay.ToString().Replace(':', '-');
+                        var dayid = timing.availabilityDate.DayOfWeek;
+                        var dateid = timing.availabilityDate.Day + "-" + timing.availabilityDate.Month + "-" + timing.availabilityDate.Year;
+                        var id = String.Format("{0:n0}", timing.minRate) + "_" + dateid + "_" + timeid + "_" + dayid;
+                        var minHours = timing.minHours;
+                        if (timing.availability == "Available")
+                        {
+                            classname = "timing available";
+                        }
+                        else
+                        {
+                            classname = "timing unavailable";
+                        }
+                        var endtime = timing.endTime.TimeOfDay;
+                        var starttime = timing.startTime;
+                        var i = 0;
+                        <li>
+                            @while (timing.availabilityDate.TimeOfDay < endtime)
+                            {
+                                var finishtime = starttime.AddHours(minHours);
+                                i++;
+                                var newid = id + i;
+                                <a class="@classname" id="link_@newid" href="javascript:changethis('@newid')">
+                                    <span>@starttime.ToShortTimeString() - @finishtime.ToShortTimeString()</span><br />
+                                    <span>£@String.Format("{0:n0}", timing.minRate)</span>
+                                </a>
+                                timing.availabilityDate = timing.availabilityDate.AddHours(minHours);
+                                starttime = finishtime.AddMinutes(timing.breakTimeInMins);
+                            }
+                        </li>
+                    }
+                </ul>
+                
+            </div>
+            <!-- /Time Slot -->
+        </div>
+    </div>
+</div>
+
+<!-- /Schedule Content -->
+
+@Html.Hidden("selectedTimes")
+@Html.HiddenFor(a => a.serviceProviderId)
+@Html.HiddenFor(a => a.serviceId)
+
+@Html.HiddenFor(a => a.customer.emailAddress)
+@Html.HiddenFor(a => a.customer.addressLine1)
+@Html.HiddenFor(a => a.customer.addressLine2)
+@Html.HiddenFor(a => a.customer.city)
+@Html.HiddenFor(a => a.customer.contactNumber)
+@Html.HiddenFor(a => a.customer.country)
+@Html.HiddenFor(a => a.customer.firstName)
+@Html.HiddenFor(a => a.customer.lastName)
+@Html.HiddenFor(a => a.customer.postcode)
+
+@Html.HiddenFor(a => a.additionalQuestionsList)
+
+@Html.Hidden("lastDate", Model.calendar[Model.calendar.Count - 1].weekdate)
+

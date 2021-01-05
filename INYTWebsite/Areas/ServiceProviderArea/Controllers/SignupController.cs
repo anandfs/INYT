@@ -13,6 +13,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Options;
+using RestSharp;
+using RestSharp.Authenticators;
 
 
 namespace INYTWebsite.Areas.ServiceProviderArea.Controllers
@@ -118,7 +120,7 @@ namespace INYTWebsite.Areas.ServiceProviderArea.Controllers
             var serviceprovider = TheRepository.CreateServiceProvider(model);
 
             model.id = serviceprovider.id;
-            model.isEmailVerified = false;
+            model.emailConfirmed = false;
             model.isRegistrationApproved = false;
             model.createdDate = DateTime.Now;
             model.password = PasswordHash.PasswordHash.CreateHash(model.password).Replace("1000:", String.Empty);
@@ -133,29 +135,11 @@ namespace INYTWebsite.Areas.ServiceProviderArea.Controllers
 
             var createdLogin = TheRepository.CreateLogin(login);
 
-            //On successful creation of record, send an authorisation email to the servieprovider
-            EmailInfo email_sp = new EmailInfo
-            {
-                emailType = "ServiceProvider_AuthorisationEmail",
-                FromAddress = "donotreply@inyt.com",
-                ToAddress = model.emailAddress,
-                IsBodyHtml = true,
-                Subject = "Welcome from I NEED YOUR TIME"
-            };
+            //Send an authorisation email to the service provider
+            //SendSimpleMessage("Welcome from I NEED YOUR TIME", "anand@futuresolutionsltd.com").Content.ToString();
 
-            _emailManager.SendEmail(email_sp);
-
-            //Also send an email to the Administrator with the tradesperson details
-            EmailInfo email_admin = new EmailInfo
-            {
-                emailType = "Admin_NewServiceProvider",
-                FromAddress = "donotreply@inyt.com",
-                ToAddress = "anand@futuresolutionsltd.com",
-                IsBodyHtml = true,
-                Subject = "New service provider on INYT website"
-            };
-
-            _emailManager.SendEmail(email_admin);
+            //Send an email to the Administrator with the service provider details
+            //SendSimpleMessage("New customer on INYT website", "anandkuppa@gmail.com").Content.ToString();
 
             return View(model);
         }
@@ -166,7 +150,16 @@ namespace INYTWebsite.Areas.ServiceProviderArea.Controllers
             return View();
         }
 
-
+        [Route("confirmemail")]
+        public IActionResult ConfirmEmail(string id)
+        {
+            var decryptedid = EncryptionUtility.Decrypt(id.ToString());
+            ServiceProviderModel model = new ServiceProviderModel();
+            model = TheRepository.GetServiceProvider(Convert.ToInt32(decryptedid));
+            model.emailConfirmed = true;
+            TheRepository.UpdateServiceProvider(model, model);
+            return View(model);
+        }
 
         private LoginModel IsValid(LoginModel user)
         {
@@ -219,5 +212,22 @@ namespace INYTWebsite.Areas.ServiceProviderArea.Controllers
                 }
             );
         }
+
+        //private IRestResponse SendSimpleMessage(string content, string toaddress)
+        //{
+        //    RestClient client = new RestClient();
+        //    client.BaseUrl = new Uri("https://api.mailgun.net/v3");
+        //    client.Authenticator = new HttpBasicAuthenticator("api", "key-e9cc99f3383397d70dc90da27c7d138b");
+        //    RestRequest request = new RestRequest();
+        //    request.AddParameter("domain", "sandboxaf49e6982a794654beb9ad6e8e82acf6.mailgun.org", ParameterType.UrlSegment);
+        //    request.Resource = "sandboxaf49e6982a794654beb9ad6e8e82acf6.mailgun.org/messages";
+        //    request.AddParameter("from", "Welcome from INYT <hello@mailgun.org>");
+        //    request.AddParameter("to", toaddress);
+        //    request.AddParameter("to", "YOU@YOUR_DOMAIN_NAME");
+        //    request.AddParameter("subject", "Hello");
+        //    request.AddParameter("text", content);
+        //    request.Method = Method.POST;
+        //    return client.Execute(request);
+        //}
     }
 }

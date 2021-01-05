@@ -1,0 +1,76 @@
+﻿@model List<INYTWebsite.CustomModels.BookingModel>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<!-- Profile Sidebar -->
+@{
+    await Html.RenderPartialAsync("AdminSideBar");
+}
+<!-- /Profile Sidebar -->
+<!-- Page Content -->
+<div class="page-wrapper">
+
+    <div class="content container-fluid">
+
+        <!-- Page Header -->
+        <div class="page-header">
+            <div class="row">
+                <div class="col-sm-12">
+                    <h3 class="page-title">Welcome Admin!</h3>
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb-item active">Dashboard</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- /Page Header -->
+
+        <div class="row">
+            <div class="col-md-12">
+                <h4><strong>Bookings</strong></h4>
+                <div class="appointment-tab">
+
+                    @if (Model != null)
+                    {
+                        <!-- Upcoming Customer Bookings Table -->
+                        <div class="table-responsive table-primary">
+                            <table class="table table-hover table-center mb-0">
+                                <thead>
+                                    <tr>
+                                        <th>Service Provider Name</th>
+                                        <th>Customer</th>
+                                        <th>Booking Date</th>
+                                        <th>Purpose</th>
+                                        <th>Type</th>
+                                        <th class="text-center">Paid Amount</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var booking in Model)
+                                    {
+                                    <tr>
+                                        <td>@booking.serviceProvider.firstName @booking.serviceProvider.lastName</td>
+                                        <td>@booking.customer.firstName @booking.customer.lastName</td>
+                                        <td>@booking.bookingDate.ToLongDateString() <span class="d-block text-info">@booking.bookingTime.ToShortTimeString() </span></td>
+                                        <td>@booking.selectedService</td>
+                                        <td class="text-center">£@booking.bookingAmount</td>
+                                    </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- /Upcoming Appointment Tab -->
+                    }
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+<!-- /Page Content -->
+<!-- Sticky Sidebar JS -->

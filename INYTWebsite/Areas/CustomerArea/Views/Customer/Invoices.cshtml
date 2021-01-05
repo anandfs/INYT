@@ -50,13 +50,29 @@
                                 <thead>
                                     <tr>
                                         <th>Invoice No</th>
-                                        <th>Customer</th>
                                         <th>Amount</th>
                                         <th>Paid On</th>
                                         <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    @foreach (var invoice in Model.invoices)
+                                    {
+                                        <tr>
+                                            <td>
+                                                <a href="invoice-view.html">#INV-@invoice.invoiceNumber</a>
+                                            </td>                                            
+                                            <td>£@invoice.amount</td>
+                                            <td>@invoice.paidDate.ToShortDateString()</td>
+                                            <td class="text-right">
+                                                <div class="table-action">
+                                                    <a href="~/Customer/ViewInvoice?id=@invoice.id" class="btn btn-sm bg-info-light">
+                                                        <i class="fa fa-eye"></i> View
+                                                    </a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    }
                                     <tr>
                                         <td>
                                             <a href="invoice-view.html">#INV-0010</a>

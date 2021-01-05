@@ -43,6 +43,120 @@ namespace INYTWebsite.Code
             }
         }
 
+        internal InvoiceModel GetInvoiceById(int invoiceId)
+        {
+            try
+            {
+                var invoice = _db.Invoices.Find(invoiceId);
+                if (invoice != null)
+                {
+                    var entity = _modelFactory.Create(invoice);
+                    return entity;
+                }
+                else
+                {
+                    throw new Exception("The invoice was not present in the database");
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        internal InvoiceModel GetInvoiceByInvoiceNumber(string invoiceNumber)
+        {
+            try
+            {
+                var invoice = _db.Invoices.Where(a => a.InvoiceNumber == invoiceNumber).FirstOrDefault();
+                if (invoice != null)
+                {
+                    var entity = _modelFactory.Create(invoice);
+                    return entity;
+                }
+                else
+                {
+                    throw new Exception("The invoice was not present in the database");
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        internal List<InvoiceModel> GetInvoicesByCustomer(int customerId)
+        {
+            try
+            {
+                var invoices = _db.Invoices.Where(a => a.CustomerId == customerId).ToList();
+
+                List<InvoiceModel> invoiceModels = new List<InvoiceModel>();
+
+                invoices.ForEach(invoice => invoiceModels.Add(_modelFactory.Create(invoice)));
+
+                return invoiceModels;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        internal List<InvoiceModel> GetInvoicesByServiceProvider(int serviceProviderId)
+        {
+            try
+            {
+                var invoices = _db.Invoices.Where(a => a.ServiceProviderId == serviceProviderId).ToList();
+
+                List<InvoiceModel> invoiceModels = new List<InvoiceModel>();
+
+                invoices.ForEach(invoice => invoiceModels.Add(_modelFactory.Create(invoice)));
+
+                return invoiceModels;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        internal List<InvoiceModel> GetAllInvoices()
+        {
+            try
+            {
+                var invoices = _db.Invoices.ToList();
+
+                List<InvoiceModel> invoiceModels = new List<InvoiceModel>();
+
+                invoices.ForEach(invoice => invoiceModels.Add(_modelFactory.Create(invoice)));
+
+                return invoiceModels;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        internal List<RatingModel> GetAllRatings()
+        {
+            try
+            {
+                var ratings = _db.Ratings.ToList();
+
+                List<RatingModel> ratingModels = new List<RatingModel>();
+
+                ratings.ForEach(rating => ratingModels.Add(_modelFactory.Create(rating)));
+
+                return ratingModels;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
         internal ServiceProviderModel GetServiceProviderByEmail(string emailAddress)
         {
             try
@@ -97,6 +211,19 @@ namespace INYTWebsite.Code
 
                 return bookingmodels;
 
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        internal BookingModel GetBookingById(int bookingId)
+        {
+            try
+            {
+                var booking = _db.Booking.Find(bookingId);
+                return _modelFactory.Create(booking);
             }
             catch (Exception ex)
             {
@@ -262,6 +389,28 @@ namespace INYTWebsite.Code
             }
         }
 
+
+        internal bool UpdateBooking(BookingModel bookingModel)
+        {
+            try
+            {
+                Booking originalBooking = _db.Booking.Find(bookingModel.id);
+                Booking updatedBooking = _modelFactory.Parse(bookingModel);
+
+                _db.Entry(originalBooking).CurrentValues.SetValues(updatedBooking);
+
+                return _db.SaveChanges() > 0;
+            }
+            catch (DbUpdateException ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         internal bool DeleteQuestion(int id)
         {
             try
@@ -275,6 +424,48 @@ namespace INYTWebsite.Code
                 else
                 {
                     throw new Exception("The question was not present in the database");
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+
+        internal bool UpdateService(ServiceModel originalService, ServiceModel updatedService)
+        {
+            try
+            {
+                var service = _db.Services.Find(updatedService.id);
+                service.Service = updatedService.Service;
+                service.ServiceDescription = updatedService.Description;
+                _db.SaveChanges(true);
+                return true;
+            }
+            catch (DbUpdateException ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        internal bool DeleteService(int id)
+        {
+            try
+            {
+                var service = _db.Services.Where(a => a.Id == Convert.ToInt32(id)).FirstOrDefault();
+                if (service != null)
+                {
+                    _db.Services.Remove(service);
+                    return (_db.SaveChanges() > 0);
+                }
+                else
+                {
+                    throw new Exception("The service was not present in the database");
                 }
             }
             catch (Exception ex)
@@ -308,6 +499,75 @@ namespace INYTWebsite.Code
                 throw ex;
             }
         }
+
+        internal bool UpdateServiceProvider(ServiceProviderModel originalSP, ServiceProviderModel updatedSP)
+        {
+            try
+            {
+                var sp = _db.ServiceProvider.Find(updatedSP.id);
+                sp.AddressLine1 = updatedSP.addressLine1;
+                sp.AddressLine2 = updatedSP.addressLine2;
+                sp.City = updatedSP.city;
+                sp.CompanyName = updatedSP.companyName;
+                sp.CompanyNumber = updatedSP.companyNumber;
+                sp.CompanySize = updatedSP.companySize;
+                sp.ContactNumber = updatedSP.contactNumber;
+                sp.Country = updatedSP.country;
+                sp.DeactivationReason = updatedSP.deactivationReason;
+                sp.Description = updatedSP.description;
+                sp.EmailAddress = updatedSP.emailAddress;
+                sp.EmailConfirmed = updatedSP.emailConfirmed;
+                sp.FirstName = updatedSP.firstName;
+                sp.IsActive = updatedSP.isActive;
+                sp.LastName = updatedSP.lastName;
+                sp.MembershipId = updatedSP.membershipId;
+                sp.Postcode = updatedSP.postcode;
+                sp.Region = updatedSP.region;
+                sp.Website = updatedSP.website;
+                _db.SaveChanges(true);
+                return true;
+            }
+            catch (DbUpdateException ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        internal bool UpdateCustomer(CustomerModel originalCust, CustomerModel updatedCust)
+        {
+            try
+            {
+                var customer = _db.CustomerRegistration.Find(updatedCust.id);
+                customer.AddressLine1 = updatedCust.addressLine1;
+                customer.AddressLine2 = updatedCust.addressLine2;
+                customer.City = updatedCust.city;
+                customer.ContactNumber = updatedCust.contactNumber;
+                customer.Country = updatedCust.country;
+                customer.EmailAddress = updatedCust.emailAddress;
+                customer.EmailConfirmed = updatedCust.emailConfirmed;
+                customer.FirstName = updatedCust.firstName;
+                customer.IsActive = updatedCust.isActive;
+                customer.LastName = updatedCust.lastName;
+                customer.Postcode = updatedCust.postcode;
+                customer.Region = updatedCust.region;
+                customer.HasAgreedTc = updatedCust.hasAgreedTC;
+                _db.SaveChanges(true);
+                return true;
+            }
+            catch (DbUpdateException ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
 
         internal List<SlotsModel> GetAvailabilitySlots(int serviceproviderid)
         {
@@ -400,6 +660,21 @@ namespace INYTWebsite.Code
             }
         }
 
+        internal bool CreateService(ServiceModel model)
+        {
+            _db.Services.Add(_modelFactory.Parse(model));
+
+            try
+            {
+                _db.SaveChanges();
+                return true;
+            }
+            catch (DbUpdateException ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
         internal CustomerModel GetCustomer(int id)
         {
             try
@@ -475,6 +750,25 @@ namespace INYTWebsite.Code
             {
                 throw new Exception(ex.Message);
             }
+        }
+
+        internal InvoiceModel CreateInvoice(InvoiceModel model)
+        {
+            Invoices invoices = new Invoices();
+            invoices = _modelFactory.Parse(model);
+            _db.Invoices.Add(invoices);
+
+            try
+            {
+                _db.SaveChanges();
+                model.id = invoices.Id;
+                return model;
+            }
+            catch (DbUpdateException ex)
+            {
+                throw new Exception(ex.Message);
+            }
+
         }
 
         internal LoginModel CreateLogin(LoginModel model)
@@ -563,18 +857,32 @@ namespace INYTWebsite.Code
             }
         }
 
-        internal List<InvoiceModel> GetInvoicesByCustomer(int customerId)
+        internal bool CreateRating(RatingModel model)
+        {
+            _db.Ratings.Add(_modelFactory.Parse(model));
+
+            try
+            {
+                _db.SaveChanges();
+                return true;
+            }
+            catch (DbUpdateException ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        internal List<ConfigurationModel> GetConfigurationsByProvider(string provider)
         {
             try
             {
-                var invoices = _db.Invoices.Where(a => a.CustomerId == customerId).ToList();
-                List<InvoiceModel> invoicesList = new List<InvoiceModel>();
-                foreach(var inv in invoices)
+                List<ConfigurationModel> confs = new List<ConfigurationModel>();
+                var configurations = _db.Configuration.Where(a => a.Provider == provider).ToList();
+                foreach(var conf in configurations)
                 {
-                    invoicesList.Add(_modelFactory.Create(inv));
+                    confs.Add(_modelFactory.Create(conf));
                 }
-
-                return invoicesList;
+                return confs;
             }
             catch (Exception ex)
             {
@@ -582,19 +890,53 @@ namespace INYTWebsite.Code
             }
         }
 
-
-        internal List<InvoiceModel> GetInvoicesByServiceProvider(int serviceProviderId)
+        internal List<CustomerModel> GetCustomers()
         {
             try
             {
-                var invoices = _db.Invoices.Where(a => a.ServiceProviderId == serviceProviderId).ToList();
-                List<InvoiceModel> invoicesList = new List<InvoiceModel>();
-                foreach (var inv in invoices)
+                List<CustomerModel> custs = new List<CustomerModel>();
+                var customers = _db.CustomerRegistration.ToList();
+                foreach (var cust in customers)
                 {
-                    invoicesList.Add(_modelFactory.Create(inv));
+                    custs.Add(_modelFactory.Create(cust));
                 }
+                return custs;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
 
-                return invoicesList;
+        internal List<ServiceProviderModel> GetServiceProviders()
+        {
+            try
+            {
+                List<ServiceProviderModel> sps = new List<ServiceProviderModel>();
+                var serviceproviders = _db.ServiceProvider.ToList();
+                foreach (var sp in serviceproviders)
+                {
+                    sps.Add(_modelFactory.Create(sp));
+                }
+                return sps;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        internal List<BookingModel> GetBookings()
+        {
+            try
+            {
+                List<BookingModel> bookings = new List<BookingModel>();
+                var custbookings = _db.Booking.ToList();
+                foreach (var booking in custbookings)
+                {
+                    bookings.Add(_modelFactory.Create(booking));
+                }
+                return bookings;
             }
             catch (Exception ex)
             {

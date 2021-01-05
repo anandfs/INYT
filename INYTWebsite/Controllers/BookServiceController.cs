@@ -11,10 +11,16 @@ using INYTWebsite.Code;
 using INYTWebsite.CustomModels;
 using INYTWebsite.Extensions;
 using INYTWebsite.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using PayPal;
 using PayPal.OpenIdConnect;
+
+using PayPalCheckoutSdk.Core;
+using PayPalCheckoutSdk.Orders;
+using BraintreeHttp;
+using Rotativa.AspNetCore;
 
 namespace INYTWebsite.Controllers
 {
@@ -27,6 +33,7 @@ namespace INYTWebsite.Controllers
         private Tokeninfo info;
         private bool UseSandbox;
         private readonly object _env;
+
 
         public BookServiceController(Repository repo, IOptions<AppSettings> settings)
              : base(repo)
@@ -41,7 +48,7 @@ namespace INYTWebsite.Controllers
             return Json(totalcost);
         }
 
-        [HttpGet ("BookService/{id}")]
+        [HttpGet("BookService/{id}")]
         public IActionResult Index(string id, string postcode, int? customerid)
         {
             ServiceProviderModel serviceProvider = new ServiceProviderModel();
@@ -87,14 +94,14 @@ namespace INYTWebsite.Controllers
             return View(model);
         }
 
-        public IActionResult BookStep1(BookingModel model)
+        public IActionResult BookStep1(BookingModel model, DateTime? startDate)
         {
             model.serviceProvider = TheRepository.GetServiceProvider(model.serviceProviderId);
             model.serviceName = TheRepository.GetServices().Where(a => a.id == model.serviceId).FirstOrDefault().Service;
 
             List<AdditionalQuestionsModel> questionsModel = new List<AdditionalQuestionsModel>();
 
-            foreach(var key in Request.Form.Keys)
+            foreach (var key in Request.Form.Keys)
             {
                 if (key.StartsWith("txa") || key.StartsWith("rdo") || key.StartsWith("chk"))
                 {
@@ -114,29 +121,11 @@ namespace INYTWebsite.Controllers
             }
 
             model.additionalQuestionsList = questionsModel;
-
-            List<AvailabilityDatesModel> availabilityDates = new List<AvailabilityDatesModel>();
-            System.Globalization.CultureInfo ci = System.Threading.Thread.CurrentThread.CurrentCulture;
-            DayOfWeek fdow = ci.DateTimeFormat.FirstDayOfWeek;
-            DayOfWeek today = DateTime.Now.DayOfWeek;
-            DateTime sow = DateTime.Now.AddDays(-(today - fdow)).Date;
-            DateTime eow = sow.AddDays(7).Date;
-            int interval = 1;
-            availabilityDates = TheRepository.GetAvailabilityDates(model.serviceProviderId, sow, eow, interval);
-
-            var sortedList = availabilityDates.ToList().OrderBy(a => a.availabilityDate.TimeOfDay);
-
-            var minstarttime = sortedList.First().startTime;
-            var maxstarttime = sortedList.Last().endTime;
-
-            availabilityDates = availabilityDates.Where(a => a.availabilityDate.TimeOfDay >= minstarttime.TimeOfDay
-                                                                && a.availabilityDate.TimeOfDay <= maxstarttime.TimeOfDay).ToList();
-
-            model.availabilityDates = availabilityDates;
-
+            model.availabilityDates = GetAvailabilityDates(model.serviceProviderId, startDate);
             List<CalendarDates> calendar = new List<CalendarDates>();
 
-            foreach (var item in availabilityDates)
+
+            foreach (var item in model.availabilityDates)
             {
                 if (!calendar.Any(a => a.weekdate.Date == item.availabilityDate.Date))
                 {
@@ -151,10 +140,72 @@ namespace INYTWebsite.Controllers
             model.calendar = calendar;
 
             HttpContext.Session.SetObject("bookingmodel", model);
-            
+
             return View(model);
         }
 
+        [HttpGet("BookService/GetCalendar/{serviceProviderId}/{startDate}")]
+        public ActionResult GetCalendar(int serviceProviderId, string startDate)
+        {
+            BookingModel bookingModel = new BookingModel();
+            bookingModel.serviceProviderId = serviceProviderId;
+            bookingModel.availabilityDates = GetAvailabilityDates(serviceProviderId, Convert.ToDateTime(startDate));
+
+            List<CalendarDates> calendar = new List<CalendarDates>();
+
+
+            foreach (var item in bookingModel.availabilityDates)
+            {
+                if (!calendar.Any(a => a.weekdate.Date == item.availabilityDate.Date))
+                {
+                    calendar.Add(new CalendarDates
+                    {
+                        weekdate = item.availabilityDate.Date,
+                        weekname = item.weekName
+                    });
+                }
+            }
+
+            bookingModel.calendar = calendar;
+            return PartialView("_Calendar", bookingModel);
+        }
+
+        private List<AvailabilityDatesModel> GetAvailabilityDates(int serviceProviderId, DateTime? startDate)
+        {
+            List<AvailabilityDatesModel> availabilityDates = new List<AvailabilityDatesModel>();
+            System.Globalization.CultureInfo ci = System.Threading.Thread.CurrentThread.CurrentCulture;
+            DayOfWeek fdow = ci.DateTimeFormat.FirstDayOfWeek;
+
+            DayOfWeek today = DateTime.Now.DayOfWeek;
+            DateTime sow;
+
+            if (startDate != null)
+            {
+                sow = Convert.ToDateTime(startDate);
+            }
+            else
+            {
+                sow = DateTime.Now.Date; // DateTime.Now.AddDays(-(today - fdow)).Date;
+            }
+
+            DateTime eow = sow.AddDays(8).Date;
+            int interval = 1;
+            availabilityDates = TheRepository.GetAvailabilityDates(serviceProviderId, sow, eow, interval);
+
+            if (availabilityDates.Count > 0)
+            {
+                var sortedList = availabilityDates.ToList().OrderBy(a => a.availabilityDate.TimeOfDay);
+
+                var minstarttime = sortedList.First().startTime;
+                var maxstarttime = sortedList.Last().endTime;
+
+                availabilityDates = availabilityDates.Where(a => a.availabilityDate.TimeOfDay >= minstarttime.TimeOfDay
+                                                                    && a.availabilityDate.TimeOfDay <= maxstarttime.TimeOfDay).ToList();
+
+            }
+
+            return availabilityDates;
+        }
 
         public ActionResult BookStep2(BookingModel model)
         {
@@ -207,16 +258,168 @@ namespace INYTWebsite.Controllers
             }
 
             List<BookingModel> bookings = new List<BookingModel>();
-            bookings = TheRepository.GetAllBookings(model.serviceProviderId);
-            bookingsList.bookings = bookings;
+            bookings = TheRepository.GetAllBookingsByCustomer(model.customerId);
+            bookingsList.bookings = bookings.Where(a => a.bookingAccepted == false).ToList();
             bookingsList.serviceProvider = TheRepository.GetServiceProvider(model.serviceProviderId);
-
             return View("ConfirmPayment", bookingsList);
         }
 
-        public ActionResult CompleteBooking(BookingsListModel model)
+        public ActionResult ThankYou(int id, string referenceid)
         {
+            BookingsListModel model = new BookingsListModel();
+            model.bookings = TheRepository.GetAllBookingsByCustomer(id).Where(a => a.bookingReference == referenceid).ToList();
+            model.serviceProvider = TheRepository.GetServiceProvider(model.bookings[0].serviceProviderId);
+            model.customer = TheRepository.GetCustomer(id);
             return View(model);
+        }
+
+        public ActionResult CreateInvoice()
+        {
+            double bookingAmount = Convert.ToDouble(Request.Form["totalamount"]);
+            string invoiceNumber = String.Empty;
+            int lastId = 0;
+            var invoiceCount = TheRepository.GetAllInvoices().Count();
+            if (invoiceCount > 0)
+            {
+                lastId = TheRepository.GetAllInvoices().Max(a => a.id);
+            }
+            else
+            {
+                lastId = 1;
+            }
+
+            invoiceNumber = String.Format("INYTINV{0}", lastId);
+            InvoiceModel invoiceModel = new InvoiceModel();
+            invoiceModel.customerId = Convert.ToInt32(Request.Form["customerId"]);
+            invoiceModel.serviceProviderId = Convert.ToInt32(Request.Form["serviceproviderid"]);
+            invoiceModel.paypalBookingReference = Request.Form["reference"];
+            invoiceModel.amount = bookingAmount;
+            invoiceModel.invoiceNumber = invoiceNumber;
+            invoiceModel.paidDate = DateTime.Now;
+
+
+            InvoiceModel newinvoice = new InvoiceModel();
+            newinvoice = TheRepository.CreateInvoice(invoiceModel);
+
+            newinvoice.serviceprovider = TheRepository.GetServiceProvider(invoiceModel.serviceProviderId);
+            newinvoice.customer = TheRepository.GetCustomer(invoiceModel.customerId);
+            newinvoice.bookings = TheRepository.GetAllBookingsByCustomer(invoiceModel.customerId).Where(a => a.bookingReference == invoiceModel.paypalBookingReference).ToList();
+
+            foreach(var booking in newinvoice.bookings)
+            {
+                booking.serviceName = TheRepository.GetServiceById(booking.serviceId).Service;
+            }
+
+            return View(newinvoice);
+        }
+
+
+        public IActionResult PrintInvoice()
+        {
+            InvoiceModel model = new InvoiceModel();
+            model = TheRepository.GetInvoiceById(Convert.ToInt32(Request.Form["id"]));
+            model.serviceprovider = TheRepository.GetServiceProvider(model.serviceProviderId);
+            model.customer = TheRepository.GetCustomer(model.customerId);
+            model.bookings = TheRepository.GetAllBookingsByCustomer(model.customerId).Where(a => a.bookingReference == model.paypalBookingReference).ToList();
+
+            foreach (var booking in model.bookings)
+            {
+                booking.serviceName = TheRepository.GetServiceById(booking.serviceId).Service;
+            }
+
+            return new ViewAsPdf("PrintInvoice", model);
+        }
+
+        public async static Task<PayPalHttp.HttpResponse> CreatePaypalOrder(string OrderId, bool debug = false)
+        {
+            var request = new OrdersCaptureRequest(OrderId);
+            request.Prefer("return=representation");
+            request.RequestBody(new OrderActionRequest());
+            //3. Call PayPal to capture an order
+            var response = await PayPalClient.client().Execute(request);
+            //4. Save the capture ID to your database. Implement logic to save capture to your database for future reference.
+            if (debug)
+            {
+                var result = response.Result<Order>();
+                Console.WriteLine("Status: {0}", result.Status);
+                Console.WriteLine("Order Id: {0}", result.Id);
+                Console.WriteLine("Intent: {0}", result.CheckoutPaymentIntent);
+                Console.WriteLine("Links:");
+                foreach (LinkDescription link in result.Links)
+                {
+                    Console.WriteLine("\t{0}: {1}\tCall Type: {2}", link.Rel, link.Href, link.Method);
+                }
+                Console.WriteLine("Capture Ids: ");
+                foreach (PurchaseUnit purchaseUnit in result.PurchaseUnits)
+                {
+                    foreach (Capture capture in purchaseUnit.Payments.Captures)
+                    {
+                        Console.WriteLine("\t {0}", capture.Id);
+                    }
+                }
+                AmountWithBreakdown amount = result.PurchaseUnits[0].AmountWithBreakdown;
+                //Console.WriteLine("Buyer:");
+                //Console.WriteLine("\tEmail Address: {0}\n\tName: {1}\n\tPhone Number: {2}{3}", result.Payer.EmailAddress, result.Payer.Name.FullName, result.Payer.Phone.CountryCode, result.Payer.Phone.NationalNumber);
+            }
+
+            return response;
+        }
+
+
+        public async static Task<PayPalHttp.HttpResponse> CapturePaypal(string OrderId, bool debug = false)
+        {
+            var request = new OrdersCaptureRequest(OrderId);
+            request.Prefer("return=representation");
+            request.RequestBody(new OrderActionRequest());
+            //3. Call PayPal to capture an order
+            var response = await PayPalClient.client().Execute(request);
+            //4. Save the capture ID to your database. Implement logic to save capture to your database for future reference.
+            if (debug)
+            {
+                var result = response.Result<Order>();
+                Console.WriteLine("Status: {0}", result.Status);
+                Console.WriteLine("Order Id: {0}", result.Id);
+                Console.WriteLine("Intent: {0}", result.CheckoutPaymentIntent);
+                Console.WriteLine("Links:");
+                foreach (LinkDescription link in result.Links)
+                {
+                    Console.WriteLine("\t{0}: {1}\tCall Type: {2}", link.Rel, link.Href, link.Method);
+                }
+                Console.WriteLine("Capture Ids: ");
+                foreach (PurchaseUnit purchaseUnit in result.PurchaseUnits)
+                {
+                    foreach (Capture capture in purchaseUnit.Payments.Captures)
+                    {
+                        Console.WriteLine("\t {0}", capture.Id);
+                    }
+                }
+                AmountWithBreakdown amount = result.PurchaseUnits[0].AmountWithBreakdown;
+                //Console.WriteLine("Buyer:");
+                //Console.WriteLine("\tEmail Address: {0}\n\tName: {1}\n\tPhone Number: {2}{3}", result.Payer.Email, result.Payer.Name.FullName, result.Payer.PhoneWithType.PhoneNumber.CountryCallingCode, result.Payer.PhoneWithType.PhoneNumber.NationalNumber);
+            }
+
+            return response;
+        }
+
+        public JsonResult CompleteBooking(string refid, int customerid)
+        {
+            List<BookingModel> bookings = new List<BookingModel>();
+            bookings = TheRepository.GetAllBookingsByCustomer(customerid);
+
+
+            if (bookings != null)
+            {
+                foreach(var booking in bookings)
+                {
+                    booking.bookingFulfilled = true;
+                    booking.bookingAccepted = true;
+                    booking.bookingReference = refid;
+                    TheRepository.UpdateBooking(booking);
+                }
+            }
+            //return Json(true);
+            return Json(new { result = "Redirect", url = Url.Action("ThankYou", "BookService", new { id = customerid, referenceid=refid }) });
+
         }
     }
 }

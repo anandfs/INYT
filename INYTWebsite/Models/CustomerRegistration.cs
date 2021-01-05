@@ -18,5 +18,6 @@ namespace INYTWebsite.Models
         public string Country { get; set; }
         public string Postcode { get; set; }
         public bool? IsActive { get; set; }
+        public bool? EmailConfirmed { get; set; }
     }
 }

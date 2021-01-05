@@ -12,6 +12,8 @@ namespace INYTWebsite.CustomModels
         public int bookingId { get; set; }
         public int ratings { get; set; }
         public string ratingComments { get; set; }
+        public ServiceProviderModel serviceprovider { get; set; }
+        public CustomerModel customer { get; set; }
         public int createdBy { get; set; }
         public DateTime createdDate { get; set; }
         public bool display { get; set; }

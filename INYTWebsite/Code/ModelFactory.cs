@@ -11,6 +11,37 @@ namespace INYTWebsite.Code
     {
         #region CREATE METHODS
 
+        public ConfigurationModel Create(Configuration configuration)
+        {
+            if (configuration == null)
+                return null;
+
+            return new ConfigurationModel()
+            {
+                id = configuration.Id,
+                keyName = configuration.KeyName,
+                keyValue = configuration.KeyValue,
+                provider = configuration.Provider
+            };
+        }
+
+        public InvoiceModel Create(Invoices invoice)
+        {
+            if (invoice == null)
+                return null;
+
+            return new InvoiceModel()
+            {
+                amount = Convert.ToDouble(invoice.Amount),
+                paypalBookingReference = invoice.PaypalBookingReference,
+                customerId = Convert.ToInt32(invoice.CustomerId),
+                id = Convert.ToInt32(invoice.Id),
+                invoiceNumber = invoice.InvoiceNumber,
+                paidDate = Convert.ToDateTime(invoice.PaidDate),
+                serviceProviderId = Convert.ToInt32(invoice.ServiceProviderId)
+            };
+        }
+
         public ServiceProviderModel Create(ServiceProvider serviceprovider)
         {
             if (serviceprovider == null)
@@ -36,7 +67,8 @@ namespace INYTWebsite.Code
                 postcode = serviceprovider.Postcode,
                 serviceId = Convert.ToInt32(serviceprovider.TradeId),
                 website = serviceprovider.Website,
-                membershipId = Convert.ToInt32(serviceprovider.MembershipId)
+                membershipId = Convert.ToInt32(serviceprovider.MembershipId),
+                emailConfirmed = Convert.ToBoolean(serviceprovider.EmailConfirmed)
             };
         }
 
@@ -93,7 +125,7 @@ namespace INYTWebsite.Code
 
             return membershipModel;
         }
-
+        
         public BookingModel Create(Booking booking)
         {
             if (booking == null)
@@ -108,6 +140,7 @@ namespace INYTWebsite.Code
                 bookingPaymentType = booking.BookingPaymentType,
                 bookingAccepted = Convert.ToBoolean(booking.BookingAccepted),
                 bookingTime = Convert.ToDateTime(booking.BookingTime),
+                bookingReference = booking.PaypalBookingReference,
                 serviceProviderId = Convert.ToInt32(booking.ServiceProviderId),
                 serviceId = Convert.ToInt32(booking.ServiceId),
                 customerId = Convert.ToInt32(booking.CustomerId)
@@ -135,24 +168,8 @@ namespace INYTWebsite.Code
                 postcode = customer.Postcode,
                 region = customer.Region,
                 isActive = Convert.ToBoolean(customer.IsActive),
-                hasAgreedTC = Convert.ToBoolean(customer.HasAgreedTc)                
-            };
-        }
-
-        public InvoiceModel Create(Invoices invoice)
-        {
-            if (invoice == null)
-                return null;
-
-            return new InvoiceModel()
-            {
-                id = invoice.Id,
-                amount = Convert.ToDouble(invoice.Amount),
-                bookingId = Convert.ToInt32(invoice.BookingId),
-                customerId = Convert.ToInt32(invoice.CustomerId),
-                invoiceNumber = Convert.ToInt32(invoice.InvoiceNumber),
-                paidDate = Convert.ToDateTime(invoice.PaidDate),
-                serviceProviderId = Convert.ToInt32(invoice.ServiceProviderId)
+                hasAgreedTC = Convert.ToBoolean(customer.HasAgreedTc),
+                emailConfirmed = Convert.ToBoolean(customer.EmailConfirmed)
             };
         }
 
@@ -248,7 +265,8 @@ namespace INYTWebsite.Code
                 Postcode = serviceprovider.postcode,
                 TradeId = Convert.ToInt32(serviceprovider.serviceId),
                 Website = serviceprovider.website,
-                MembershipId = Convert.ToInt32(serviceprovider.membershipId)
+                MembershipId = Convert.ToInt32(serviceprovider.membershipId),
+                EmailConfirmed = Convert.ToBoolean(serviceprovider.emailConfirmed)
             };
         }
 
@@ -265,9 +283,11 @@ namespace INYTWebsite.Code
                 BookingPaymentType = bookingModel.bookingPaymentType,
                 BookingTime = Convert.ToDateTime(bookingModel.bookingTime),
                 BookingAccepted = bookingModel.bookingAccepted,
+                PaypalBookingReference = bookingModel.bookingReference,
                 ServiceId = Convert.ToInt32(bookingModel.serviceId),
                 ServiceProviderId = Convert.ToInt32(bookingModel.serviceProviderId),
-                CustomerId = Convert.ToInt32(bookingModel.customerId)
+                CustomerId = Convert.ToInt32(bookingModel.customerId),
+                Id = bookingModel.id
             };
         }
 
@@ -289,7 +309,8 @@ namespace INYTWebsite.Code
                 Postcode = customerModel.postcode,
                 Region = customerModel.region,
                 HasAgreedTc = customerModel.hasAgreedTC,
-                IsActive = customerModel.isActive
+                IsActive = customerModel.isActive,
+                EmailConfirmed = customerModel.emailConfirmed
             };
         }
 
@@ -443,6 +464,23 @@ namespace INYTWebsite.Code
             };
 
             return membership;
+        }
+
+        internal Invoices Parse(InvoiceModel invoice)
+        {
+            if (invoice == null)
+                return null;
+
+            return new Invoices()
+            {
+                Amount = Convert.ToDecimal(invoice.amount),
+                PaypalBookingReference = invoice.paypalBookingReference,
+                CustomerId = Convert.ToInt32(invoice.customerId),
+                Id = Convert.ToInt32(invoice.id),
+                InvoiceNumber = invoice.invoiceNumber,
+                PaidDate = Convert.ToDateTime(invoice.paidDate),
+                ServiceProviderId = Convert.ToInt32(invoice.serviceProviderId)
+            };
         }
 
         #endregion

@@ -16,6 +16,7 @@ namespace INYTWebsite
         public PayPalAPI PayPalAPI { get; set; }
 
         public string SendErrorMessage { get; set; }
+
     }
 
     public class SendGridAPI

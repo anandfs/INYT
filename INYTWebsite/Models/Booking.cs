@@ -15,5 +15,6 @@ namespace INYTWebsite.Models
         public string BookingPaymentType { get; set; }
         public bool? BookingAccepted { get; set; }
         public bool? BookingFulfilled { get; set; }
+        public string PaypalBookingReference { get; set; }
     }
 }
