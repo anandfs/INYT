@@ -27,5 +27,6 @@ namespace INYTWebsite.Models
         public string Picture { get; set; }
         public int? MembershipId { get; set; }
         public bool? EmailConfirmed { get; set; }
+        public string VerifyCode { get; set; }
     }
 }

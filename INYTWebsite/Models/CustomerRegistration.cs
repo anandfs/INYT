@@ -19,5 +19,6 @@ namespace INYTWebsite.Models
         public string Postcode { get; set; }
         public bool? IsActive { get; set; }
         public bool? EmailConfirmed { get; set; }
+        public string VerifyCode { get; set; }
     }
 }

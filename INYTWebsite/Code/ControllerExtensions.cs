@@ -1,8 +1,12 @@
-﻿using INYTWebsite.CustomModels;
+﻿using INYTWebsite.Areas.CustomerArea.Controllers;
+using INYTWebsite.CustomModels;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewEngines;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using Microsoft.AspNetCore.Routing;
 using Newtonsoft.Json;
 using System;
 using System.IO;
@@ -13,6 +17,7 @@ using System.Threading.Tasks;
 
 namespace INYTWebsite.Code
 {
+    
     public static class ControllerExtensions
     {
         #region Get Session Values
@@ -70,6 +75,7 @@ namespace INYTWebsite.Code
         #region Render Views (Generate HTML for a view based on Model)
         public static async Task<string> RenderViewAsHTMLString<TModel>(this Controller controller, string viewName, TModel model, bool partial = false)
         {
+
             if (string.IsNullOrEmpty(viewName))
             {
                 viewName = controller.ControllerContext.ActionDescriptor.ActionName;
@@ -80,7 +86,7 @@ namespace INYTWebsite.Code
             using (var writer = new StringWriter())
             {
                 IViewEngine viewEngine = controller.HttpContext.RequestServices.GetService(typeof(ICompositeViewEngine)) as ICompositeViewEngine;
-                ViewEngineResult viewResult = viewEngine.GetView("~/", string.Format("~/PDFTemplates/{0}.cshtml", viewName), !partial);
+                ViewEngineResult viewResult = viewEngine.GetView("~/", string.Format("~/Views/Home/{0}", viewName), !partial);
 
                 if (viewResult.Success == false)
                 {
@@ -101,7 +107,40 @@ namespace INYTWebsite.Code
                 return writer.GetStringBuilder().ToString();
             }
         }
+        public static async Task<string> RenderViewAsHTMLStringForInvoice<TModel>(this Controller controller, string viewName, TModel model, bool partial = false)
+        {
 
+            if (string.IsNullOrEmpty(viewName))
+            {
+                viewName = controller.ControllerContext.ActionDescriptor.ActionName;
+            }
+
+            controller.ViewData.Model = model;
+
+            using (var writer = new StringWriter())
+            {
+                IViewEngine viewEngine = controller.HttpContext.RequestServices.GetService(typeof(ICompositeViewEngine)) as ICompositeViewEngine;
+                ViewEngineResult viewResult = viewEngine.GetView("~/", string.Format("~/Views/BookService/{0}", viewName), !partial);
+
+                if (viewResult.Success == false)
+                {
+                    return $"A view with the name {viewName} could not be found";
+                }
+
+                ViewContext viewContext = new ViewContext(
+                    controller.ControllerContext,
+                    viewResult.View,
+                    controller.ViewData,
+                    controller.TempData,
+                    writer,
+                    new HtmlHelperOptions()
+                );
+
+                await viewResult.View.RenderAsync(viewContext);
+
+                return writer.GetStringBuilder().ToString();
+            }
+        }
         #endregion
 
         #region Verify (Based on 3rd Party APIs)
@@ -131,5 +170,19 @@ namespace INYTWebsite.Code
             }
         }
         #endregion
+    }
+    public static class UrlHelperExtensions
+    {
+        public static string EmailConfirmationLink(this IUrlHelper urlHelper, int userId, string code, string scheme)
+        {
+            return urlHelper.Action(
+               action: nameof(CustomerSignupController.VerifyEmail),
+               controller: "CustomerSignup",
+               values: new { userId, code },
+               
+               protocol: scheme);
+        }
+
+       
     }
 }

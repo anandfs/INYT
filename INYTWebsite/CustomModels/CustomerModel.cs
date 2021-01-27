@@ -28,5 +28,6 @@ namespace INYTWebsite.CustomModels
         public List<InvoiceModel> invoices { get; set; }
         public bool hasAgreedTC { get; set; }
         public List<String> calendars { get; set; }
+        public string VerifyCode { get; set; }
     }
 }

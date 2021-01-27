@@ -117,6 +117,8 @@ namespace INYTWebsite.Areas.ServiceProviderArea.Controllers
         public IActionResult SignupProcess(ServiceProviderModel model)
         {
             model.isActive = true; // should be after user has validated their email. but temp for now
+
+            model.VerifyCode = Guid.NewGuid().ToString();
             var serviceprovider = TheRepository.CreateServiceProvider(model);
 
             model.id = serviceprovider.id;
@@ -134,7 +136,17 @@ namespace INYTWebsite.Areas.ServiceProviderArea.Controllers
             };
 
             var createdLogin = TheRepository.CreateLogin(login);
+            var callbackUrl = Url.Action("VerifyEmail", "Signup", new { userId = serviceprovider.id, code = model.VerifyCode }, Request.Scheme, Request.Host.Value + "/ServiceProviderArea");
+            var Body = $"Welcome from I NEED YOUR TIME. Click <a href='{callbackUrl}'>here</a> to confirm your email";
 
+            var model2 = new Emailmodel
+            {
+                Name = model.firstName,
+                Body = Body
+            };
+            var renderedHTML = ControllerExtensions.RenderViewAsHTMLString(this, "_VerifyEmail.cshtml", model2);
+
+            EmailManager.SendEmail2(model.emailAddress, "VerifyAccount", renderedHTML.Result);
             //Send an authorisation email to the service provider
             //SendSimpleMessage("Welcome from I NEED YOUR TIME", "anand@futuresolutionsltd.com").Content.ToString();
 
@@ -149,7 +161,31 @@ namespace INYTWebsite.Areas.ServiceProviderArea.Controllers
         {
             return View();
         }
+        public IActionResult VerifyEmail(int userId, string code)
+        {
+            var cus = TheRepository.VerifyAccountProvider(userId, code);
+            int result = 0;
+           
+            if (cus != null)
+            {
+                result = 1;
+                string body = "Your account has been verified now you can login successfully.";
+                var model2 = new Emailmodel
+                {
+                    Name = cus.FirstName,
+                    Body = body
+                };
+                var renderedHTML = ControllerExtensions.RenderViewAsHTMLString(this, "_VerifyEmail.cshtml", model2);
 
+                EmailManager.SendEmail2(cus.EmailAddress, "Account Verified", renderedHTML.Result);
+            }
+            else
+            {
+                result = 0;
+            }
+            ViewBag.result = result;
+            return View();
+        }
         [Route("confirmemail")]
         public IActionResult ConfirmEmail(string id)
         {

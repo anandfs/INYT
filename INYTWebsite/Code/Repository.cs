@@ -645,6 +645,44 @@ namespace INYTWebsite.Code
             }
         }
 
+        internal bool CheckEmailExist(string mail)
+        {
+            var cust = _db.CustomerRegistration.Where(c=>c.EmailAddress == mail).Any();
+
+
+
+            return cust;
+        }
+        internal CustomerRegistration VerifyAccount(int id,string code)
+        {
+            var cust = _db.CustomerRegistration.Where(c=>c.Id == id && c.VerifyCode == code).SingleOrDefault();
+
+            if (cust == null)
+            {
+                return null;
+            }
+
+            cust.EmailConfirmed = true;
+
+            _db.SaveChanges();
+
+            return cust;
+        }
+        internal ServiceProvider VerifyAccountProvider(int id, string code)
+        {
+            var cust = _db.ServiceProvider.Where(c => c.Id == id && c.VerifyCode == code).SingleOrDefault();
+
+            if (cust == null)
+            {
+                return null;
+            }
+
+            cust.EmailConfirmed = true;
+
+            _db.SaveChanges();
+
+            return cust;
+        }
         internal bool CreateAdditionalQuestions(ServiceProviderAdditionalQuestionsModel answer)
         {
             _db.ServiceProviderAdditionalQuestions.Add(_modelFactory.Parse(answer));

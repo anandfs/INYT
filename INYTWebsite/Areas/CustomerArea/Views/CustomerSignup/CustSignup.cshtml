@@ -21,7 +21,10 @@
                             <div class="login-header">
                                 <h3>Customer Registration</h3>
                             </div>
-
+                            @if(TempData["exist"]!=null)
+                            {
+                                <h3 class="text-danger">@TempData["exist"]</h3>
+                            }
                             <form asp-action="custsignupprocess" asp-controller="customersignup" method="post">
                                 <!-- Basic Information -->
                                 <div class="card">

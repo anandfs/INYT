@@ -6,6 +6,7 @@ using System.Net;
 using System.Net.Mail;
 using System.Text;
 using System.Threading.Tasks;
+using INYTWebsite.Models;
 using Microsoft.Extensions.Options;
 using SendGrid;
 using SendGrid.Helpers.Mail;
@@ -25,9 +26,9 @@ namespace INYTWebsite.Code
         {
             try
             {
-                //string apikey = _appSettings.SendGridAPI.apiKey;
+                string apikey2 = _appSettings.SendGridAPI.apiKey;
                 string apikey = Environment.GetEnvironmentVariable("SENDGRID_API_KEY");
-                var client = new SendGridClient(apikey, _appSettings.SendGridAPI.clientURL);
+                var client = new SendGridClient(apikey2, _appSettings.SendGridAPI.clientURL);
                 var msg = new SendGridMessage();
                 msg.SetFrom(new EmailAddress(Email.FromAddress, (!String.IsNullOrEmpty(Email.FromDisplayName)) ? Email.FromDisplayName : null));
                 msg.AddTo(new EmailAddress(Email.ToAddress));
@@ -93,6 +94,25 @@ namespace INYTWebsite.Code
                 throw new Exception(ex.Message);
             }
         }
+        public static void SendEmail2(string email, string sub, string body)
+        {
+
+            
+            MailMessage mail = new MailMessage();
+            mail.Subject = sub;
+            mail.From = new MailAddress("noreply@mecure.org");
+            mail.To.Add(email);
+            mail.Body = body;
+            mail.IsBodyHtml = true;
+
+            SmtpClient smtp = new SmtpClient("plesk3500.is.cc", 587);
+            smtp.EnableSsl = false;
+            NetworkCredential netCre = new NetworkCredential("noreply@mecure.org", "Ew1h%q70");
+            smtp.Credentials = netCre;
+            smtp.Send(mail);
+        }
+
+
 
         public bool SendErrorEmail(string errorText)
         {

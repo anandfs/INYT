@@ -1,0 +1,60 @@
+﻿
+@{
+    ViewData["Title"] = "VerifyEmail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@if (ViewBag.result != null)
+{
+    if (ViewBag.result == 1)
+    {
+        <div class="content success-page-cont">
+            <div class="container-fluid">
+                <div class="row justify-content-center">
+                    <div class="col-lg-6">
+                        <!-- Success Card -->
+                        <div class="card success-card">
+                            <div class="card-body">
+                                <div class="success-cont">
+                                    <i class="fas fa-check"></i>
+                                    <h3>Email Verified!</h3>
+
+                                    <p>
+                                        Now You can login here <a  asp-controller="Login"
+                                                                  asp-action="Index">Login</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /Success Card -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="content success-page-cont">
+            <div class="container-fluid">
+                <div class="row justify-content-center">
+                    <div class="col-lg-6">
+                        <!-- Success Card -->
+                        <div class="card success-card">
+                            <div class="card-body">
+                                <div class="success-cont">
+                                    <i class="fas fa-check"></i>
+                                    <h3>Something went wrong!</h3>
+
+
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /Success Card -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+}
+

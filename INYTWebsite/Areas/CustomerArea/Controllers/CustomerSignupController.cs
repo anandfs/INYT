@@ -16,7 +16,9 @@ using Microsoft.Extensions.Options;
 using System.IO;
 using RestSharp;
 using RestSharp.Authenticators;
-
+using System.Net.Mail;
+using System.Net;
+using INYTWebsite.Controllers;
 
 namespace INYTWebsite.Areas.CustomerArea.Controllers
 {
@@ -108,12 +110,22 @@ namespace INYTWebsite.Areas.CustomerArea.Controllers
         public IActionResult CustSignupProcess(CustomerModel model)
         {
             model.isActive = true; // should be after user has validated their email. but temp for now
+            model.VerifyCode = Guid.NewGuid().ToString();
+
+            var exist = TheRepository.CheckEmailExist(model.emailAddress);
+
+            if(exist)
+            {
+                TempData["exist"] = "Email Exists";
+                return View("CustSignup", model);
+            }
             var customer = TheRepository.CreateCustomer(model);
 
             model.id = customer.id;
             model.emailConfirmed = false;
             model.isRegistrationApproved = false;
             model.createdDate = DateTime.Now;
+            
             model.password = PasswordHash.PasswordHash.CreateHash(model.password).Replace("1000:", String.Empty);
 
             LoginModel login = new LoginModel
@@ -130,14 +142,22 @@ namespace INYTWebsite.Areas.CustomerArea.Controllers
 
             //Send an authorisation email to the customer
             EmailInfo emailInfo = new EmailInfo();
-            emailInfo.Body = "Welcome from I NEED YOUR TIME. Click <a href='CustomerSignup/ConfirmEmail/{0}'>here</a> to confirm your email";
+            var callbackUrl = Url.Action("VerifyEmail", "CustomerSignup", new { userId = customer.id, code = model.VerifyCode }, Request.Scheme, Request.Host.Value + "/CustomerArea");
+            emailInfo.Body = $"Welcome from I NEED YOUR TIME. Click <a href='{callbackUrl}'>here</a> to confirm your email";
             emailInfo.emailType = "WelcomeEmail";
             emailInfo.IsBodyHtml = true;
             emailInfo.Subject = "Welcome to INYT";
             emailInfo.ToAddress = model.emailAddress;
-            _emailManager.SendEmail(emailInfo);
+            //_emailManager.SendEmail(emailInfo);
+            var model2 = new Emailmodel
+            {
+                Name = model.firstName,
+                Body = emailInfo.Body
+            };
+            var renderedHTML = ControllerExtensions.RenderViewAsHTMLString(this,"_VerifyEmail.cshtml", model2);
 
-            //SendSimpleMessage(String.Format("<strong>Welcome from I NEED YOUR TIME. Click <a href='CustomerSignup/ConfirmEmail/{0}'>here</a> to confirm your email", "anand@futuresolutionsltd.com"),encryptedid).Content.ToString();
+            EmailManager.SendEmail2(model.emailAddress,"VerifyAccount",renderedHTML.Result);
+            //SendSimpleMessage(String.Format("<strong>Welcome from I NEED YOUR TIME. Click <a href='CustomerSignup/ConfirmEmail/{0}'>here</a> to confirm your email", "anand@futuresolutionsltd.com"), encryptedid).Content.ToString();
 
             //Send an email to the Administrator with the customer details
             //EmailInfo emailInfo = new EmailInfo();
@@ -152,13 +172,37 @@ namespace INYTWebsite.Areas.CustomerArea.Controllers
 
             return View(model);
         }
-
+       
         [Route("changepassword")]
         public IActionResult Changepassword()
         {
             return View();
         }
+        public IActionResult VerifyEmail(int userId,string code)
+        {
+            var cus = TheRepository.VerifyAccount(userId, code);
+            int result = 0;
+            
+            if(cus!=null)
+            {
+                result = 1;
+                string body = "Your account has been verified now you can login successfully.";
+                var model2 = new Emailmodel
+                {
+                    Name = cus.FirstName,
+                    Body = body
+                };
+                var renderedHTML = ControllerExtensions.RenderViewAsHTMLString(this, "_VerifyEmail.cshtml", model2);
 
+                EmailManager.SendEmail2(cus.EmailAddress, "Account Verified", renderedHTML.Result);
+            }
+            else
+            {
+                result = 0;
+            }
+            ViewBag.result = result;
+            return View();
+        }
         private LoginModel IsValid(LoginModel user)
         {
             LoginModel validatedUser = TheRepository.GetLoginByUsername(user.userName);

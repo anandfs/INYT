@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using INYTWebsite.CustomModels;
 using INYTWebsite.Areas.ServiceProviderArea.Controllers;
 using System.Net.Http;
+using Microsoft.AspNetCore.Authorization;
 
 namespace INYTWebsite.Controllers
 {
@@ -18,7 +19,7 @@ namespace INYTWebsite.Controllers
     {
         Repository _repo = null;
         private AppSettings _AppSettings;
-
+        
         public HomeController(Repository repo, IOptions<AppSettings> settings)
             : base(repo)
         {
@@ -97,7 +98,17 @@ namespace INYTWebsite.Controllers
             return View("SearchResults", serviceProviders);
         }
 
+        [AllowAnonymous]
+        public ActionResult _VerifyEmail(string name, string link)
+        {
+            var model = new Emailmodel
+            {
+                Body = link,
+                Name = name
 
+            };
+            return View(model);
+        }
         public ActionResult ServiceProviderCalendarDetails(string spid)
         {
             int sp_id = Convert.ToInt32(EncryptionUtility.Decrypt(spid.ToString(), true));

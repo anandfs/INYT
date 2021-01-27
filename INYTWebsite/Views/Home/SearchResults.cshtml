@@ -130,7 +130,9 @@
                                 </div>
                                 <div class="doc-info-right">
                                     <div class="clinic-booking">
-                                        @Html.ActionLink("View Profile", "Profile", "Services", new { id = sp.id }, new { @class = "view-pro-btn" })
+
+                                        <a class="view-pro-btn profilebtn" data-name="@sp.firstName" data-address="@sp.addressLine1" data-address2="@sp.addressLine2">View Profile</a>
+                                        @*@Html.ActionLink("View Profile", "Profile", "Services", new { id = sp.id }, new { @class = "view-pro-btn" })*@
                                         @Html.ActionLink("Book", "Index", "BookService", new { id = sp.id, postcode = ViewData["postcode"] }, new { @class = "apt-btn" })
                                     </div>
                                 </div>
@@ -144,10 +146,60 @@
     </div>
 </div>
 <!-- /Page Content -->
+<div class="modal fade" id="profilemodal">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Profile</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
 
+                <div class="col-12 col-md-10">
+                    <div class="row form-row">
+                        <div class="col-12 col-md-6">
+                            
+                            <div class="form-group">
+                                <label>Name</label>
+                                <p id="name"></p>
+                            </div>
+                            <div class="form-group">
+                                <label>Address Line 1</label>
+                                <p id="line1"></p>
+                            </div>
+                            <div class="form-group">
+                                <label>Address Line 2</label>
+                                <p id="line2"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
 
 @section Scripts {
     <script>
+
+        $(".profilebtn").click(function () {
+            var name = $(this).data("name");
+            var address = $(this).data("address");
+            var address2 = $(this).data("address2");
+
+            $("#name").text(name);
+            $("#line1").text(address);
+            $("#line2").text(address2);
+
+            $("#profilemodal").modal('show');
+        })
+
+
         $('#theModal').on('show.bs.modal', function (e) {
 
             var button = $(e.relatedTarget);

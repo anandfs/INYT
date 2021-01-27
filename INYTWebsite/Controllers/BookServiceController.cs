@@ -310,6 +310,24 @@ namespace INYTWebsite.Controllers
                 booking.serviceName = TheRepository.GetServiceById(booking.serviceId).Service;
             }
 
+
+            InvoiceModel model = new InvoiceModel();
+            model = TheRepository.GetInvoiceById(newinvoice.id);
+            model.serviceprovider = TheRepository.GetServiceProvider(model.serviceProviderId);
+            model.customer = TheRepository.GetCustomer(model.customerId);
+            model.bookings = TheRepository.GetAllBookingsByCustomer(model.customerId).Where(a => a.bookingReference == model.paypalBookingReference).ToList();
+
+            foreach (var booking in model.bookings)
+            {
+                booking.serviceName = TheRepository.GetServiceById(booking.serviceId).Service;
+            }
+
+            var renderedHTML = ControllerExtensions.RenderViewAsHTMLStringForInvoice(this, "PrintInvoice.cshtml", model);
+            var cus = TheRepository.GetCustomer(newinvoice.customerId);
+            EmailManager.SendEmail2(cus.emailAddress, "Invoice", renderedHTML.Result);
+
+
+
             return View(newinvoice);
         }
 

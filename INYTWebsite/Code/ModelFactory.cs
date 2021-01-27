@@ -68,7 +68,8 @@ namespace INYTWebsite.Code
                 serviceId = Convert.ToInt32(serviceprovider.TradeId),
                 website = serviceprovider.Website,
                 membershipId = Convert.ToInt32(serviceprovider.MembershipId),
-                emailConfirmed = Convert.ToBoolean(serviceprovider.EmailConfirmed)
+                emailConfirmed = Convert.ToBoolean(serviceprovider.EmailConfirmed),
+                VerifyCode = serviceprovider.VerifyCode
             };
         }
 
@@ -169,7 +170,8 @@ namespace INYTWebsite.Code
                 region = customer.Region,
                 isActive = Convert.ToBoolean(customer.IsActive),
                 hasAgreedTC = Convert.ToBoolean(customer.HasAgreedTc),
-                emailConfirmed = Convert.ToBoolean(customer.EmailConfirmed)
+                emailConfirmed = Convert.ToBoolean(customer.EmailConfirmed),
+                VerifyCode = customer.VerifyCode
             };
         }
 
@@ -266,7 +268,8 @@ namespace INYTWebsite.Code
                 TradeId = Convert.ToInt32(serviceprovider.serviceId),
                 Website = serviceprovider.website,
                 MembershipId = Convert.ToInt32(serviceprovider.membershipId),
-                EmailConfirmed = Convert.ToBoolean(serviceprovider.emailConfirmed)
+                EmailConfirmed = Convert.ToBoolean(serviceprovider.emailConfirmed),
+                VerifyCode = serviceprovider.VerifyCode
             };
         }
 
@@ -310,7 +313,8 @@ namespace INYTWebsite.Code
                 Region = customerModel.region,
                 HasAgreedTc = customerModel.hasAgreedTC,
                 IsActive = customerModel.isActive,
-                EmailConfirmed = customerModel.emailConfirmed
+                EmailConfirmed = customerModel.emailConfirmed,
+                VerifyCode = customerModel.VerifyCode
             };
         }
 
