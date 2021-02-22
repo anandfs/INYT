@@ -100,6 +100,15 @@
                                                            placeholder="Enter company name...">
                                                 </div>
                                                 <div class="form-group">
+                                                    <label>Is VAT Registered?<span class="text-danger">*</span></label>
+                                                    Yes
+                                                    @Html.RadioButtonFor(model => model.isVATRegistered, true)
+                                                    No
+                                                    @Html.RadioButtonFor(model => model.isVATRegistered, false)
+                                                    <input asp-for="VATNumber" type="text" class="form-control floating"
+                                                           placeholder="Enter VAT Number (if applicable)...">
+                                                </div>
+                                                <div class="form-group">
                                                     <label class="control-label">City</label>
                                                     <input asp-for="city" type="text" class="form-control floating"
                                                            placeholder="Enter city..." />

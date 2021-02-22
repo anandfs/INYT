@@ -11,6 +11,7 @@ namespace INYTWebsite.Models
         public int? ServiceId { get; set; }
         public DateTime? BookingDate { get; set; }
         public DateTime? BookingTime { get; set; }
+        public int? BookingHours { get; set; }
         public decimal? BookingAmount { get; set; }
         public string BookingPaymentType { get; set; }
         public bool? BookingAccepted { get; set; }

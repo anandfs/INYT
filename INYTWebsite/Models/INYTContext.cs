@@ -33,15 +33,15 @@ namespace INYTWebsite.Models
         public virtual DbSet<ServiceProviderBooking> ServiceProviderBooking { get; set; }
         public virtual DbSet<Services> Services { get; set; }
         public virtual DbSet<UnavailableDates> UnavailableDates { get; set; }
-
         public virtual DbSet<AvailabilityDates> AvailabilityDates { get; set; }
+
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseSqlServer("Server=DESKTOP-GEMUACR\\MSSQLSERVER01;Database=INYT;Trusted_Connection=True;");
+                optionsBuilder.UseSqlServer("Server=FUTURESOLUTIONS;Database=INYT;Trusted_Connection=True;");
             }
         }
 
@@ -165,6 +165,8 @@ namespace INYTWebsite.Models
                 entity.Property(e => e.Region)
                     .HasMaxLength(50)
                     .IsUnicode(false);
+
+                entity.Property(e => e.VerifyCode).HasMaxLength(500);
             });
 
             modelBuilder.Entity<Invoices>(entity =>
@@ -312,6 +314,13 @@ namespace INYTWebsite.Models
                 entity.Property(e => e.Region)
                     .HasMaxLength(50)
                     .IsUnicode(false);
+
+                entity.Property(e => e.Vatnumber)
+                    .HasColumnName("VATNumber")
+                    .HasMaxLength(20)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.VerifyCode).HasMaxLength(500);
 
                 entity.Property(e => e.Website)
                     .HasMaxLength(200)

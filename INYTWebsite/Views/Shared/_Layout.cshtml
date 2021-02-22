@@ -1,4 +1,8 @@
-﻿<!DOCTYPE html>
+﻿@{ 
+    var username = User.Claims.FirstOrDefault(x => x.Type == "FirstName")?.Value.Trim();
+}
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
 
@@ -66,38 +70,41 @@
                         <li>
                             <a href="#howitwork">How it works</a>
                         </li>
+                        @if (username == null)
+                        {
+                            <li class="has-submenu">
+                                <a href="#">Service Providers <i class="fa fa-chevron-down"></i></a>
 
-                        <li class="has-submenu">
-                            <a href="#">Service Providers <i class="fa fa-chevron-down"></i></a>
+                                <ul class="submenu">
+                                    <li>
+                                        <a asp-area="ServiceProviderArea" asp-controller="Serviceprovider"
+                                           asp-action="Membership">Membership</a>
+                                    </li>
+                                    <li>
+                                        <a asp-area="ServiceProviderArea" asp-controller="Signup"
+                                           asp-action="Signup">Sign up</a>
+                                    </li>
+                                    <li>
+                                        <a asp-area="ServiceProviderArea" asp-controller="Signup"
+                                           asp-action="Login">Login</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="has-submenu">
+                                <a href="#">Customers <i class="fa fa-chevron-down"></i></a>
+                                <ul class="submenu">
+                                    <li>
+                                        <a asp-area="CustomerArea" asp-controller="CustomerSignup"
+                                           asp-action="CustSignup">Sign up</a>
+                                    </li>
+                                    <li>
+                                        <a asp-area="CustomerArea" asp-controller="CustomerSignup"
+                                           asp-action="CustLogin">Login</a>
+                                    </li>
+                                </ul>
+                            </li>
 
-                            <ul class="submenu">
-                                <li>
-                                    <a asp-area="ServiceProviderArea" asp-controller="Serviceprovider"
-                                       asp-action="Membership">Membership</a>
-                                </li>
-                                <li>
-                                    <a asp-area="ServiceProviderArea" asp-controller="Signup"
-                                       asp-action="Signup">Sign up</a>
-                                </li>
-                                <li>
-                                    <a asp-area="ServiceProviderArea" asp-controller="Signup"
-                                       asp-action="Login">Login</a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="has-submenu">
-                            <a href="#">Customers <i class="fa fa-chevron-down"></i></a>
-                            <ul class="submenu">
-                                <li>
-                                    <a asp-area="CustomerArea" asp-controller="CustomerSignup"
-                                       asp-action="CustSignup">Sign up</a>
-                                </li>
-                                <li>
-                                    <a asp-area="CustomerArea" asp-controller="CustomerSignup"
-                                       asp-action="CustLogin">Login</a>
-                                </li>
-                            </ul>
-                        </li>
+                        }
                     </ul>
                 </div>
                 <ul class="nav header-navbar-rht">
@@ -259,7 +266,6 @@
 
     <!-- jQuery -->
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
-
     <!-- Bootstrap Core JS -->
     <script src="~/assets/js/popper.min.js"></script>
     <script src="~/assets/js/bootstrap.min.js"></script>
@@ -269,7 +275,6 @@
 
     <!-- Custom JS -->
     <script src="~/assets/js/script.js"></script>
-
 
     <script>
         $('#add_time_slot').on('show.bs.modal', function (event) {
@@ -297,6 +302,7 @@
             });
         });
     </script>
+
 
 
 </body>

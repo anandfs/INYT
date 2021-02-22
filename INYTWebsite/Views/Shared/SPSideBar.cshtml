@@ -1,15 +1,86 @@
 ﻿@model INYTWebsite.CustomModels.ServiceProviderModel
 
+@{ 
+    String dashboardSelected = String.Empty;
+    String scheduleSelected = String.Empty;
+    String invoicesSelected = String.Empty;
+    String reviewsSelected = String.Empty;
+    String questionsSelected = String.Empty;
+    String profileSelected = String.Empty;
+
+}
+
+@if (Model.selectedPage == "Schedules")
+{
+    scheduleSelected = "active";
+    invoicesSelected = "";
+    reviewsSelected = "";
+    questionsSelected = "";
+    profileSelected = "";
+    dashboardSelected = "";
+}
+else if (Model.selectedPage == "Invoices") {
+    scheduleSelected = "";
+    invoicesSelected = "active";
+    reviewsSelected = "";
+    questionsSelected = "";
+    profileSelected = "";
+    dashboardSelected = "";
+}
+else if (Model.selectedPage == "Reviews")
+{
+    scheduleSelected = "";
+    invoicesSelected = "";
+    reviewsSelected = "active";
+    questionsSelected = "";
+    profileSelected = "";
+    dashboardSelected = "";
+}
+else if (Model.selectedPage == "Questions")
+{
+    scheduleSelected = "";
+    invoicesSelected = "";
+    reviewsSelected = "";
+    questionsSelected = "active";
+    profileSelected = "";
+    dashboardSelected = "";
+}
+else if (Model.selectedPage == "Profiles")
+{
+    scheduleSelected = "";
+    invoicesSelected = "";
+    reviewsSelected = "";
+    questionsSelected = "";
+    profileSelected = "profiles";
+    dashboardSelected = "";
+}
+else
+{
+    scheduleSelected = "";
+    invoicesSelected = "";
+    reviewsSelected = "";
+    questionsSelected = "";
+    profileSelected = "";
+    dashboardSelected = "active";
+}
+
 <!-- Profile Sidebar -->
 <div class="profile-sidebar">
     <div class="widget-profile pro-widget-content">
         <div class="profile-info-widget">
-            <a href="#" class="booking-doc-img">
-                <img src="~/app-assets/images/portrait/medium/avatar-m-11.png" alt="User Image">
-            </a>
             <div class="profile-det-info">
                 <h3>@Model.firstName @Model.lastName</h3>
-
+                <br />
+                @if (Model.ratings.Count > 0)
+                {
+                    <div class="rating">
+                        @for (int i = 0; i < Math.Round(Model.rating, 0); i++)
+                        {
+                            <i class="fa fa-star filled"></i>
+                        }
+                        <span class="d-inline-block average-rating">(@Model.ratings.Count())</span>
+                    </div>
+                }
                 <div class="Customer-details">
                     <h5 class="mb-0">@Model.service</h5>
                 </div>
@@ -19,31 +90,37 @@
     <div class="dashboard-widget">
         <nav class="dashboard-menu">
             <ul>
-                <li class="active">
+                <li class="@dashboardSelected">
                     <a href="~/index">
                         <i class="fa fa-columns"></i>
                         <span>Dashboard</span>
                     </a>
                 </li>
-                <li>
+                <li class="@scheduleSelected">
                     <a href="~/schedules">
                         <i class="fa fa-hourglass-start"></i>
                         <span>Schedule Timings</span>
                     </a>
                 </li>
-                <li>
+                <li class="@invoicesSelected">
                     <a href="~/invoices">
                         <i class="fa fa-file-invoice"></i>
                         <span>Invoices</span>
                     </a>
                 </li>
-                <li>
+                <li class="@reviewsSelected">
+                    <a href="~/reviews">
+                        <i class="fa fa-comments"></i>
+                        <span>Reviews</span>
+                    </a>
+                </li>
+                <li class="@questionsSelected">
                     <a href="~/additionalquestions">
                         <i class="fa fa-question-circle"></i>
                         <span>Additional Questions</span>
                     </a>
-                </li>                
-                <li>
+                </li>
+                <li class="@profileSelected">
                     <a href="~/profile">
                         <i class="fa fa-user-cog"></i>
                         <span>Profile Settings</span>

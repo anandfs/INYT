@@ -18,6 +18,8 @@ namespace INYTWebsite.CustomModels
         public string companyName { get; set; }
         public string companyNumber { get; set; }
         public string companySize { get; set; }
+        public bool? isVATRegistered { get; set; }
+        public string VATNumber { get; set; }
         public string addressLine1 { get; set; }
         public string addressLine2 { get; set; }
         public string city { get; set; }
@@ -42,6 +44,8 @@ namespace INYTWebsite.CustomModels
         public List<SlotsModel> slots { get; set; }
         public List<AdditionalQuestionsModel> questionsList { get; set; }
         public List<BookingModel> bookings { get; set; }
+        public List<InvoiceModel> invoices { get; set; }
+
         public string selectedService { get; set; }
         public int totalCustomers { get; set; }
         public int totalCustomersToday { get; set; }
@@ -53,7 +57,10 @@ namespace INYTWebsite.CustomModels
         public List<SelectListItem> memberships { get; set; }
         public List<SelectListItem> services { get; set; }
 
+
+
         public string VerifyCode { get; set; }
         public int membershipId { get; set; }
+        public string selectedPage { get; set; }
     }
 }

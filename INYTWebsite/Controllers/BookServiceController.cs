@@ -78,7 +78,7 @@ namespace INYTWebsite.Controllers
 
                 //Get the customer address from the postcode here
                 customer.postcode = postcode;
-                customer.addressLine1 = String.Format("{0}, {1}", custaddress.housenumber, custaddress.streetname);
+                customer.addressLine1 = string.Format("{0}, {1}", custaddress.housenumber, custaddress.streetname);
                 customer.country = custaddress.country;
                 customer.region = custaddress.state;
             }
@@ -92,6 +92,29 @@ namespace INYTWebsite.Controllers
             model.bookingDate = DateTime.Now;
             model.bookingTime = DateTime.Now;
             return View(model);
+        }
+
+        [HttpGet("BookService/Ratings/{id}")]
+        public IActionResult Ratings(string id)
+        {
+            ServiceProviderModel model = new ServiceProviderModel();
+            model = TheRepository.GetServiceProvider(Convert.ToInt32(id));
+
+            var ratings = TheRepository.GetRatings(model.id);
+
+            if ((ratings != null) && (ratings.Count > 0))
+            {
+                model.rating = ratings.Average(a => a.ratings);
+                
+            }
+            model.ratings = ratings;
+
+            foreach(var rating in ratings)
+            {
+                rating.customer = TheRepository.GetCustomer(rating.customerId);
+            }
+
+            return PartialView("_Ratings", model);
         }
 
         public IActionResult BookStep1(BookingModel model, DateTime? startDate)
@@ -228,6 +251,8 @@ namespace INYTWebsite.Controllers
                     model.serviceProviderId = Convert.ToInt32(Request.Form["serviceProviderId"]);
                     model.serviceId = Convert.ToInt32(Request.Form["serviceId"]);
 
+                    int hours = TheRepository.GetMinHours(model.serviceProviderId, requestedDate.DayOfWeek.ToString());
+
                     int customerid = 0;
 
                     if (TheRepository.GetCustomerByEmail(model.customer.emailAddress) == null)
@@ -241,6 +266,8 @@ namespace INYTWebsite.Controllers
                     }
 
                     model.customerId = customerid;
+                    model.bookingHours = hours;
+
                     var newBooking = TheRepository.CreateBooking(model);
                     int newBookingId = newBooking.id;
                     if (newBooking != null)
@@ -267,9 +294,40 @@ namespace INYTWebsite.Controllers
         public ActionResult ThankYou(int id, string referenceid)
         {
             BookingsListModel model = new BookingsListModel();
-            model.bookings = TheRepository.GetAllBookingsByCustomer(id).Where(a => a.bookingReference == referenceid).ToList();
+            List<BookingModel> bookings = new List<BookingModel>(); 
+            bookings = TheRepository.GetAllBookingsByCustomer(id).Where(a => a.bookingReference == referenceid).ToList();
+            bookings = bookings.Where(a => a.bookingFulfilled == false).ToList();
+            model.bookings = bookings;
             model.serviceProvider = TheRepository.GetServiceProvider(model.bookings[0].serviceProviderId);
             model.customer = TheRepository.GetCustomer(id);
+
+            //Send an authorisation email to the customer
+            EmailInfo emailInfo = new EmailInfo();
+            emailInfo.Body = $"Welcome from I NEED YOUR TIME. Please see below for details of the appointment";
+            emailInfo.emailType = "Appointment confirmation";
+            emailInfo.IsBodyHtml = true;
+            emailInfo.Subject = "Welcome to INYT";
+            emailInfo.ToAddress = model.customer.emailAddress;
+            //_emailManager.SendEmail(emailInfo);
+            var model2 = new Emailmodel
+            {
+                Name = model.customer.firstName,
+                Body = emailInfo.Body
+            };
+            var renderedHTML = ControllerExtensions.RenderViewAsHTMLString(this, "_VerifyEmail.cshtml", model2);
+            EmailManager.SendEmail2(model.customer.emailAddress, "VerifyAccount", renderedHTML.Result);
+
+            if (bookings != null)
+            {
+                foreach (var booking in bookings)
+                {
+                    booking.bookingFulfilled = true;
+                    booking.bookingAccepted = true;
+                    booking.bookingReference = referenceid;
+                    TheRepository.UpdateBooking(booking);
+                }
+            }
+
             return View(model);
         }
 
@@ -326,8 +384,6 @@ namespace INYTWebsite.Controllers
             var cus = TheRepository.GetCustomer(newinvoice.customerId);
             EmailManager.SendEmail2(cus.emailAddress, "Invoice", renderedHTML.Result);
 
-
-
             return View(newinvoice);
         }
 
@@ -376,8 +432,6 @@ namespace INYTWebsite.Controllers
                     }
                 }
                 AmountWithBreakdown amount = result.PurchaseUnits[0].AmountWithBreakdown;
-                //Console.WriteLine("Buyer:");
-                //Console.WriteLine("\tEmail Address: {0}\n\tName: {1}\n\tPhone Number: {2}{3}", result.Payer.EmailAddress, result.Payer.Name.FullName, result.Payer.Phone.CountryCode, result.Payer.Phone.NationalNumber);
             }
 
             return response;
@@ -429,7 +483,7 @@ namespace INYTWebsite.Controllers
             {
                 foreach(var booking in bookings)
                 {
-                    booking.bookingFulfilled = true;
+                    booking.bookingFulfilled = false;
                     booking.bookingAccepted = true;
                     booking.bookingReference = refid;
                     TheRepository.UpdateBooking(booking);

@@ -78,10 +78,14 @@
                                     @if ((Model.customer == null) || (Model.customer.id == 0))
                                     {
                                         <!--Existing login-->
-                                        <div class="exist-customer" align="center">
-                                            <h3>Existing Customer?</h3>
-                                            <a class="edit-link" data-toggle="modal"
-                                               href="#add_time_slot"><i class="far fa-sign-in"></i>Click here to login</a>
+                                        <div class="card-table"  align="center">
+                                            <div class="card-header">
+                                                <h3>Existing Customer?</h3>
+                                            </div>
+                                            <div class="card-title">
+                                                <a class="edit-link" data-toggle="modal"
+                                                   href="#add_time_slot"><i class="far fa-sign-in"></i>Click here to login</a>
+                                            </div>
                                         </div>
                                         <!-- /Existing login-->
                                     }
@@ -90,7 +94,7 @@
                                     <h2>Additional Questions</h2>
                                     <p>These are required to ensure your quote best reflects your need</p>
                                     <div class="info-widget">
-                                        <div id="questionform">
+                                        <div id="questionform" class="border rounded-left">
                                             <!-- Extra questions information-->
                                             @if (Model.questionsList.Count > 0)
                                             {

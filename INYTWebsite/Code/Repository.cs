@@ -291,6 +291,26 @@ namespace INYTWebsite.Code
             }
         }
 
+        internal int GetMinHours(int serviceproviderId, string requestedDay)
+        {
+            try
+            {
+                var slot = _db.AvailabilitySlots.Where(a => a.ServiceProviderId == serviceproviderId && a.DayOfWeek == requestedDay).FirstOrDefault();
+                if (slot != null)
+                {
+                    return Convert.ToInt32(slot.MinimumHours);
+                }
+                else
+                {
+                    throw new Exception("The slot was not present in the database");
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
         internal List<MembershipModel> GetMemberships()
         {
             try

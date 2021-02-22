@@ -47,19 +47,8 @@
 
                         <!-- Booking Doctor Info -->
                         <div class="booking-doc-info">
-                            <a href="doctor-profile.html" class="booking-doc-img">
-                                <img src="assets/img/doctors/doctor-thumb-02.jpg" alt="User Image">
-                            </a>
                             <div class="booking-info">
                                 <h4><a href="doctor-profile.html">@Model.serviceProvider.firstName @Model.serviceProvider.lastName</a></h4>
-                                <div class="rating">
-                                    <i class="fas fa-star filled"></i>
-                                    <i class="fas fa-star filled"></i>
-                                    <i class="fas fa-star filled"></i>
-                                    <i class="fas fa-star filled"></i>
-                                    <i class="fas fa-star"></i>
-                                    <span class="d-inline-block average-rating">35</span>
-                                </div>
                                 <div class="clinic-details">
                                     <p class="doc-location"><i class="fas fa-map-marker-alt"></i> @Model.serviceProvider.city, @Model.serviceProvider.country</p>
                                 </div>
@@ -70,7 +59,7 @@
                             double totalAmount = 0;
                         }
 
-                        @foreach (var booking in Model.bookings)
+                        @foreach (var booking in Model.bookings.Where(a => a.bookingFulfilled == false))
                         {
                             totalAmount = totalAmount + booking.bookingAmount;
                             <div class="booking-summary">
@@ -128,6 +117,7 @@
             return actions.order.capture().then(function (details) {
                 // This function shows a transaction success message to your buyer.
                 var id = details.id;
+                alert(id);
                 if (id != "") {
                     alert("Transaction Successful....Press OK to continue");    
                     updateBooking(id);

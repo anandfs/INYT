@@ -14,6 +14,8 @@ namespace INYTWebsite.Models
         public string CompanyName { get; set; }
         public string CompanyNumber { get; set; }
         public string CompanySize { get; set; }
+        public bool? IsVatRegistered { get; set; }
+        public string Vatnumber { get; set; }
         public string AddressLine1 { get; set; }
         public string AddressLine2 { get; set; }
         public string City { get; set; }

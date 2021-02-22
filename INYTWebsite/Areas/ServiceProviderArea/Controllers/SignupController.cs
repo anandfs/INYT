@@ -98,6 +98,7 @@ namespace INYTWebsite.Areas.ServiceProviderArea.Controllers
                         "contact admin@inyt.com to activate yor account");
                     return View(model);
                 }
+                
 
                 //If valid, then set the session values
                 SetSessionValuesAsync(model);
@@ -136,6 +137,8 @@ namespace INYTWebsite.Areas.ServiceProviderArea.Controllers
             };
 
             var createdLogin = TheRepository.CreateLogin(login);
+
+            
             var callbackUrl = Url.Action("VerifyEmail", "Signup", new { userId = serviceprovider.id, code = model.VerifyCode }, Request.Scheme, Request.Host.Value + "/ServiceProviderArea");
             var Body = $"Welcome from I NEED YOUR TIME. Click <a href='{callbackUrl}'>here</a> to confirm your email";
 

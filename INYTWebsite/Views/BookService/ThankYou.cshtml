@@ -23,7 +23,7 @@
                                 Appointment booked with <strong>@Model.serviceProvider.firstName @Model.serviceProvider.lastName</strong><br> for the following date/times
                                 @foreach (var booking in Model.bookings.Distinct())
                                 {
-                                    <strong>@booking.bookingDate.ToShortDateString() @booking.bookingTime.ToShortTimeString() </strong>
+                                    <br /><strong>@booking.bookingDate.ToShortDateString() @booking.bookingTime.ToShortTimeString() </strong><br />
                                 }
                             </p>
                             <form id="invoiceForm" asp-controller="BookService" asp-action="CreateInvoice" method="post">

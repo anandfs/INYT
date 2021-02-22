@@ -5,6 +5,7 @@
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
     var AppSettings = appSettings.Value;
+    var ddlTrades = ViewData["Services"] as List<SelectListItem>;
 }
 
 <!-- Breadcrumb -->
@@ -49,28 +50,28 @@
                             <table class="table table-hover table-center mb-0">
                                 <thead>
                                     <tr>
-                                        <th>Invoice No</th>
-                                        <th>Amount</th>
-                                        <th>Paid On</th>
+                                        <th>Customer</th>
+                                        <th>Job Details</th>
+                                        <th>Rating</th>
+                                        <th>Feedback</th>
                                         <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach (var invoice in Model.invoices)
+                                    @foreach (var rating in Model.ratings)
                                     {
                                         <tr>
+                                            <td>@rating.customer.firstName @rating.customer.lastName</td>
+                                            <td>@rating.booking.bookingDate.ToShortDateString() @rating.booking.bookingTime.ToShortTimeString() (@rating.booking.bookingReference)</td>
                                             <td>
-                                                <a href="invoice-view.html">#INV-@invoice.invoiceNumber</a>
-                                            </td>
-                                            <td>£@invoice.amount</td>
-                                            <td>@invoice.paidDate.ToShortDateString()</td>
-                                            <td class="text-right">
-                                                <div class="table-action">
-                                                    <a href="~/viewspinvoices?id=@invoice.id" class="btn btn-sm bg-info-light">
-                                                        <i class="fa fa-eye"></i> View
-                                                    </a>
+                                                <div class="rating">
+                                                    @for (int i = 0; i < Math.Round(Convert.ToDouble(rating.ratings), 0); i++)
+                                                    {
+                                                        <i class="fa fa-star filled"></i>
+                                                    }                                                    
                                                 </div>
                                             </td>
+                                            <td>@rating.ratingComments</td>
                                         </tr>
                                     }
                                 </tbody>

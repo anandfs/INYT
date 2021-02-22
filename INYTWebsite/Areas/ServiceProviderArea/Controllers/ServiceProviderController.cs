@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Options;
+using Rotativa.AspNetCore;
 
 namespace INYTWebsite.Areas.ServiceProvider.Controllers
 {
@@ -48,6 +49,13 @@ namespace INYTWebsite.Areas.ServiceProvider.Controllers
 
                 bookingModels = TheRepository.GetAllBookings(model.id);
 
+                var ratings = TheRepository.GetRatings(model.id);
+
+                if ((ratings != null) && (ratings.Count > 0))
+                {
+                    model.rating = ratings.Average(a => a.ratings);
+                }
+                model.ratings = ratings;
                 model.totalCustomers = bookingModels.Count();
                 model.totalCustomersToday = bookingModels.Where(a => a.bookingDate == DateTime.Now).Count();
                 model.totalNewBookings = bookingModels.Where(a => a.bookingDate > DateTime.Now).Count();
@@ -56,6 +64,51 @@ namespace INYTWebsite.Areas.ServiceProvider.Controllers
             }
 
             return View();
+        }
+
+        [Route("viewspinvoices")]
+        [Authorize(Policy = "ServiceProviderOnly")]
+        public IActionResult ViewInvoice(int id)
+        {
+            InvoiceModel newinvoice = new InvoiceModel();
+            newinvoice = TheRepository.GetInvoiceById(id);
+
+            newinvoice.serviceprovider = TheRepository.GetServiceProvider(newinvoice.serviceProviderId);
+            newinvoice.customer = TheRepository.GetCustomer(newinvoice.customerId);
+            newinvoice.bookings = TheRepository.GetAllBookingsByCustomer(newinvoice.customerId).Where(a => a.bookingReference == newinvoice.paypalBookingReference).ToList();
+
+            var ratings = TheRepository.GetRatings(newinvoice.serviceProviderId);
+
+            if ((ratings != null) && (ratings.Count > 0))
+            {
+                newinvoice.serviceprovider.rating = ratings.Average(a => a.ratings);
+            }
+            newinvoice.serviceprovider.ratings = ratings;
+
+            foreach (var booking in newinvoice.bookings)
+            {
+                booking.serviceName = TheRepository.GetServiceById(booking.serviceId).Service;
+            }
+
+            return View(newinvoice);
+        }
+
+        [Route("printspinvoices")]
+        [Authorize(Policy = "ServiceProviderOnly")]
+        public IActionResult PrintInvoice()
+        {
+            InvoiceModel model = new InvoiceModel();
+            model = TheRepository.GetInvoiceById(Convert.ToInt32(Request.Form["id"]));
+            model.serviceprovider = TheRepository.GetServiceProvider(model.serviceProviderId);
+            model.customer = TheRepository.GetCustomer(model.customerId);
+            model.bookings = TheRepository.GetAllBookingsByCustomer(model.customerId).Where(a => a.bookingReference == model.paypalBookingReference).ToList();
+
+            foreach (var booking in model.bookings)
+            {
+                booking.serviceName = TheRepository.GetServiceById(booking.serviceId).Service;
+            }
+
+            return new ViewAsPdf("PrintInvoice", model);
         }
 
         [Route("Membership")]
@@ -78,6 +131,13 @@ namespace INYTWebsite.Areas.ServiceProvider.Controllers
                 {
                     model.additionalQuestions = TheRepository.GetAdditionalQuestions(id);
                 }
+                var ratings = TheRepository.GetRatings(model.id);
+
+                if ((ratings != null) && (ratings.Count > 0))
+                {
+                    model.rating = ratings.Average(a => a.ratings);
+                }
+                model.ratings = ratings;
 
                 return View(model);
             }
@@ -109,11 +169,19 @@ namespace INYTWebsite.Areas.ServiceProvider.Controllers
                     model.slots = TheRepository.GetAvailabilitySlots(Convert.ToInt32(id));
                 }
 
-                model.newslot = new SlotsModel();
+                var ratings = TheRepository.GetRatings(model.id);
 
+                if ((ratings != null) && (ratings.Count > 0))
+                {
+                    model.rating = ratings.Average(a => a.ratings);
+                }
+                model.ratings = ratings;
+
+                model.newslot = new SlotsModel();
+                model.selectedPage = "Schedules";
                 return View(model);
             }            
-
+           
             return View();
         }
 
@@ -220,9 +288,41 @@ namespace INYTWebsite.Areas.ServiceProvider.Controllers
 
                 if (model != null)
                 {
-                    model.slots = TheRepository.GetAvailabilitySlots(Convert.ToInt32(id));
+                    model.invoices = TheRepository.GetInvoicesByServiceProvider(Convert.ToInt32(id));
+                }
+                var ratings = TheRepository.GetRatings(model.id);
+
+                if ((ratings != null) && (ratings.Count > 0))
+                {
+                    model.rating = ratings.Average(a => a.ratings);
+                }
+                model.ratings = ratings;
+                model.selectedPage = "Invoices";
+                return View(model);
+            }
+
+            return View();
+        }
+
+        [Route("reviews")]
+        public IActionResult Reviews()
+        {
+            int id = this.GetCurrentUserId();
+            if (id > 0)
+            {
+                ServiceProviderModel model = TheRepository.GetServiceProvider(Convert.ToInt32(id));
+
+                if (model != null)
+                {
+                    model.ratings = TheRepository.GetRatings(Convert.ToInt32(id));
                 }
 
+                foreach(var rating in model.ratings)
+                {
+                    rating.customer = TheRepository.GetCustomer(rating.customerId);
+                    rating.booking = TheRepository.GetBookingById(rating.bookingId);
+                }
+                model.selectedPage = "Reviews";
                 return View(model);
             }
 
@@ -242,8 +342,16 @@ namespace INYTWebsite.Areas.ServiceProvider.Controllers
                     model.slots = TheRepository.GetAvailabilitySlots(Convert.ToInt32(id));
                 }
 
-                model.newslot = new SlotsModel();
+                var ratings = TheRepository.GetRatings(model.id);
 
+                if ((ratings != null) && (ratings.Count > 0))
+                {
+                    model.rating = ratings.Average(a => a.ratings);
+                }
+                model.ratings = ratings;
+
+                model.newslot = new SlotsModel();
+                model.selectedPage = "Profile";
                 return View(model);
             }
 

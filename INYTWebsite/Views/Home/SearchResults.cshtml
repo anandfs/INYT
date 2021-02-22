@@ -5,6 +5,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+
 <!-- Breadcrumb -->
 <div class="breadcrumb-bar">
     <div class="container-fluid">
@@ -18,85 +19,15 @@
                 </nav>
                 <h2 class="breadcrumb-title">You searched for <u>@ViewData["service"]</u> in <u>@ViewData["postcode"]</u>. We found @ViewData["spCount"] matching search results</h2>
             </div>
-            <div class="col-md-4 col-12 d-md-block d-none">
-                <div class="sort-by">
-                    <span class="sort-title">Sort by</span>
-                    <span class="sortby-fliter">
-                        <select class="select">
-                            <option>Select</option>
-                            <option class="sorting">Rating</option>
-                            <option class="sorting">Popular</option>
-                            <option class="sorting">Latest</option>
-                            <option class="sorting">Free</option>
-                        </select>
-                    </span>
-                </div>
-            </div>
         </div>
     </div>
 </div>
 <!-- /Breadcrumb -->
-
 <!-- Page Content -->
 <div class="content">
     <div class="container-fluid">
         <div class="row">
-            <div class="col-md-12 col-lg-4 col-xl-3 theiaStickySidebar">
-
-                <!-- Search Filter -->
-                <div class="card search-filter">
-                    <div class="card-header">
-                        <h4 class="card-title mb-0">Search Filter</h4>
-                    </div>
-                    <div class="card-body">
-                        <div class="filter-widget">
-                            <div class="cal-icon">
-                                <input type="text" class="form-control datetimepicker" placeholder="Select Date">
-                            </div>
-                        </div>
-                        <div class="filter-widget">
-                            <h4>Select Service</h4>
-                            <div>
-                                <label class="custom_check">
-                                    <input type="checkbox" name="select_specialist" checked>
-                                    <span class="checkmark"></span> Plumbing
-                                </label>
-                            </div>
-                            <div>
-                                <label class="custom_check">
-                                    <input type="checkbox" name="select_specialist" checked>
-                                    <span class="checkmark"></span> Carpentry
-                                </label>
-                            </div>
-                            <div>
-                                <label class="custom_check">
-                                    <input type="checkbox" name="select_specialist">
-                                    <span class="checkmark"></span> Electrical
-                                </label>
-                            </div>
-                            <div>
-                                <label class="custom_check">
-                                    <input type="checkbox" name="select_specialist">
-                                    <span class="checkmark"></span> Dog walking
-                                </label>
-                            </div>
-                            <div>
-                                <label class="custom_check">
-                                    <input type="checkbox" name="select_specialist">
-                                    <span class="checkmark"></span> Cleaning
-                                </label>
-                            </div>
-                        </div>
-                        <div class="btn-search">
-                            <button type="button" class="btn btn-block">Search</button>
-                        </div>
-                    </div>
-                </div>
-                <!-- /Search Filter -->
-
-            </div>
-
-            <div class="col-md-12 col-lg-8 col-xl-9">
+            <div class="col-md-12 col-lg-4 col-xl-9">
                 @foreach (var sp in Model)
                 {
                     <!-- Service Provider Widget -->
@@ -110,29 +41,33 @@
                                         </a>
                                     </div>
                                     <div class="doc-info-cont">
-                                        <h4 class="doc-name"><a href="doctor-profile.html">@sp.firstName @sp.lastName</a></h4>
+                                        <h4 class="doc-name">
+                                            <a href="#" class="edit-link" data-target="#edit_time_slot" data-toggle="modal"
+                                               data-url="@Url.Action("Ratings", "BookService", new { id = sp.id.ToString() })">
+                                                @sp.firstName @sp.lastName
+                                            </a>
+                                        </h4>
                                         <p class="doc-speciality">@sp.service</p>
                                         @if (sp.ratings.Count > 0)
                                         {
-                                            <div class="rating">
+                                            <div class="rating" id="rating">
                                                 @for (int i = 0; i < Math.Round(sp.rating, 0); i++)
                                                 {
+
                                                     <i class="fa fa-star filled"></i>
+
                                                 }
                                                 <span class="d-inline-block average-rating">(@sp.ratings.Count())</span>
                                             </div>
                                         }
-                                            <div class="clinic-details">
-                                                <p class="doc-location"><i class="fa fa-map-marker-alt"></i> @sp.postcode</p>
-                                                <p>@sp.distanceinmiles away</p>
-                                            </div>
+                                        <div class="clinic-details">
+                                            <p class="doc-location"><i class="fa fa-map-marker-alt"></i> @sp.postcode</p>
+                                            <p>@sp.distanceinmiles away</p>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="doc-info-right">
                                     <div class="clinic-booking">
-
-                                        <a class="view-pro-btn profilebtn" data-name="@sp.firstName" data-address="@sp.addressLine1" data-address2="@sp.addressLine2">View Profile</a>
-                                        @*@Html.ActionLink("View Profile", "Profile", "Services", new { id = sp.id }, new { @class = "view-pro-btn" })*@
                                         @Html.ActionLink("Book", "Index", "BookService", new { id = sp.id, postcode = ViewData["postcode"] }, new { @class = "apt-btn" })
                                     </div>
                                 </div>
@@ -142,75 +77,29 @@
                     </div>
                 }
             </div>
-        </div>        
-    </div>
-</div>
-<!-- /Page Content -->
-<div class="modal fade" id="profilemodal">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Profile</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-
-                <div class="col-12 col-md-10">
-                    <div class="row form-row">
-                        <div class="col-12 col-md-6">
-                            
-                            <div class="form-group">
-                                <label>Name</label>
-                                <p id="name"></p>
-                            </div>
-                            <div class="form-group">
-                                <label>Address Line 1</label>
-                                <p id="line1"></p>
-                            </div>
-                            <div class="form-group">
-                                <label>Address Line 2</label>
-                                <p id="line2"></p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-
-
-            </div>
         </div>
     </div>
 </div>
+</div>
+<!-- /Page Content -->
 
-@section Scripts {
-    <script>
+<div class="modal inmodal fade" id="edit_time_slot" tabindex="-1" role="dialog" aria-hidden="true">
 
-        $(".profilebtn").click(function () {
-            var name = $(this).data("name");
-            var address = $(this).data("address");
-            var address2 = $(this).data("address2");
+    <div class="modal-dialog modal-lg">
 
-            $("#name").text(name);
-            $("#line1").text(address);
-            $("#line2").text(address2);
+        <div class="modal-content">
 
-            $("#profilemodal").modal('show');
-        })
+            <div class="sk-spinner sk-spinner-double-bounce">
+                <div class="sk-double-bounce1"></div>
+                <div class="sk-double-bounce2"></div>
+            </div>
 
+            <div class="modal-content-replace">
 
-        $('#theModal').on('show.bs.modal', function (e) {
+            </div>
 
-            var button = $(e.relatedTarget);
-            var modal = $(this);
+        </div>
 
-            // load content from HTML string
-            //modal.find('.modal-body').html("Nice modal body baby...");
+    </div>
 
-            // or, load content from value of data-remote url
-            modal.find('.modal-body').load(button.data("remote"));
-
-        });
-    </script>
-}
+</div>

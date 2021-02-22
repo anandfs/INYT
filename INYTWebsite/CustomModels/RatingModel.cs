@@ -14,6 +14,7 @@ namespace INYTWebsite.CustomModels
         public string ratingComments { get; set; }
         public ServiceProviderModel serviceprovider { get; set; }
         public CustomerModel customer { get; set; }
+        public BookingModel booking { get; set; }
         public int createdBy { get; set; }
         public DateTime createdDate { get; set; }
         public bool display { get; set; }

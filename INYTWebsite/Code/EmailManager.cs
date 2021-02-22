@@ -97,19 +97,30 @@ namespace INYTWebsite.Code
         public static void SendEmail2(string email, string sub, string body)
         {
 
-            
-            MailMessage mail = new MailMessage();
-            mail.Subject = sub;
-            mail.From = new MailAddress("noreply@mecure.org");
-            mail.To.Add(email);
-            mail.Body = body;
-            mail.IsBodyHtml = true;
+            try
+            {
+                MailMessage mail = new MailMessage();
+                mail.Subject = sub;
+                mail.From = new MailAddress("anand@futuresolutionsltd.com");
+                mail.To.Add(email);
+                mail.Body = body;
+                mail.IsBodyHtml = true;
 
-            SmtpClient smtp = new SmtpClient("plesk3500.is.cc", 587);
-            smtp.EnableSsl = false;
-            NetworkCredential netCre = new NetworkCredential("noreply@mecure.org", "Ew1h%q70");
-            smtp.Credentials = netCre;
-            smtp.Send(mail);
+                //SmtpClient smtp = new SmtpClient("plesk3500.is.cc", 587);
+                SmtpClient smtp = new SmtpClient("smtp.sendgrid.net", 587);
+                smtp.EnableSsl = false;
+                NetworkCredential netCre = new NetworkCredential("apikey", "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");
+
+                //NetworkCredential netCre = new NetworkCredential("apikey", "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");
+                smtp.Credentials = netCre;
+                smtp.Send(mail);
+
+            }
+
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
 
 

@@ -54,7 +54,7 @@
                                         <div class="dash-widget dct-border-rht">
                                             <div class="circle-bar circle-bar1">
                                                 <div class="circle-graph1" data-percent="75">
-                                                    <img src="~/images/testimonails2.png" class="img-fluid" alt="Customer">
+                                                    <img src="~/images/testimonails2.png" class="img-fluid" alt="Customer">                                                    
                                                 </div>
                                             </div>
                                             <div class="dash-widget-info">
@@ -105,7 +105,7 @@
                         <h4><strong>Upcoming Customer Bookings</strong></h4>
                         <div class="appointment-tab">
 
-                            @if (Model.bookings != null)
+                            @if (Model.bookings.Where(a => a.bookingDate >= DateTime.Now).Count() > 0)
                             {
                                 <!-- Upcoming Customer Bookings Table -->
                                 <div class="table-responsive table-primary">
@@ -120,7 +120,7 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach (var booking in Model.bookings)
+                                            @foreach (var booking in Model.bookings.Where(a => a.bookingDate >= DateTime.Now))
                                             {
                                                 <tr>
                                                     <td>
@@ -139,7 +139,10 @@
                                 </div>
                                 <!-- /Upcoming Appointment Tab -->
                             }
-
+                            else
+                            {
+                                <p>No future bookings found</p>
+                            }
                         </div>
                     </div>
                 </div>

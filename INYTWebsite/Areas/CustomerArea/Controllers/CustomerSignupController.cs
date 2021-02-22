@@ -98,6 +98,7 @@ namespace INYTWebsite.Areas.CustomerArea.Controllers
                     string custpostcode = Request.Form["postcode"].ToString();
                     return RedirectToAction("Index", "BookService", new { id = spid, postcode = custpostcode, customerid = model.id.ToString() });
                 }
+                
 
                 return RedirectToAction("CustIndex", "Customer");
             }
@@ -137,7 +138,7 @@ namespace INYTWebsite.Areas.CustomerArea.Controllers
             };
 
             var createdLogin = TheRepository.CreateLogin(login);
-
+            
             var encryptedid = EncryptionUtility.Encrypt(createdLogin.id.ToString());
 
             //Send an authorisation email to the customer
@@ -167,6 +168,14 @@ namespace INYTWebsite.Areas.CustomerArea.Controllers
             emailInfo.Subject = "New customer";
             emailInfo.ToAddress = "anandkuppa@gmail.com";
             _emailManager.SendEmail(emailInfo);
+            var model_admin = new Emailmodel
+            {
+                Name = model.firstName,
+                Body = emailInfo.Body
+            };
+            var renderedHTMLAdmin = ControllerExtensions.RenderViewAsHTMLString(this, "_AdminEmail.cshtml", model_admin);
+
+            EmailManager.SendEmail2(model.emailAddress, "VerifyAccount", renderedHTMLAdmin.Result);
 
             //SendSimpleMessage("New customer on INYT website", "anandkuppa@gmail.com").Content.ToString();
 
